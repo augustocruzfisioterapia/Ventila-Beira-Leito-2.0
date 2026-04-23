@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Ventila Beira-Leito - Calculadora Avançada para VM</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a5f7a;
+            --primary-dark: #0c4a6e;
+            --primary-light: #2d8da8;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --bg-card: white;
+            --bg-body: #f1f5f9;
+            --text: #1e293b;
+            --text-light: #64748b;
+        }
+        
+        body.dark {
+            --primary: #2d8da8;
+            --primary-dark: #1a5f7a;
+            --light: #1e293b;
+            --dark: #f8fafc;
+            --gray: #94a3b8;
+            --border: #334155;
+            --bg-card: #0f172a;
+            --bg-body: #020617;
+            --text: #f1f5f9;
+            --text-light: #94a3b8;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-body);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* CABEÇALHO */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px 25px;
+            border-radius: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .logo-area h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-area h1 i {
+            margin-right: 8px;
+        }
+        
+        .logo-area p {
+            opacity: 0.9;
+            font-size: 13px;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .header-buttons button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .header-buttons button:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.02);
+        }
+        
+        /* INFO PACIENTE */
+        .patient-info-bar {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 12px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .patient-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .patient-name-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .quick-mode-badge {
+            background: var(--gray);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .patient-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .patient-actions button {
+            background: var(--border);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .patient-actions button:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* PAINEL DE PACIENTES */
+        .patient-panel {
+            background: var(--bg-card);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        
+        .patient-panel.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .patient-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .patient-form input {
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-body);
+            color: var(--text);
+        }
+        
+        .patient-form button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        
+        .patient-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .patient-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+        
+        .patient-item:hover {
+            background: var(--border);
+        }
+        
+        .patient-item.selected {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .patient-info {
+            flex: 1;
+            cursor: pointer;
+        }
+        
+        .delete-patient {
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .delete-patient:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+        
+        /* MODAIS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 25px;
+            max-width: 850px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .history-group {
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .history-group-header {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+        
+        .history-calc-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        
+        .history-calc-item:hover {
+            background: var(--border);
+        }
+        
+        .history-detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .history-detail-table th, .history-detail-table td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .history-detail-table th {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .chart-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-body);
+            border-radius: 15px;
+        }
+        
+        canvas {
+            max-height: 280px;
+            width: 100%;
+        }
+        
+        /* MENU PRINCIPAL */
+        .main-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .menu-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 22px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--border);
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .menu-icon {
+            width: 65px;
+            height: 65px;
+            background: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            margin: 0 auto 12px;
+        }
+        
+        .menu-card h3 {
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 18px;
+        }
+        
+        .menu-card p {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        /* NAVEGAÇÃO */
+        .group-nav {
+            background: var(--bg-card);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .group-nav-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+        
+        .group-nav-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .category-title {
+            font-size: 22px;
+            margin-bottom: 18px;
+            color: var(--primary);
+        }
+        
+        /* SUB-TABS */
+        .sub-tabs-container {
+            background: var(--bg-card);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            display: flex;
+            flex-wrap: wrap;
+            border: 1px solid var(--border);
+            padding: 5px;
+        }
+        
+        .sub-tab-btn {
+            flex: 1;
+            min-width: 95px;
+            padding: 10px 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .sub-tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* PAINEL DE CÁLCULO */
+        .calculation-panel {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        
+        .calculation-panel.show {
+            display: block;
+        }
+        
+        .calc-header {
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .calc-header h3 {
+            color: var(--primary);
+            margin-bottom: 6px;
+            font-size: 18px;
+        }
+        
+        .formula {
+            background: var(--border);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .input-group input, .input-group select {
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg-body);
+            color: var(--text);
+            font-size: 13px;
+        }
+        
+        .help-link {
+            background: var(--warning);
+            color: #92400e;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 5px;
+            width: fit-content;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .result-area {
+            margin-top: 18px;
+            padding: 18px;
+            background: var(--border);
+            border-radius: 16px;
+            display: none;
+        }
+        
+        .result-area.show {
+            display: block;
+        }
+        
+        .result-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .result-sub {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-light);
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        .highlight-vc {
+            background: var(--secondary);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        
+        .interpretation {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-body);
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        
+        .disclaimer-text {
+            background: rgba(245,158,11,0.15);
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+        
+        /* DESENVOLVEDOR */
+        .developer-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid var(--border);
+        }
+        
+        .developer-profile {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        
+        .developer-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .developer-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .developer-info h3 {
+            color: var(--primary);
+            margin-bottom: 4px;
+            font-size: 18px;
+        }
+        
+        .developer-info p {
+            font-size: 13px;
+        }
+        
+        .version {
+            text-align: center;
+            padding-top: 12px;
+            margin-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .app-container { padding: 12px; }
+            .result-number { font-size: 32px; }
+            .developer-profile { flex-direction: column; text-align: center; }
+            .header-buttons button { padding: 6px 12px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- CABEÇALHO -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-area">
+                    <h1><i class="fas fa-lungs"></i> Ventila Beira-Leito</h1>
+                    <p>Calculadora Avançada para Ventilação Mecânica</p>
+                </div>
+                <div class="header-buttons">
+                    <button class="home-btn" onclick="backToMenu()">
+                        <i class="fas fa-home"></i> Início
+                    </button>
+                    <button class="patient-toggle" onclick="togglePatientPanel()">
+                        <i class="fas fa-users"></i> Pacientes
+                    </button>
+                    <button id="themeBtn" class="theme-toggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i> Escuro
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAINEL DE PACIENTES -->
+        <div id="patientPanel" class="patient-panel">
+            <h3 style="margin-bottom: 15px;"><i class="fas fa-user-plus"></i> Cadastrar Paciente</h3>
+            <div class="patient-form">
+                <input type="text" id="patientName" placeholder="Nome do Paciente">
+                <input type="text" id="patientBed" placeholder="Leito">
+                <input type="text" id="patientRecord" placeholder="Registro Hospitalar">
+                <button onclick="addPatient()">Cadastrar</button>
+            </div>
+            <h3 style="margin: 15px 0 10px;"><i class="fas fa-list"></i> Pacientes Registrados</h3>
+            <div id="patientList" class="patient-list"></div>
+            <div style="margin-top: 12px; font-size: 12px; color: var(--text-light);">
+                <i class="fas fa-info-circle"></i> Clique no nome para selecionar | Clique na lixeira para remover
+            </div>
+        </div>
+
+        <!-- BARRA DO PACIENTE ATUAL -->
+        <div id="patientInfoBar" class="patient-info-bar">
+            <div class="patient-badge" id="patientBadge"></div>
+            <div class="patient-actions" id="patientActions"></div>
+        </div>
+
+        <!-- MENU PRINCIPAL -->
+        <div id="mainMenu" class="main-menu">
+            <div class="menu-card" onclick="showCategory('protective')">
+                <div class="menu-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Ventilação Protetora</h3>
+                <p>Peso Predito, VC, ΔP, MP, 4DPRR, R/I Ratio</p>
+            </div>
+            <div class="menu-card" onclick="showCategory('oxygenation')">
+                <div class="menu-icon"><i class="fas fa-lungs"></i></div>
+                <h3>Oxigenação</h3>
+                <p>P/F, S/F, IO, PAO₂</p>
+            </div>
+            <div class="menu-card" onclick="showCategory('mechanics')">
+                <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Mecânica Respiratória</h3>
+                <p>Complacência Estática, Complacência Dinâmica, Elastância, Resistência, Constante de Tempo</p>
+            </div>
+            <div class="menu-card" onclick="showCategory('effort')">
+                <div class="menu-icon"><i class="fas fa-dumbbell"></i></div>
+                <h3>Esforço Respiratório</h3>
+                <p>PMUS, DP Transpulmonar</p>
+            </div>
+            <div class="menu-card" onclick="showCategory('weaning')">
+                <div class="menu-icon"><i class="fas fa-flag-checkered"></i></div>
+                <h3>Índices de Desmame</h3>
+                <p>IWI, ExPreS, Tobin, CROP</p>
+            </div>
+            <div class="menu-card" onclick="showCategory('vni_cnaf')">
+                <div class="menu-icon"><i class="fas fa-mask"></i></div>
+                <h3>VNI / CNAF</h3>
+                <p>HACOR Score, ROX Index</p>
+            </div>
+        </div>
+
+        <!-- ÁREA DE CATEGORIAS -->
+        <div id="categoryArea" style="display: none;">
+            <div class="group-nav" id="groupNav"></div>
+            <h2 class="category-title" id="categoryTitle"></h2>
+            <div class="sub-tabs-container" id="subTabs"></div>
+            
+            <div class="calculation-panel" id="calculationPanel">
+                <div class="calc-header">
+                    <h3 id="calcTitle"></h3>
+                    <div class="formula" id="calcFormula"></div>
+                </div>
+                <div class="inputs-grid" id="inputsContainer"></div>
+                <button class="calculate-btn" onclick="performCalculation()">Calcular</button>
+                <div class="result-area" id="resultArea">
+                    <div class="result-number" id="resultValue">0</div>
+                    <div id="subResult"></div>
+                    <div id="highlightContainer"></div>
+                    <div class="interpretation" id="interpretation"></div>
+                    <div class="disclaimer-text" id="disclaimer"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL HISTÓRICO -->
+        <div id="historyModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Histórico de Cálculos</h3>
+                    <button class="close-modal" onclick="closeHistoryModal()">&times;</button>
+                </div>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+
+        <!-- MODAL DETALHES -->
+        <div id="detailModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="detailModalTitle">Detalhes do Cálculo</h3>
+                    <button class="close-modal" onclick="closeDetailModal()">&times;</button>
+                </div>
+                <div id="detailModalBody"></div>
+            </div>
+        </div>
+
+        <!-- DESENVOLVEDOR -->
+        <div class="developer-section">
+            <div class="developer-profile">
+                <div class="developer-photo">
+                    <img src="https://files-upload-funfarme.s3.amazonaws.com/production/blog/271/img-9018.jpg" alt="Augusto Cruz" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-user-md\'></i>';">
+                </div>
+                <div class="developer-info">
+                    <h3>Augusto Cruz</h3>
+                    <p>Fisioterapeuta Intensivista</p>
+                    <p><i class="fas fa-envelope"></i> @augustocruzfisioterapia</p>
+                    <p><i class="fas fa-graduation-cap"></i> Especialista em Terapia Intensiva</p>
+                </div>
+            </div>
+            <div class="version">
+                Versão 2.0 • Desenvolvido para prática baseada em evidências<br>
+                © 2026 - Ventila Beira-Leito
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== BANCO DE DADOS DE FÓRMULAS ====================
+        const categoriesConfig = {
+            protective: { name: 'Ventilação Protetora', icon: 'fa-shield-alt' },
+            oxygenation: { name: 'Oxigenação', icon: 'fa-lungs' },
+            mechanics: { name: 'Mecânica Respiratória', icon: 'fa-chart-line' },
+            effort: { name: 'Esforço Respiratório', icon: 'fa-dumbbell' },
+            weaning: { name: 'Índices de Desmame', icon: 'fa-flag-checkered' },
+            vni_cnaf: { name: 'VNI / CNAF', icon: 'fa-mask' }
+        };
+
+        const formulasDB = {
+            protective: [
+                { id: 'ibw', name: 'Peso Predito (IBW)', icon: 'fa-weight', formula: 'IBW = 50/45.5 + 0.91 × (altura - 152.4)', inputs: [
+                    { id: 'height', label: 'Altura', type: 'number', unit: 'cm' },
+                    { id: 'gender', label: 'Sexo Biológico', type: 'select', options: ['Masculino', 'Feminino'] }
+                ], calculate: (vals) => {
+                    const h = parseFloat(vals.height);
+                    if (vals.gender === 'Masculino') return 50 + 0.91 * (h - 152.4);
+                    return 45.5 + 0.91 * (h - 152.4);
+                }, interpret: (val) => `Peso predito: ${val.toFixed(1)} kg. Base para VC em VM protetora.` },
+                
+                { id: 'vc', name: 'Volume Corrente (VC)', icon: 'fa-wind', formula: 'VC = Peso Predito × (4-8 mL/kg)', inputs: [
+                    { id: 'ibw', label: 'Peso Predito', type: 'number', unit: 'kg' },
+                    { id: 'target', label: 'Alvo', type: 'select', options: ['4', '5', '6', '7', '8'] }
+                ], calculate: (vals) => parseFloat(vals.ibw) * parseFloat(vals.target),
+                interpret: (val, vals) => {
+                    const target = parseFloat(vals.target);
+                    const highlight = target === 6 ? `<div class="highlight-vc"><strong>⭐ PONTO DE PARTIDA - 6 mL/kg</strong><br>${Math.round(val)} mL<br>Faixa protetora: 4-8 mL/kg</div>` : '';
+                    return { text: `VC: ${Math.round(val)} mL (${target} mL/kg)`, highlight };
+                } },
+                
+                { id: 'driving_pressure', name: 'Driving Pressure (ΔP)', icon: 'fa-tachometer-alt', formula: 'ΔP = Pplat - PEEP', inputs: [
+                    { id: 'plateau', label: 'Pressão de Platô', type: 'number', unit: 'cmH₂O' },
+                    { id: 'peep', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => parseFloat(vals.plateau) - parseFloat(vals.peep),
+                interpret: (val) => val < 13 ? `ΔP = ${val.toFixed(1)} cmH₂O - Dentro da faixa protetora (< 15)` : (val <= 15 ? `ΔP = ${val.toFixed(1)} cmH₂O - Limítrofe, reavaliar` : `ΔP = ${val.toFixed(1)} cmH₂O - Elevado (> 15), risco de VILI`) },
+                
+                { id: 'mechanical_power', name: 'Mechanical Power', icon: 'fa-bolt', formula: 'MP = 0.098 × FR × VC × (PEEP + 0.5 × ΔP)', inputs: [
+                    { id: 'rr_mp', label: 'Frequência Respiratória', type: 'number', unit: 'cpm' },
+                    { id: 'vt_mp', label: 'Volume Corrente', type: 'number', unit: 'L' },
+                    { id: 'peep_mp', label: 'PEEP', type: 'number', unit: 'cmH₂O' },
+                    { id: 'dp_mp', label: 'ΔP', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => 0.098 * parseFloat(vals.rr_mp) * parseFloat(vals.vt_mp) * (parseFloat(vals.peep_mp) + 0.5 * parseFloat(vals.dp_mp)),
+                interpret: (val) => val <= 17 ? `MP = ${val.toFixed(1)} J/min - Normal (≤ 17)` : (val <= 22 ? `MP = ${val.toFixed(1)} J/min - Moderadamente elevado (18-22)` : `MP = ${val.toFixed(1)} J/min - Elevado (> 22), reavaliar parâmetros`) },
+                
+                { id: 'dp4rr', name: '4DPRR', icon: 'fa-chart-simple', formula: '4DPRR = (4 × Driving Pressure) + Frequência Respiratória', inputs: [
+                    { id: 'dp', label: 'Driving Pressure', type: 'number', unit: 'cmH₂O' },
+                    { id: 'rr', label: 'Frequência Respiratória', type: 'number', unit: 'cpm' }
+                ], calculate: (vals) => (4 * parseFloat(vals.dp)) + parseFloat(vals.rr),
+                interpret: (val) => `4DPRR = ${Math.round(val)}. Valor de referência: quanto maior, maior o estresse pulmonar.` },
+                
+                { id: 'ri_ratio', name: 'R/I Ratio (Recrutabilidade)', icon: 'fa-chart-simple', formula: 'R/I = (ΔV/ΔP) / (Vt_alto/Pplat_alto)', inputs: [
+                    { id: 'peep_high', label: 'PEEP Alta', type: 'number', unit: 'cmH₂O' },
+                    { id: 'peep_low', label: 'PEEP Baixa', type: 'number', unit: 'cmH₂O' },
+                    { id: 'vt_high', label: 'VT na PEEP Alta', type: 'number', unit: 'mL' },
+                    { id: 'vt_low', label: 'VT na PEEP Baixa', type: 'number', unit: 'mL' },
+                    { id: 'pplat_low', label: 'Platô na PEEP Baixa', type: 'number', unit: 'cmH₂O' },
+                    { id: 'aop', label: 'AOP (Pressão Abertura)', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => {
+                    const deltaP = parseFloat(vals.peep_high) - parseFloat(vals.peep_low);
+                    const deltaV = parseFloat(vals.vt_high) - parseFloat(vals.vt_low);
+                    const compRec = deltaV / deltaP;
+                    const compSys = parseFloat(vals.vt_high) / parseFloat(vals.pplat_low);
+                    return compRec / compSys;
+                }, interpret: (val) => val >= 0.5 ? `R/I = ${val.toFixed(2)} - Alto potencial de recrutabilidade (≥ 0.5)` : `R/I = ${val.toFixed(2)} - Baixo potencial de recrutabilidade`,
+                helpLink: { text: '❓ Como obter estes valores?', url: 'https://crec.coemv.ca/ri-ratio' } }
+            ],
+            oxygenation: [
+                { id: 'pf_ratio', name: 'Relação P/F', icon: 'fa-chart-line', formula: 'P/F = PaO₂ / FiO₂', inputs: [
+                    { id: 'pao2', label: 'PaO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'fio2', label: 'FiO₂', type: 'number', unit: '%' }
+                ], calculate: (vals) => parseFloat(vals.pao2) / (parseFloat(vals.fio2)/100),
+                interpret: (val) => {
+                    if (val >= 300) return `P/F = ${Math.round(val)} - Sem distúrbio de oxigenação`;
+                    if (val >= 200) return `P/F = ${Math.round(val)} - Distúrbio LEVE de oxigenação`;
+                    if (val >= 100) return `P/F = ${Math.round(val)} - Distúrbio MODERADO de oxigenação`;
+                    return `P/F = ${Math.round(val)} - Distúrbio GRAVE de oxigenação`;
+                } },
+                
+                { id: 'sf_ratio', name: 'Relação S/F', icon: 'fa-heart', formula: 'S/F = SpO₂ / FiO₂', inputs: [
+                    { id: 'spo2', label: 'SpO₂', type: 'number', unit: '%' },
+                    { id: 'fio2_sf', label: 'FiO₂', type: 'number', unit: '%' }
+                ], calculate: (vals) => parseFloat(vals.spo2) / (parseFloat(vals.fio2_sf)/100),
+                interpret: (val) => {
+                    const pfEquiv = Math.round(val * 0.9);
+                    let classification = '';
+                    if (pfEquiv >= 300) classification = 'Sem distúrbio';
+                    else if (pfEquiv >= 200) classification = 'Distúrbio leve';
+                    else if (pfEquiv >= 100) classification = 'Distúrbio moderado';
+                    else classification = 'Distúrbio grave';
+                    return `S/F = ${Math.round(val)} - Equivalente a P/F ≈ ${pfEquiv} (${classification})`;
+                } },
+                
+                { id: 'io', name: 'Índice de Oxigenação (IO)', icon: 'fa-chart-simple', formula: 'IO = (FiO₂ × Pmean × 100) / PaO₂', inputs: [
+                    { id: 'fio2_io', label: 'FiO₂', type: 'number', unit: '%' },
+                    { id: 'pmean', label: 'Pressão Média', type: 'number', unit: 'cmH₂O' },
+                    { id: 'pao2_io', label: 'PaO₂', type: 'number', unit: 'mmHg' }
+                ], calculate: (vals) => (parseFloat(vals.fio2_io) * parseFloat(vals.pmean) * 100) / parseFloat(vals.pao2_io),
+                interpret: (val) => val < 5 ? `IO = ${val.toFixed(1)} - Distúrbio leve` : (val < 15 ? `IO = ${val.toFixed(1)} - Distúrbio moderado` : `IO = ${val.toFixed(1)} - Distúrbio grave`) },
+                
+                { id: 'pao2_calc', name: 'PAO₂ Alveolar', icon: 'fa-calculator', formula: 'PAO₂ = (PB - 47) × FiO₂ - (PaCO₂/QR)', inputs: [
+                    { id: 'pb', label: 'Pressão Barométrica', type: 'number', unit: 'mmHg' },
+                    { id: 'fio2_pao2', label: 'FiO₂', type: 'number', unit: '%' },
+                    { id: 'paco2', label: 'PaCO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'qr', label: 'Quociente Resp. (QR)', type: 'select', options: [
+                        '0.7 (Dieta mista / padrão)', 
+                        '0.8 (Dieta padrão hospitalar)', 
+                        '1.0 (Hipernutrição / carboidratos)'
+                    ] }
+                ], calculate: (vals) => {
+                    const pb = parseFloat(vals.pb);
+                    const fio2 = parseFloat(vals.fio2_pao2) / 100;
+                    const paco2 = parseFloat(vals.paco2);
+                    let qr = 0.8;
+                    if (vals.qr.includes('0.7')) qr = 0.7;
+                    else if (vals.qr.includes('0.8')) qr = 0.8;
+                    else if (vals.qr.includes('1.0')) qr = 1.0;
+                    return (pb - 47) * fio2 - (paco2 / qr);
+                }, interpret: (val) => `PAO₂ = ${Math.round(val)} mmHg`,
+                helpLink: { text: '🌍 Pesquisar pressão da minha região', url: 'https://www.google.com/search?q=press%C3%A3o+atmosferica+da+minha+localiza%C3%A7%C3%A3o+em+mmHg' } }
+            ],
+            mechanics: [
+                { id: 'compliance', name: 'Complacência Estática', icon: 'fa-arrow-up', formula: 'Cstat = VT / (Pplat - PEEP)', inputs: [
+                    { id: 'vt_comp', label: 'Volume Corrente', type: 'number', unit: 'mL' },
+                    { id: 'pplat', label: 'Pressão de Platô', type: 'number', unit: 'cmH₂O' },
+                    { id: 'peep_comp', label: 'PEEP', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => parseFloat(vals.vt_comp) / (parseFloat(vals.pplat) - parseFloat(vals.peep_comp)),
+                interpret: (val) => `Complacência estática = ${val.toFixed(1)} mL/cmH₂O. Normal: 50-100 mL/cmH₂O.` },
+                
+                { id: 'compliance_dinamica', name: 'Complacência Dinâmica', icon: 'fa-wave-square', formula: 'Cdyn = VT / (Pico - PEEP)', inputs: [
+                    { id: 'vt_cdyn', label: 'Volume Corrente', type: 'number', unit: 'mL' },
+                    { id: 'pico', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
+                    { id: 'peep_cdyn', label: 'PEEP', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => parseFloat(vals.vt_cdyn) / (parseFloat(vals.pico) - parseFloat(vals.peep_cdyn)),
+                interpret: (val) => `Complacência dinâmica = ${val.toFixed(1)} mL/cmH₂O. Valores reduzidos podem indicar broncoespasmo ou secreção.` },
+                
+                { id: 'elastance', name: 'Elastância Pulmonar', icon: 'fa-compress-alt', formula: 'E = (Pplat - PEEP) / VT', inputs: [
+                    { id: 'vt_el', label: 'Volume Corrente', type: 'number', unit: 'mL' },
+                    { id: 'pplat_el', label: 'Pressão de Platô', type: 'number', unit: 'cmH₂O' },
+                    { id: 'peep_el', label: 'PEEP', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => (parseFloat(vals.pplat_el) - parseFloat(vals.peep_el)) / (parseFloat(vals.vt_el) / 1000),
+                interpret: (val) => `Elastância = ${val.toFixed(1)} cmH₂O/L. Quanto maior, mais rígido o pulmão.` },
+                
+                { id: 'resistance', name: 'Resistência Vias Aéreas', icon: 'fa-tachometer-alt', formula: 'Raw = (Pico - Platô) / Fluxo', inputs: [
+                    { id: 'peak', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
+                    { id: 'pplat_res', label: 'Pressão de Platô', type: 'number', unit: 'cmH₂O' },
+                    { id: 'flow', label: 'Fluxo Inspiratório', type: 'number', unit: 'L/s' }
+                ], calculate: (vals) => (parseFloat(vals.peak) - parseFloat(vals.pplat_res)) / parseFloat(vals.flow),
+                interpret: (val) => `Resistência = ${val.toFixed(1)} cmH₂O/L/s. Normal: 5-10 cmH₂O/L/s.` },
+                
+                { id: 'time_const', name: 'Constante de Tempo', icon: 'fa-hourglass-half', formula: 'τ = Raw × Cstat | Tempo expiratório mínimo = 5 × τ', inputs: [
+                    { id: 'raw_tc', label: 'Resistência', type: 'number', unit: 'cmH₂O/L/s' },
+                    { id: 'cstat_tc', label: 'Complacência', type: 'number', unit: 'mL/cmH₂O' }
+                ], calculate: (vals) => {
+                    const raw = parseFloat(vals.raw_tc);
+                    const cstat = parseFloat(vals.cstat_tc) / 1000;
+                    return raw * cstat;
+                }, interpret: (val, vals) => {
+                    const raw = parseFloat(vals.raw_tc);
+                    const cstat = parseFloat(vals.cstat_tc);
+                    const tau = (raw * (cstat / 1000)).toFixed(2);
+                    const tempoExp = (5 * parseFloat(tau)).toFixed(2);
+                    return { 
+                        text: `Constante de Tempo (τ) = ${tau} s<br>Tempo expiratório mínimo necessário (5×τ) = ${tempoExp} s`,
+                        subResult: `5×τ = ${tempoExp} s`
+                    };
+                } }
+            ],
+            effort: [
+                { id: 'pmus', name: 'PMUS (Pressão Muscular)', icon: 'fa-dumbbell', formula: 'PMUS = -0.75 × ΔPocc', inputs: [
+                    { id: 'dpocc', label: 'ΔP Oclusão (ΔPocc)', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => -0.75 * parseFloat(vals.dpocc),
+                interpret: (val) => {
+                    const absVal = Math.abs(val);
+                    if (absVal <= 9) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço adequado`;
+                    if (absVal <= 12) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço moderado`;
+                    return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço acentuado`;
+                } },
+                
+                { id: 'dp_transpulmonar', name: 'DP Transpulmonar', icon: 'fa-exchange-alt', formula: 'DPtp = (Pico - PEEP) - 2/3 × ΔPocc', inputs: [
+                    { id: 'peak_dp', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
+                    { id: 'peep_dp', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' },
+                    { id: 'dpocc_dp', label: 'ΔP Oclusão (ΔPocc)', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => (parseFloat(vals.peak_dp) - parseFloat(vals.peep_dp)) - (2/3) * parseFloat(vals.dpocc_dp),
+                interpret: (val) => val <= 15 ? `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Aceitável` : `DP Transpulmonar = ${val.toFixed(1)} - Risco de P-SILI` }
+            ],
+            weaning: [
+                { id: 'iwi', name: 'IWI (Integrative Weaning Index)', icon: 'fa-chart-line', formula: 'IWI = (Cstat × SaO₂) / (FR / Vt)', inputs: [
+                    { id: 'cstat_iwi', label: 'Complacência Estática', type: 'number', unit: 'mL/cmH₂O' },
+                    { id: 'sao2', label: 'SaO₂', type: 'number', unit: '%' },
+                    { id: 'fr_iwi', label: 'Frequência Respiratória', type: 'number', unit: 'cpm' },
+                    { id: 'vt_iwi', label: 'Volume Corrente', type: 'number', unit: 'mL' }
+                ], calculate: (vals) => {
+                    const cstat = parseFloat(vals.cstat_iwi);
+                    const sao2 = parseFloat(vals.sao2);
+                    const fr = parseFloat(vals.fr_iwi);
+                    const vt = parseFloat(vals.vt_iwi) / 1000;
+                    return (cstat * sao2) / (fr / vt);
+                }, interpret: (val) => val >= 25 ? `IWI = ${val.toFixed(1)} - Bom prognóstico para desmame (≥ 25)` : `IWI = ${val.toFixed(1)} - Baixo prognóstico` },
+                
+                { id: 'tobin', name: 'Índice de Respiração Rápida e Superficial (Tobin)', icon: 'fa-chart-simple', formula: 'FR / VT (L/min)', inputs: [
+                    { id: 'fr_tobin', label: 'Frequência Respiratória', type: 'number', unit: 'cpm' },
+                    { id: 'vt_tobin', label: 'Volume Corrente', type: 'number', unit: 'mL' }
+                ], calculate: (vals) => parseFloat(vals.fr_tobin) / (parseFloat(vals.vt_tobin) / 1000),
+                interpret: (val) => val < 80 ? `FR/VT = ${val.toFixed(0)} - Bom prognóstico (< 80)` : (val <= 105 ? `FR/VT = ${val.toFixed(0)} - Cautela (80-105)` : `FR/VT = ${val.toFixed(0)} - Alto risco (> 105)`) },
+                
+                { id: 'express', name: 'ExPreS Score (Completo)', icon: 'fa-clipboard-list', formula: 'Soma dos 8 parâmetros (máx 100 pontos)', inputs: [
+                    { id: 'irrs', label: 'IRRS (FR/VT - L/min)', type: 'select', options: [
+                        '≤ 42 (25)', '43-54 (20)', '55-76 (10)', '77-90 (5)', '≥ 91 (0)'
+                    ] },
+                    { id: 'compl_din', label: 'Complacência Dinâmica (mL/cmH₂O)', type: 'select', options: [
+                        '≥ 63 (15)', '51-62 (10)', '43-50 (7)', '32-42 (3)', '< 32 (0)'
+                    ] },
+                    { id: 'dias_vm', label: 'Dias de Ventilação Mecânica', type: 'select', options: [
+                        '1-3 dias (10)', '4-5 dias (7)', '6-8 dias (4)', '9-10 dias (1)', '≥ 11 dias (0)'
+                    ] },
+                    { id: 'glasgow', label: 'Escala de Glasgow', type: 'select', options: [
+                        '≥ 13 (10)', '11-12 (6)', '9-10 (3)', '< 9 (0)'
+                    ] },
+                    { id: 'mrc', label: 'MRC (força muscular)', type: 'select', options: [
+                        '49-60 pontos (10)', '37-48 pontos (7)', '25-36 pontos (4)', '13-24 pontos (1)', '0-12 pontos (0)'
+                    ] },
+                    { id: 'hematocrito', label: 'Hematócrito (%)', type: 'select', options: [
+                        '≥ 37% (10)', '32-36% (7)', '26-31% (3)', '22-25% (1)', '< 22% (0)'
+                    ] },
+                    { id: 'creatinina', label: 'Creatinina (mg/dL)', type: 'select', options: [
+                        '< 1.0 (10)', '1.0-1.2 (7)', '1.3-1.5 (4)', '1.6-2.9 (1)', '≥ 3.0 (0)'
+                    ] },
+                    { id: 'comorb_neuro', label: 'Comorbidade Neurológica', type: 'select', options: [
+                        'Não (10)', 'Sim (0)'
+                    ] }
+                ], calculate: (vals) => {
+                    let score = 0;
+                    score += parseInt(vals.irrs.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.compl_din.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.dias_vm.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.glasgow.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.mrc.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.hematocrito.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.creatinina.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.comorb_neuro.split('(')[1].replace(')', ''));
+                    return score;
+                }, interpret: (val) => {
+                    if (val >= 59) return `ExPreS = ${val} pontos - Alta probabilidade de sucesso na extubação (≥ 59)`;
+                    if (val >= 45) return `ExPreS = ${val} pontos - Risco INTERMEDIÁRIO (45-58). Avaliar fatores de risco (DPOC, obesidade, cardiopatia). Se ausentes, extubar; se presentes, considerar extubação com VNI.`;
+                    return `ExPreS = ${val} pontos - Baixa probabilidade de sucesso (≤ 44). Alto risco de falha. Manter em ventilação mecânica.`;
+                } },
+                
+                { id: 'crop_weaning', name: 'CROP (Compliance, Rate, Oxygenation, Pressure)', icon: 'fa-calculator', formula: 'CROP = (Cstat × PaO₂/PAO₂ × PImáx) / (FR × PaCO₂)', inputs: [
+                    { id: 'cstat_crop', label: 'Complacência Estática', type: 'number', unit: 'mL/cmH₂O' },
+                    { id: 'pao2_crop', label: 'PaO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'paco2_crop', label: 'PaCO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'pmax_crop', label: 'PImáx', type: 'number', unit: 'cmH₂O' },
+                    { id: 'fr_crop', label: 'Frequência Respiratória', type: 'number', unit: 'cpm' },
+                    { id: 'pb_crop', label: 'Pressão Barométrica', type: 'number', unit: 'mmHg' },
+                    { id: 'fio2_crop', label: 'FiO₂', type: 'number', unit: '%' },
+                    { id: 'qr_crop', label: 'Quociente Resp. (QR)', type: 'select', options: [
+                        '0.7 (Dieta mista / padrão)', 
+                        '0.8 (Dieta padrão hospitalar)', 
+                        '1.0 (Hipernutrição / carboidratos)'
+                    ] }
+                ], calculate: (vals) => {
+                    const cstat = parseFloat(vals.cstat_crop);
+                    const pao2 = parseFloat(vals.pao2_crop);
+                    const pb = parseFloat(vals.pb_crop);
+                    const fio2 = parseFloat(vals.fio2_crop) / 100;
+                    const paco2 = parseFloat(vals.paco2_crop);
+                    let qr = 0.8;
+                    if (vals.qr_crop.includes('0.7')) qr = 0.7;
+                    else if (vals.qr_crop.includes('0.8')) qr = 0.8;
+                    else if (vals.qr_crop.includes('1.0')) qr = 1.0;
+                    const pao2_alv = (pb - 47) * fio2 - (paco2 / qr);
+                    const pmax = parseFloat(vals.pmax_crop);
+                    const fr = parseFloat(vals.fr_crop);
+                    return (cstat * (pao2 / pao2_alv) * pmax) / (fr * paco2);
+                }, interpret: (val) => val >= 13 ? `CROP = ${val.toFixed(1)} - Bom prognóstico (≥ 13)` : `CROP = ${val.toFixed(1)} - Risco de falha` }
+            ],
+            vni_cnaf: [
+                { id: 'hacor', name: 'HACOR Score (VNI)', icon: 'fa-heartbeat', formula: 'FC + pH + Glasgow + P/F + FR', inputs: [
+                    { id: 'fc', label: 'Frequência Cardíaca', type: 'select', options: [
+                        '≤ 100 (0)', '101-120 (2)', '121-140 (3)', '≥ 141 (5)'
+                    ] },
+                    { id: 'ph', label: 'pH', type: 'select', options: [
+                        '≥ 7.35 (0)', '7.30-7.34 (2)', '7.25-7.29 (4)', '7.20-7.24 (6)', '< 7.20 (10)'
+                    ] },
+                    { id: 'glasgow_hacor', label: 'Escala de Glasgow', type: 'select', options: [
+                        '15 (0)', '13-14 (2)', '11-12 (6)', '≤ 10 (10)'
+                    ] },
+                    { id: 'pf_hacor', label: 'Relação P/F', type: 'select', options: [
+                        '≥ 300 (0)', '251-300 (3)', '201-250 (5)', '151-200 (8)', '≤ 150 (10)'
+                    ] },
+                    { id: 'fr_hacor', label: 'Frequência Respiratória', type: 'select', options: [
+                        '≤ 30 (0)', '31-35 (1)', '36-40 (2)', '41-45 (3)', '≥ 46 (4)'
+                    ] }
+                ], calculate: (vals) => {
+                    let score = 0;
+                    score += parseInt(vals.fc.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.ph.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.glasgow_hacor.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.pf_hacor.split('(')[1].replace(')', ''));
+                    score += parseInt(vals.fr_hacor.split('(')[1].replace(')', ''));
+                    return score;
+                }, interpret: (val) => {
+                    if (val <= 5) return `HACOR = ${val} pontos - Baixo risco de falha da VNI (≤ 5)`;
+                    if (val <= 7) return `HACOR = ${val} pontos - Risco intermediário (6-7). Monitorar de perto.`;
+                    if (val <= 9) return `HACOR = ${val} pontos - Risco elevado (8-9). Considerar intubação.`;
+                    return `HACOR = ${val} pontos - Alto risco de falha (≥ 10). Forte indicação de intubação.`;
+                } },
+                
+                { id: 'rox', name: 'ROX Index (CNAF)', icon: 'fa-wind', formula: 'ROX = (SpO₂ / (FiO₂/100)) / Frequência Respiratória', inputs: [
+                    { id: 'spo2_rox', label: 'SpO₂', type: 'number', unit: '%' },
+                    { id: 'fio2_rox', label: 'FiO₂', type: 'number', unit: '%' },
+                    { id: 'fr_rox', label: 'Frequência Respiratória', type: 'number', unit: 'cpm' }
+                ], calculate: (vals) => {
+                    const spo2 = parseFloat(vals.spo2_rox);
+                    const fio2 = parseFloat(vals.fio2_rox) / 100;
+                    const fr = parseFloat(vals.fr_rox);
+                    return (spo2 / fio2) / fr;
+                }, interpret: (val) => {
+                    if (val >= 4.88) return `ROX Index = ${val.toFixed(2)} - Baixo risco de intubação (≥ 4,88 após 12h)`;
+                    if (val >= 3.85) return `ROX Index = ${val.toFixed(2)} - Risco intermediário (3,85-4,88). Monitorar de perto. Reavaliar em 2-4h.`;
+                    return `ROX Index = ${val.toFixed(2)} - Alto risco de falha (< 3,85). Considerar intubação ou escalonar suporte.`;
+                } }
+            ]
+        };
+
+        // Variáveis globais
+        let currentCategory = 'protective';
+        let currentFormulaObj = null;
+        let patients = JSON.parse(localStorage.getItem('ventila_patients') || '[]');
+        let selectedPatient = localStorage.getItem('selected_patient');
+        if (selectedPatient === 'null' || selectedPatient === 'undefined') selectedPatient = null;
+        let historyData = JSON.parse(localStorage.getItem('ventila_history') || '{}');
+        let currentChart = null;
+
+        // Mapeamento
+        const formulaNames = {
+            ibw: 'Peso Predito', vc: 'Volume Corrente', driving_pressure: 'Driving Pressure',
+            mechanical_power: 'Mechanical Power', dp4rr: '4DPRR', ri_ratio: 'R/I Ratio',
+            pf_ratio: 'Relação P/F', sf_ratio: 'Relação S/F', io: 'Índice de Oxigenação',
+            pao2_calc: 'PAO₂ Alveolar', compliance: 'Complacência Estática', compliance_dinamica: 'Complacência Dinâmica',
+            elastance: 'Elastância', resistance: 'Resistência', time_const: 'Constante de Tempo', 
+            pmus: 'PMUS', dp_transpulmonar: 'DP Transpulmonar', iwi: 'IWI', tobin: 'Índice de Tobin',
+            express: 'ExPreS Score', crop_weaning: 'CROP', hacor: 'HACOR Score', rox: 'ROX Index'
+        };
+
+        const categoryMap = {
+            ibw: 'protective', vc: 'protective', driving_pressure: 'protective',
+            mechanical_power: 'protective', dp4rr: 'protective', ri_ratio: 'protective',
+            pf_ratio: 'oxygenation', sf_ratio: 'oxygenation', io: 'oxygenation', pao2_calc: 'oxygenation',
+            compliance: 'mechanics', compliance_dinamica: 'mechanics', elastance: 'mechanics', resistance: 'mechanics', time_const: 'mechanics',
+            pmus: 'effort', dp_transpulmonar: 'effort',
+            iwi: 'weaning', tobin: 'weaning', express: 'weaning', crop_weaning: 'weaning',
+            hacor: 'vni_cnaf', rox: 'vni_cnaf'
+        };
+
+        function saveToHistory(formulaId, result, unit) {
+            if (selectedPatient === null || !patients[selectedPatient]) return;
+            const patientKey = patients[selectedPatient].name;
+            if (!historyData[patientKey]) historyData[patientKey] = {};
+            if (!historyData[patientKey][formulaId]) historyData[patientKey][formulaId] = [];
+            historyData[patientKey][formulaId].push({
+                date: new Date().toLocaleString('pt-BR'),
+                timestamp: Date.now(),
+                result: typeof result === 'number' ? result.toFixed(2) : result.toString(),
+                unit: unit
+            });
+            localStorage.setItem('ventila_history', JSON.stringify(historyData));
+        }
+
+        function updatePatientBar() {
+            const badgeDiv = document.getElementById('patientBadge');
+            const actionsDiv = document.getElementById('patientActions');
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                badgeDiv.innerHTML = `<div class="patient-name-badge"><i class="fas fa-user-check"></i> ${patients[selectedPatient].name} | Leito: ${patients[selectedPatient].bed}</div>`;
+                actionsDiv.innerHTML = `<button onclick="clearPatientSelection()"><i class="fas fa-times"></i> Limpar</button>
+                                        <button onclick="showHistoryModal()"><i class="fas fa-history"></i> Histórico</button>
+                                        <button onclick="togglePatientPanel()"><i class="fas fa-edit"></i> Gerenciar</button>`;
+            } else {
+                badgeDiv.innerHTML = `<div class="quick-mode-badge"><i class="fas fa-fast-forward"></i> Modo: Cálculo Rápido</div>`;
+                actionsDiv.innerHTML = `<button onclick="togglePatientPanel()"><i class="fas fa-users"></i> Selecionar Paciente</button>`;
+            }
+        }
+
+        function clearPatientSelection() {
+            selectedPatient = null;
+            localStorage.setItem('selected_patient', 'null');
+            updatePatientBar();
+            document.getElementById('patientPanel').classList.remove('show');
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('ventila_theme', isDark ? 'dark' : 'light');
+            const themeBtn = document.getElementById('themeBtn');
+            if (isDark) {
+                themeBtn.innerHTML = '<i class="fas fa-sun"></i> Claro';
+            } else {
+                themeBtn.innerHTML = '<i class="fas fa-moon"></i> Escuro';
+            }
+        }
+
+        function togglePatientPanel() {
+            const panel = document.getElementById('patientPanel');
+            panel.classList.toggle('show');
+            renderPatientList();
+        }
+
+        function renderPatientList() {
+            const container = document.getElementById('patientList');
+            container.innerHTML = '';
+            patients.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = `patient-item ${selectedPatient && selectedPatient == idx ? 'selected' : ''}`;
+                div.innerHTML = `
+                    <div class="patient-info" onclick="selectPatient(${idx})">
+                        <strong>${p.name}</strong><br>
+                        <span style="font-size: 11px;">Leito: ${p.bed} | ${p.record}</span>
+                    </div>
+                    <button class="delete-patient" onclick="deletePatient(${idx}); event.stopPropagation();" title="Excluir paciente">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function deletePatient(idx) {
+            if (confirm(`Tem certeza que deseja excluir o paciente "${patients[idx].name}" e todo o seu histórico?`)) {
+                const patientKey = patients[idx].name;
+                patients.splice(idx, 1);
+                localStorage.setItem('ventila_patients', JSON.stringify(patients));
+                
+                if (historyData[patientKey]) {
+                    delete historyData[patientKey];
+                    localStorage.setItem('ventila_history', JSON.stringify(historyData));
+                }
+                
+                if (selectedPatient == idx) {
+                    selectedPatient = null;
+                    localStorage.setItem('selected_patient', 'null');
+                    updatePatientBar();
+                } else if (selectedPatient > idx) {
+                    selectedPatient--;
+                    localStorage.setItem('selected_patient', selectedPatient);
+                }
+                
+                renderPatientList();
+                updatePatientBar();
+            }
+        }
+
+        function addPatient() {
+            const name = document.getElementById('patientName').value.trim();
+            const bed = document.getElementById('patientBed').value.trim();
+            const record = document.getElementById('patientRecord').value.trim();
+            if (!name) return alert('Nome obrigatório');
+            patients.push({ name, bed, record });
+            localStorage.setItem('ventila_patients', JSON.stringify(patients));
+            document.getElementById('patientName').value = '';
+            document.getElementById('patientBed').value = '';
+            document.getElementById('patientRecord').value = '';
+            renderPatientList();
+        }
+
+        function selectPatient(idx) {
+            selectedPatient = idx;
+            localStorage.setItem('selected_patient', idx);
+            renderPatientList();
+            updatePatientBar();
+            document.getElementById('patientPanel').classList.remove('show');
+        }
+
+        function showHistoryModal() {
+            if (selectedPatient === null || !patients[selectedPatient]) {
+                alert('Selecione um paciente primeiro.');
+                return;
+            }
+            const patientName = patients[selectedPatient].name;
+            const history = historyData[patientName] || {};
+            const modal = document.getElementById('historyModal');
+            const modalBody = document.getElementById('modalBody');
+            document.getElementById('modalTitle').innerHTML = `<i class="fas fa-history"></i> Histórico - ${patientName}`;
+            let html = '<div class="history-list">';
+            for (const [catKey, cat] of Object.entries(categoriesConfig)) {
+                const calcs = Object.keys(formulaNames).filter(fid => categoryMap[fid] === catKey);
+                const hasData = calcs.some(cid => history[cid] && history[cid].length > 0);
+                if (hasData) {
+                    html += `<div class="history-group"><div class="history-group-header"><i class="fas ${cat.icon}"></i> ${cat.name}</div>`;
+                    for (const cid of calcs) {
+                        const calcHistory = history[cid];
+                        if (calcHistory && calcHistory.length > 0) {
+                            const last = calcHistory[calcHistory.length - 1];
+                            html += `<div class="history-calc-item" onclick="showDetailHistory('${cid}')">
+                                        <div><div class="calc-name">${formulaNames[cid]}</div>
+                                        <div class="calc-last-date">Último: ${last.date}</div></div>
+                                        <div class="calc-last-result">${last.result}</div>
+                                    </div>`;
+                        }
+                    }
+                    html += `</div>`;
+                }
+            }
+            html += '</div>';
+            modalBody.innerHTML = html;
+            modal.classList.add('show');
+        }
+
+        function showDetailHistory(formulaId) {
+            if (selectedPatient === null || !patients[selectedPatient]) return;
+            const patientName = patients[selectedPatient].name;
+            const history = historyData[patientName] || {};
+            const calcHistory = history[formulaId] || [];
+            const modal = document.getElementById('detailModal');
+            document.getElementById('detailModalTitle').innerHTML = `<i class="fas fa-chart-line"></i> ${formulaNames[formulaId]} - ${patientName}`;
+            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></tr></thead><tbody>`;
+            const chartData = [];
+            const chartLabels = [];
+            calcHistory.forEach((item, idx) => {
+                tableHtml += `<tr><td>${item.date}</td><td><strong>${item.result}</strong> ${item.unit || ''}</td></tr>`;
+                chartLabels.push(idx + 1);
+                chartData.push(parseFloat(item.result));
+            });
+            tableHtml += `</tbody></table>`;
+            let chartHtml = `<div class="chart-container"><h4>📈 Tendência - ${formulaNames[formulaId]}</h4>
+                            <canvas id="trendChart"></canvas><p style="font-size:12px; margin-top:8px; text-align:center;">Evolução sequencial das avaliações</p></div>`;
+            document.getElementById('detailModalBody').innerHTML = tableHtml + chartHtml;
+            modal.classList.add('show');
+            setTimeout(() => {
+                const ctx = document.getElementById('trendChart');
+                if (ctx) {
+                    if (currentChart) currentChart.destroy();
+                    currentChart = new Chart(ctx, {
+                        type: 'line',
+                        data: { labels: chartLabels.map(l => `#${l}`), datasets: [{ label: formulaNames[formulaId], data: chartData, borderColor: '#10b981', tension: 0.3, fill: true }] },
+                        options: { responsive: true, maintainAspectRatio: true }
+                    });
+                }
+            }, 100);
+        }
+
+        function closeHistoryModal() { document.getElementById('historyModal').classList.remove('show'); }
+        function closeDetailModal() { document.getElementById('detailModal').classList.remove('show'); }
+
+        function showCategory(category) {
+            currentCategory = category;
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('categoryArea').style.display = 'block';
+            const catConfig = categoriesConfig[category];
+            document.getElementById('categoryTitle').innerHTML = `<i class="fas ${catConfig.icon}"></i> ${catConfig.name}`;
+            const groupNav = document.getElementById('groupNav');
+            groupNav.innerHTML = '';
+            for (const [key, config] of Object.entries(categoriesConfig)) {
+                const btn = document.createElement('button');
+                btn.className = `group-nav-btn ${key === category ? 'active' : ''}`;
+                btn.innerHTML = `<i class="fas ${config.icon}"></i> ${config.name}`;
+                btn.onclick = () => showCategory(key);
+                groupNav.appendChild(btn);
+            }
+            const tabsContainer = document.getElementById('subTabs');
+            const formulas = formulasDB[category];
+            tabsContainer.innerHTML = '';
+            if (formulas) {
+                formulas.forEach((f, i) => {
+                    if (f.special === 'help') return;
+                    const btn = document.createElement('button');
+                    btn.className = `sub-tab-btn ${i === 0 ? 'active' : ''}`;
+                    btn.innerHTML = `<i class="fas ${f.icon}"></i> ${f.name}`;
+                    btn.onclick = () => selectFormula(category, f.id);
+                    tabsContainer.appendChild(btn);
+                });
+                if (formulas.length > 0) {
+                    selectFormula(category, formulas[0].id);
+                }
+            }
+        }
+
+        function selectFormula(category, formulaId) {
+            currentFormulaObj = formulasDB[category].find(f => f.id === formulaId);
+            if (!currentFormulaObj) return;
+            document.getElementById('calcTitle').innerHTML = `<i class="fas ${currentFormulaObj.icon}"></i> ${currentFormulaObj.name}`;
+            document.getElementById('calcFormula').textContent = currentFormulaObj.formula;
+            const inputsContainer = document.getElementById('inputsContainer');
+            inputsContainer.innerHTML = '';
+            currentFormulaObj.inputs.forEach(input => {
+                const div = document.createElement('div');
+                div.className = 'input-group';
+                let html = `<label>${input.label} (${input.unit || ''})</label>`;
+                if (input.type === 'select') {
+                    html += `<select id="input_${input.id}">`;
+                    input.options.forEach(opt => { html += `<option value="${opt}">${opt}</option>`; });
+                    html += `</select>`;
+                } else {
+                    html += `<input type="number" id="input_${input.id}" placeholder="${input.unit || ''}">`;
+                }
+                div.innerHTML = html;
+                inputsContainer.appendChild(div);
+            });
+            
+            if (currentFormulaObj.helpLink) {
+                const helpDiv = document.createElement('div');
+                helpDiv.className = 'input-group';
+                helpDiv.innerHTML = `<button class="help-link" onclick="window.open('${currentFormulaObj.helpLink.url}', '_blank')"><i class="fas fa-external-link-alt"></i> ${currentFormulaObj.helpLink.text}</button>`;
+                inputsContainer.appendChild(helpDiv);
+            }
+            
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('calculationPanel').classList.add('show');
+            document.querySelectorAll('.sub-tab-btn').forEach((btn, i) => {
+                const btnFormula = formulasDB[category][i];
+                if (btnFormula && btnFormula.id === formulaId) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+        }
+
+        function performCalculation() {
+            if (!currentFormulaObj) return;
+            const inputs = {};
+            for (const input of currentFormulaObj.inputs) {
+                const el = document.getElementById(`input_${input.id}`);
+                if (el) inputs[input.id] = el.value;
+            }
+            try {
+                const result = currentFormulaObj.calculate(inputs);
+                const interpretResult = currentFormulaObj.interpret(result, inputs);
+                const resultValue = typeof result === 'number' ? result.toFixed(2) : result;
+                document.getElementById('resultValue').innerHTML = resultValue;
+                const subResultDiv = document.getElementById('subResult');
+                if (interpretResult.subResult) subResultDiv.innerHTML = `<div class="result-sub">${interpretResult.subResult}</div>`;
+                else subResultDiv.innerHTML = '';
+                const highlightContainer = document.getElementById('highlightContainer');
+                if (currentFormulaObj.id === 'vc' && interpretResult.highlight) highlightContainer.innerHTML = interpretResult.highlight;
+                else highlightContainer.innerHTML = '';
+                const interpretText = typeof interpretResult === 'string' ? interpretResult : (interpretResult.text || '');
+                document.getElementById('interpretation').innerHTML = interpretText;
+                let disclaimerText = '';
+                if (currentFormulaObj.id === 'vc') disclaimerText = '⚠️ Este resultado não garante uma Ventilação Protetiva, é apenas um ponto de partida.';
+                else if (currentFormulaObj.id === 'time_const') disclaimerText = '⚠️ Cálculo teórico para compreensão do comportamento elástico pulmonar. Baixa correlação clínica.';
+                document.getElementById('disclaimer').innerHTML = disclaimerText;
+                document.getElementById('resultArea').classList.add('show');
+                saveToHistory(currentFormulaObj.id, resultValue, '');
+            } catch(e) { alert('Erro no cálculo. Verifique os valores.'); }
+        }
+
+        function backToMenu() {
+            document.getElementById('mainMenu').style.display = 'grid';
+            document.getElementById('categoryArea').style.display = 'none';
+        }
+
+        // Inicialização
+        if (localStorage.getItem('ventila_theme') === 'dark') {
+            document.body.classList.add('dark');
+            document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i> Claro';
+        } else {
+            document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i> Escuro';
+        }
+        renderPatientList();
+        updatePatientBar();
+    </script>
+</body>
+</html>
