@@ -1,8 +1,21 @@
-// Service Worker simples para cache do ícone
-self.addEventListener('install', function(event) {
-  self.skipWaiting();
+// Service Worker - Versão 3 (limpeza de cache)
+const CACHE_NAME = 'ventila-bl-v3';
+
+self.addEventListener('install', event => {
+    self.skipWaiting();
 });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(fetch(event.request));
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys().then(keys => Promise.all(
+            keys.map(key => {
+                if (key !== CACHE_NAME) return caches.delete(key);
+            })
+        ))
+    );
+    return self.clients.claim();
+});
+
+self.addEventListener('fetch', event => {
+    event.respondWith(fetch(event.request));
 });
