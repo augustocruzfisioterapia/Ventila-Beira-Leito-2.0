@@ -721,6 +721,21 @@
             .developer-profile { flex-direction: column; text-align: center; }
             .header-buttons button { padding: 6px 12px; font-size: 11px; }
         }
+
+    /* Garantia de rolagem correta no PWA standalone */
+@media all and (display-mode: standalone) {
+    .history-detail-table {
+        display: block !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+    }
+    
+    .modal-content {
+        padding: 15px !important;
+        max-width: 100% !important;
+    }
+}
+        
     </style>
 </head>
 <body>
