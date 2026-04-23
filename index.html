@@ -1511,5 +1511,13 @@
         renderPatientList();
         updatePatientBar();
     </script>
+
+     <!-- Service Worker para PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/ventila-beira-leito-2.0/sw.js');
+        }
+    </script>
+    
 </body>
 </html>
