@@ -2,7 +2,7 @@
   "name": "Ventila Beira-Leito",
   "short_name": "Ventila BL",
   "description": "Calculadora para Ventilação Mecânica - UTI",
-  "start_url": "/ventila-beira-leito-2.0/",
+  "start_url": "/./",
   "display": "standalone",
   "theme_color": "#1a5f7a",
   "background_color": "#ffffff",
