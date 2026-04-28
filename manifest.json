@@ -11,31 +11,31 @@
   "scope": "/ventila-beira-leito-2.0/",
   "icons": [
     {
-      "src": "icons/icon-16.png",
+      "src": "https://augustocruzfisioterapia.github.io/ventila-beira-leito-2.0/icons/icon-16.png",
       "sizes": "16x16",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-32.png",
+      "src": "https://augustocruzfisioterapia.github.io/ventila-beira-leito-2.0/icons/icon-32.png",
       "sizes": "32x32",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-152.png",
+      "src": "https://augustocruzfisioterapia.github.io/ventila-beira-leito-2.0/icons/icon-152.png",
       "sizes": "152x152",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-192.png",
+      "src": "https://augustocruzfisioterapia.github.io/ventila-beira-leito-2.0/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "https://augustocruzfisioterapia.github.io/ventila-beira-leito-2.0/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
