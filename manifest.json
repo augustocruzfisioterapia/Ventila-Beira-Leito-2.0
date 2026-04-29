@@ -1,0 +1,14 @@
+{
+  "background_color": "#ffffff",
+  "dir": "auto",
+  "display": "standalone",
+  "name": "Ventila Beira Leito",
+  "orientation": "portrait",
+  "scope": "/ventila-beira-leito-2.0/",
+  "short_name": "Ventila BL",
+  "start_url": "https://augustocruzfisioterapia.github.io/Ventila-Beira-Leito-2.0/",
+  "theme_color": "#1a5f7a",
+  "id": "/ventila-beira-leito-2.0/",
+  "description": "Calculadora para Ventilação Mecânica - UTI",
+  "lang": "pt"
+}
