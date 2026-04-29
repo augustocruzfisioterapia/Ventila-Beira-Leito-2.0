@@ -4,7 +4,7 @@
   "description": "Calculadora avançada para ventilação mecânica em UTI.",
   "lang": "pt-BR",
   "dir": "ltr",
-  "start_url": "./",
+  "start_url": "/ventila-beira-leito-2.0/index.html",
   "scope": "./",
   "id": "./",
   "display": "standalone",
