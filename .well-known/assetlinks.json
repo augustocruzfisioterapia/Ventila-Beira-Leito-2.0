@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.augustocruz.ventilabeiraleito",
+      "sha256_cert_fingerprints": [
+        "0B:D5:10:E8:CD:42:71:A9:5C:48:40:80:52:15:41:4B:7F:7E:D2:80:37:60:1A:C6:1C:A7:92:AF:E0:F0:BF:82"
+      ]
+    }
+  }
+]
