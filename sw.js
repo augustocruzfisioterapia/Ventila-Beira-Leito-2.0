@@ -1,5 +1,5 @@
 // Service Worker - Versão 3 (limpeza de cache)
-const CACHE_NAME = 'ventila-beira-leito-clean-v9';
+const CACHE_NAME = 'ventila-beira-leito-clean-v11';
 
 self.addEventListener('install', event => {
     self.skipWaiting();
