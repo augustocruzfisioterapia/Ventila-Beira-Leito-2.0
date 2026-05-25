@@ -1,21 +1,40 @@
-// Service Worker - Versão 3 (limpeza de cache)
-const CACHE_NAME = 'ventila-beira-leito-clean-v11';
+const CACHE_NAME = "ventila-beira-leito-v12";
 
-self.addEventListener('install', event => {
-    self.skipWaiting();
+const FILES_TO_CACHE = [
+  "./",
+  "./index.html",
+  "./manifest.json",
+  "./privacy-policy.html",
+  "./icons/ventila-v2-96.png",
+  "./icons/ventila-v2-180.png",
+  "./icons/ventila-v2-192.png",
+  "./icons/ventila-v2-512.png"
+];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+  );
+  self.skipWaiting();
 });
 
-self.addEventListener('activate', event => {
-    event.waitUntil(
-        caches.keys().then(keys => Promise.all(
-            keys.map(key => {
-                if (key !== CACHE_NAME) return caches.delete(key);
-            })
-        ))
-    );
-    return self.clients.claim();
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      )
+    )
+  );
+  self.clients.claim();
 });
 
-self.addEventListener('fetch', event => {
-    event.respondWith(fetch(event.request));
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      return cachedResponse || fetch(event.request);
+    })
+  );
 });
