@@ -1,9 +1,8 @@
 {
   "name": "Ventila Beira-Leito",
-  "short_name": "Ventila Beira-Leito",
+  "short_name": "Ventila",
   "description": "Calculadora para Ventilação Mecânica - UTI",
   "lang": "pt-BR",
-  "dir": "ltr",
   "start_url": "/Ventila-Beira-Leito-2.0/",
   "id": "/Ventila-Beira-Leito-2.0/",
   "scope": "/Ventila-Beira-Leito-2.0/",
@@ -11,21 +10,15 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#1a5f7a",
-  "categories": ["medical", "health", "productivity"],
   "icons": [
     {
-      "src": "icons/ventila-v2-16.png",
-      "sizes": "16x16",
+      "src": "icons/ventila-v2-96.png",
+      "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "icons/ventila-v2-32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/ventila-v2-152.png",
-      "sizes": "152x152",
+      "src": "icons/ventila-v2-180.png",
+      "sizes": "180x180",
       "type": "image/png"
     },
     {
