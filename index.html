@@ -14,13 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <!-- PWA e Favicons -->
-   <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#1a5f7a">
-
-<link rel="apple-touch-icon" sizes="180x180" href="icons/ventila-v2-180.png">
-<link rel="icon" type="image/png" sizes="96x96" href="icons/ventila-v2-96.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/ventila-v2-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icons/ventila-v2-512.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/ventila-v2-180.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="icons/ventila-v2-96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/ventila-v2-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/ventila-v2-512.png">
     
     <style>
         * {
@@ -539,6 +537,16 @@
             font-size: 12px;
         }
         
+        .info-note {
+            background: rgba(16,185,129,0.15);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--secondary);
+        }
+        
         .inputs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -620,11 +628,32 @@
         .highlight-vc {
             background: var(--secondary);
             color: white;
-            padding: 12px;
+            padding: 15px;
             border-radius: 12px;
             text-align: center;
-            margin: 12px 0;
-            font-size: 14px;
+            margin: 15px 0;
+        }
+        
+        .vc-table {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .vc-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            min-width: 60px;
+        }
+        
+        .vc-item.highlight {
+            background: var(--secondary);
+            color: white;
+            transform: scale(1.05);
         }
         
         .interpretation {
@@ -708,6 +737,14 @@
             .modal-content {
                 padding: 15px;
             }
+            .vc-table {
+                gap: 5px;
+            }
+            .vc-item {
+                padding: 6px;
+                min-width: 50px;
+                font-size: 12px;
+            }
         }
         
         @keyframes fadeIn {
@@ -722,19 +759,19 @@
             .header-buttons button { padding: 6px 12px; font-size: 11px; }
         }
 
-    /* Garantia de rolagem correta no PWA standalone */
-@media all and (display-mode: standalone) {
-    .history-detail-table {
-        display: block !important;
-        overflow-x: auto !important;
-        white-space: nowrap !important;
-    }
-    
-    .modal-content {
-        padding: 15px !important;
-        max-width: 100% !important;
-    }
-}
+        /* Garantia de rolagem correta no PWA standalone */
+        @media all and (display-mode: standalone) {
+            .history-detail-table {
+                display: block !important;
+                overflow-x: auto !important;
+                white-space: nowrap !important;
+            }
+            
+            .modal-content {
+                padding: 15px !important;
+                max-width: 100% !important;
+            }
+        }
         
     </style>
 </head>
@@ -785,6 +822,11 @@
 
         <!-- MENU PRINCIPAL -->
         <div id="mainMenu" class="main-menu">
+            <div class="menu-card" onclick="showCategory('altura_volume')">
+                <div class="menu-icon"><i class="fas fa-ruler-combined"></i></div>
+                <h3>Altura / Volume Alvo</h3>
+                <p>Meia Envergadura, Joelho (Chumlea), Ulna | PBW e VC sugerido</p>
+            </div>
             <div class="menu-card" onclick="showCategory('protective')">
                 <div class="menu-icon"><i class="fas fa-shield-alt"></i></div>
                 <h3>Ventilação Protetora</h3>
@@ -803,17 +845,22 @@
             <div class="menu-card" onclick="showCategory('effort')">
                 <div class="menu-icon"><i class="fas fa-dumbbell"></i></div>
                 <h3>Esforço Respiratório</h3>
-                <p>PMUS, DP Transpulmonar</p>
+                <p>PMUS, DP Transpulmonar, PMI, ΔPocc, Índice de Fadiga</p>
             </div>
             <div class="menu-card" onclick="showCategory('weaning')">
                 <div class="menu-icon"><i class="fas fa-flag-checkered"></i></div>
                 <h3>Índices de Desmame</h3>
-                <p>IWI, ExPreS, Tobin, CROP</p>
+                <p>IWI, ExPreS, Tobin, CROP, VISAGE</p>
             </div>
             <div class="menu-card" onclick="showCategory('vni_cnaf')">
                 <div class="menu-icon"><i class="fas fa-mask"></i></div>
                 <h3>VNI / CNAF</h3>
                 <p>HACOR Score, ROX Index</p>
+            </div>
+            <div class="menu-card" onclick="showCategory('variaveis_fisiologicas')">
+                <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
+                <h3>Variáveis Fisiológicas</h3>
+                <p>Gradiente A-a, Espaço Morto, Razão Ventilatória, Ânion Gap, Checagem de pH, Gap CO₂</p>
             </div>
         </div>
 
@@ -885,15 +932,241 @@
     <script>
         // ==================== BANCO DE DADOS DE FÓRMULAS ====================
         const categoriesConfig = {
+            altura_volume: { name: 'Altura / Volume Alvo', icon: 'fa-ruler-combined' },
             protective: { name: 'Ventilação Protetora', icon: 'fa-shield-alt' },
             oxygenation: { name: 'Oxigenação', icon: 'fa-lungs' },
             mechanics: { name: 'Mecânica Respiratória', icon: 'fa-chart-line' },
             effort: { name: 'Esforço Respiratório', icon: 'fa-dumbbell' },
             weaning: { name: 'Índices de Desmame', icon: 'fa-flag-checkered' },
-            vni_cnaf: { name: 'VNI / CNAF', icon: 'fa-mask' }
+            vni_cnaf: { name: 'VNI / CNAF', icon: 'fa-mask' },
+            variaveis_fisiologicas: { name: 'Variáveis Fisiológicas', icon: 'fa-heartbeat' }
         };
 
+        // Função auxiliar para calcular PBW a partir da altura e sexo
+        function calcularPBW(alturaCm, sexo) {
+            if (sexo === 'Masculino') {
+                return 50 + 0.91 * (alturaCm - 152.4);
+            } else {
+                return 45.5 + 0.91 * (alturaCm - 152.4);
+            }
+        }
+
+        // Função auxiliar para gerar tabela de volumes correntes
+        function gerarTabelaVC(pbw) {
+            const alvos = [4, 5, 6, 7, 8];
+            let html = '<div class="vc-table">';
+            alvos.forEach(alvo => {
+                const vc = pbw * alvo;
+                const highlightClass = alvo === 6 ? 'highlight' : '';
+                html += `<div class="vc-item ${highlightClass}">
+                            <strong>${alvo} mL/kg</strong><br>
+                            ${Math.round(vc)} mL
+                         </div>`;
+            });
+            html += '</div><div class="disclaimer-text" style="margin-top:5px;">⭐ PONTO DE PARTIDA - 6 mL/kg é o valor mais utilizado para ventilação protetora</div>';
+            return html;
+        }
+
+        // Função para gerar inputs dinâmicos do HACOR baseado no tipo de IRpA
+        function gerarInputsHACOR(tipo) {
+            if (tipo === 'IRpA Hipoxêmica') {
+                return `
+                    <div class="input-group">
+                        <label>Frequência Cardíaca</label>
+                        <select id="input_fc_hacor">
+                            <option value="≤ 100 (0)">≤ 100 (0)</option>
+                            <option value="101-120 (2)">101-120 (2)</option>
+                            <option value="121-140 (3)">121-140 (3)</option>
+                            <option value="≥ 141 (5)">≥ 141 (5)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>pH</label>
+                        <select id="input_ph_hacor">
+                            <option value="≥ 7.35 (0)">≥ 7.35 (0)</option>
+                            <option value="7.30-7.34 (2)">7.30-7.34 (2)</option>
+                            <option value="7.25-7.29 (4)">7.25-7.29 (4)</option>
+                            <option value="7.20-7.24 (6)">7.20-7.24 (6)</option>
+                            <option value="< 7.20 (10)">&lt; 7.20 (10)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Escala de Glasgow</label>
+                        <select id="input_glasgow_hacor">
+                            <option value="15 (0)">15 (0)</option>
+                            <option value="13-14 (2)">13-14 (2)</option>
+                            <option value="11-12 (6)">11-12 (6)</option>
+                            <option value="≤ 10 (10)">≤ 10 (10)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Relação P/F</label>
+                        <select id="input_pf_hacor">
+                            <option value="≥ 300 (0)">≥ 300 (0)</option>
+                            <option value="251-300 (3)">251-300 (3)</option>
+                            <option value="201-250 (5)">201-250 (5)</option>
+                            <option value="151-200 (8)">151-200 (8)</option>
+                            <option value="≤ 150 (10)">≤ 150 (10)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Frequência Respiratória</label>
+                        <select id="input_fr_hacor">
+                            <option value="≤ 30 (0)">≤ 30 (0)</option>
+                            <option value="31-35 (1)">31-35 (1)</option>
+                            <option value="36-40 (2)">36-40 (2)</option>
+                            <option value="41-45 (3)">41-45 (3)</option>
+                            <option value="≥ 46 (4)">≥ 46 (4)</option>
+                        </select>
+                    </div>
+                `;
+            } else {
+                // IRpA Hipercapnica
+                return `
+                    <div class="input-group">
+                        <label>Frequência Cardíaca</label>
+                        <select id="input_fc_hacor_hc">
+                            <option value="< 100 (0)">&lt; 100 (0)</option>
+                            <option value="100-119 (1)">100-119 (1)</option>
+                            <option value="120-139 (2)">120-139 (2)</option>
+                            <option value="> 139 (3)">&gt; 139 (3)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>pH</label>
+                        <select id="input_ph_hacor_hc">
+                            <option value="≥ 7.35 (0)">≥ 7.35 (0)</option>
+                            <option value="7.30-7.34 (2)">7.30-7.34 (2)</option>
+                            <option value="7.25-7.29 (3)">7.25-7.29 (3)</option>
+                            <option value="7.20-7.24 (5)">7.20-7.24 (5)</option>
+                            <option value="< 7.20 (8)">&lt; 7.20 (8)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Escala de Glasgow</label>
+                        <select id="input_glasgow_hacor_hc">
+                            <option value="15 (0)">15 (0)</option>
+                            <option value="14 (2)">14 (2)</option>
+                            <option value="13 (4)">13 (4)</option>
+                            <option value="12 (6)">12 (6)</option>
+                            <option value="≤ 11 (11)">≤ 11 (11)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Relação P/F</label>
+                        <select id="input_pf_hacor_hc">
+                            <option value="≥ 150 (0)">≥ 150 (0)</option>
+                            <option value="101-149 (1)">101-149 (1)</option>
+                            <option value="≤ 100 (2)">≤ 100 (2)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Frequência Respiratória</label>
+                        <select id="input_fr_hacor_hc">
+                            <option value="< 30 (0)">&lt; 30 (0)</option>
+                            <option value="30-34 (1)">30-34 (1)</option>
+                            <option value="35-39 (2)">35-39 (2)</option>
+                            <option value="≥ 40 (3)">≥ 40 (3)</option>
+                        </select>
+                    </div>
+                `;
+            }
+        }
+
         const formulasDB = {
+            altura_volume: [
+                { id: 'meia_envergadura', name: 'Meia Envergadura ×2', icon: 'fa-arrows-alt-h', formula: 'Altura = Distância (centro do esterno → ponta dedo médio) × 2', inputs: [
+                    { id: 'distancia', label: 'Distância (cm) - centro do esterno à ponta do dedo médio', type: 'number', unit: 'cm' },
+                    { id: 'gender', label: 'Sexo Biológico', type: 'select', options: ['Masculino', 'Feminino'] }
+                ], calculate: (vals) => {
+                    const distancia = parseFloat(vals.distancia);
+                    if (isNaN(distancia)) return null;
+                    return distancia * 2;
+                }, interpret: (val, vals, fullResult = false) => {
+                    if (val === null) return { text: 'Aguardando dados...' };
+                    const alturaCm = val;
+                    const pbw = calcularPBW(alturaCm, vals.gender);
+                    const tabelaVC = gerarTabelaVC(pbw);
+                    if (fullResult) {
+                        return {
+                            altura: alturaCm.toFixed(1),
+                            pbw: pbw.toFixed(1),
+                            tabelaVC: tabelaVC,
+                            text: `Altura prevista: ${alturaCm.toFixed(1)} cm | Peso Corporal Predito: ${pbw.toFixed(1)} kg`
+                        };
+                    }
+                    return { 
+                        text: `Altura prevista: ${alturaCm.toFixed(1)} cm | Peso Predito: ${pbw.toFixed(1)} kg`,
+                        tabelaVC: tabelaVC
+                    };
+                },
+                getFullResult: true,
+                infoNote: '⚠️ A medição deve ser realizada com ABDUÇÃO DO OMBRO A 90° e o profissional deve medir a distância entre o centro do esterno e a ponta do dedo médio.' },
+                
+                { id: 'altura_joelho', name: 'Altura do Joelho (Chumlea)', icon: 'fa-leg', formula: 'Masculino: 64,19 - (0,04 × idade) + (2,02 × joelho) | Feminino: 84,88 - (0,04 × idade) + (1,83 × joelho)', inputs: [
+                    { id: 'gender_joelho', label: 'Sexo Biológico', type: 'select', options: ['Masculino', 'Feminino'] },
+                    { id: 'idade', label: 'Idade (anos)', type: 'number', unit: 'anos' },
+                    { id: 'joelho_cm', label: 'Altura do Joelho (cm)', type: 'number', unit: 'cm' }
+                ], calculate: (vals) => {
+                    const idade = parseFloat(vals.idade);
+                    const joelho = parseFloat(vals.joelho_cm);
+                    if (isNaN(idade) || isNaN(joelho)) return null;
+                    if (vals.gender_joelho === 'Masculino') {
+                        return 64.19 - (0.04 * idade) + (2.02 * joelho);
+                    } else {
+                        return 84.88 - (0.04 * idade) + (1.83 * joelho);
+                    }
+                }, interpret: (val, vals, fullResult = false) => {
+                    if (val === null) return { text: 'Aguardando dados...' };
+                    const alturaCm = val;
+                    const pbw = calcularPBW(alturaCm, vals.gender_joelho);
+                    const tabelaVC = gerarTabelaVC(pbw);
+                    if (fullResult) {
+                        return {
+                            altura: alturaCm.toFixed(1),
+                            pbw: pbw.toFixed(1),
+                            tabelaVC: tabelaVC,
+                            text: `Altura prevista: ${alturaCm.toFixed(1)} cm | Peso Corporal Predito: ${pbw.toFixed(1)} kg`
+                        };
+                    }
+                    return { 
+                        text: `Altura prevista: ${alturaCm.toFixed(1)} cm | Peso Predito: ${pbw.toFixed(1)} kg`,
+                        tabelaVC: tabelaVC
+                    };
+                },
+                getFullResult: true },
+                
+                { id: 'tamanho_ulna', name: 'Tamanho da Ulna', icon: 'fa-hand-peace', formula: 'Masculino: (3,3 × ulna) + 81,1 | Feminino: (3,4 × ulna) + 79,6', inputs: [
+                    { id: 'gender_ulna', label: 'Sexo Biológico', type: 'select', options: ['Masculino', 'Feminino'] },
+                    { id: 'ulna_cm', label: 'Ulna (cm)', type: 'number', unit: 'cm' }
+                ], calculate: (vals) => {
+                    const ulna = parseFloat(vals.ulna_cm);
+                    if (isNaN(ulna)) return null;
+                    if (vals.gender_ulna === 'Masculino') {
+                        return (3.3 * ulna) + 81.1;
+                    } else {
+                        return (3.4 * ulna) + 79.6;
+                    }
+                }, interpret: (val, vals, fullResult = false) => {
+                    if (val === null) return { text: 'Aguardando dados...' };
+                    const alturaCm = val;
+                    const pbw = calcularPBW(alturaCm, vals.gender_ulna);
+                    const tabelaVC = gerarTabelaVC(pbw);
+                    if (fullResult) {
+                        return {
+                            altura: alturaCm.toFixed(1),
+                            pbw: pbw.toFixed(1),
+                            tabelaVC: tabelaVC,
+                            text: `Altura prevista: ${alturaCm.toFixed(1)} cm | Peso Corporal Predito: ${pbw.toFixed(1)} kg`
+                        };
+                    }
+                    return { 
+                        text: `Altura prevista: ${alturaCm.toFixed(1)} cm | Peso Predito: ${pbw.toFixed(1)} kg`,
+                        tabelaVC: tabelaVC
+                    };
+                },
+                getFullResult: true }
+            ],
             protective: [
                 { id: 'ibw', name: 'Peso Predito (IBW)', icon: 'fa-weight', formula: 'IBW = 50/45.5 + 0.91 × (altura - 152.4)', inputs: [
                     { id: 'height', label: 'Altura', type: 'number', unit: 'cm' },
@@ -1002,7 +1275,7 @@
                     else if (vals.qr.includes('1.0')) qr = 1.0;
                     return (pb - 47) * fio2 - (paco2 / qr);
                 }, interpret: (val) => `PAO₂ = ${Math.round(val)} mmHg`,
-                helpLink: { text: '🌍 Pesquisar pressão da minha região', url: 'https://www.google.com/search?q=press%C3%A3o+atmosferica+da+minha+localiza%C3%A7%C3%A3o+em+mmHg' } }
+                helpLink: { text: '🌍 Pesquisar pressão barométrica da minha localização', url: 'https://www.google.com/search?q=press%C3%A3o+atmosferica+da+minha+altitude+em+mmHg' } }
             ],
             mechanics: [
                 { id: 'compliance', name: 'Complacência Estática', icon: 'fa-arrow-up', formula: 'Cstat = VT / (Pplat - PEEP)', inputs: [
@@ -1067,7 +1340,44 @@
                     { id: 'peep_dp', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' },
                     { id: 'dpocc_dp', label: 'ΔP Oclusão (ΔPocc)', type: 'number', unit: 'cmH₂O' }
                 ], calculate: (vals) => (parseFloat(vals.peak_dp) - parseFloat(vals.peep_dp)) - (2/3) * parseFloat(vals.dpocc_dp),
-                interpret: (val) => val <= 15 ? `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Aceitável` : `DP Transpulmonar = ${val.toFixed(1)} - Risco de P-SILI` }
+                interpret: (val) => val <= 15 ? `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Aceitável` : `DP Transpulmonar = ${val.toFixed(1)} - Risco de P-SILI` },
+                
+                { id: 'pmi', name: 'PMI (Índice de Pressão Muscular)', icon: 'fa-chart-simple', formula: 'PMI = Pressão de Platô - Pressão de Pico', inputs: [
+                    { id: 'plateau_pmi', label: 'Pressão de Platô', type: 'number', unit: 'cmH₂O' },
+                    { id: 'pico_pmi', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => parseFloat(vals.plateau_pmi) - parseFloat(vals.pico_pmi),
+                interpret: (val) => {
+                    if (val >= 3 && val <= 6) return `PMI = ${val.toFixed(1)} cmH₂O - Valor ideal (3-6 cmH₂O)`;
+                    if (val < 3) return `PMI = ${val.toFixed(1)} cmH₂O - SUPERASSISTÊNCIA (< 3). Risco de atrofia e fraqueza muscular diafragmática.`;
+                    return `PMI = ${val.toFixed(1)} cmH₂O - SUBASSISTÊNCIA (> 6). Esforço excessivo, risco de fadiga muscular.`;
+                } },
+                
+                { id: 'delta_pocc', name: 'ΔPocc (Pressão de Oclusão)', icon: 'fa-wave-square', formula: 'ΔPocc = -(Pdrop - PEEP) - resultado sempre negativo', inputs: [
+                    { id: 'pdrop', label: 'Pdrop (Ponto mais negativo de pressão)', type: 'number', unit: 'cmH₂O' },
+                    { id: 'peep_delta', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => {
+                    let pdrop = parseFloat(vals.pdrop);
+                    const peep = parseFloat(vals.peep_delta);
+                    if (isNaN(pdrop) || isNaN(peep)) return null;
+                    if (pdrop < 0) pdrop = Math.abs(pdrop);
+                    return -(pdrop - peep);
+                }, interpret: (val) => {
+                    if (val === null) return 'Aguardando dados...';
+                    const absVal = Math.abs(val);
+                    if (absVal >= 8 && absVal <= 12) return `ΔPocc = ${val.toFixed(1)} cmH₂O - Esforço ideal (8-12 cmH₂O)`;
+                    if (absVal < 8) return `ΔPocc = ${val.toFixed(1)} cmH₂O - SUPERASSISTÊNCIA (< 8). Risco de atrofia e fraqueza muscular diafragmática.`;
+                    if (absVal > 15) return `ΔPocc = ${val.toFixed(1)} cmH₂O - SUBASSISTÊNCIA GRAVE (> 15). Alto esforço, risco de fadiga e lesão pulmonar auto-induzida.`;
+                    return `ΔPocc = ${val.toFixed(1)} cmH₂O - Esforço moderadamente elevado (13-15 cmH₂O). Monitorar de perto.`;
+                } },
+                
+                { id: 'indice_fadiga', name: 'Índice de Resistência à Fadiga', icon: 'fa-chart-line', formula: 'IRF = PiMax pós TRE / PiMax pré TRE', inputs: [
+                    { id: 'pimax_pos', label: 'PiMax pós TRE', type: 'number', unit: 'cmH₂O' },
+                    { id: 'pimax_pre', label: 'PiMax pré TRE', type: 'number', unit: 'cmH₂O' }
+                ], calculate: (vals) => parseFloat(vals.pimax_pos) / parseFloat(vals.pimax_pre),
+                interpret: (val) => {
+                    if (val >= 1) return `IRF = ${val.toFixed(2)} - Bom endurance (≥ 1)`;
+                    return `IRF = ${val.toFixed(2)} - Baixo endurance (< 1). Risco de fadiga muscular.`;
+                } }
             ],
             weaning: [
                 { id: 'iwi', name: 'IWI (Integrative Weaning Index)', icon: 'fa-chart-line', formula: 'IWI = (Cstat × SaO₂) / (FR / Vt)', inputs: [
@@ -1158,38 +1468,62 @@
                     const pmax = parseFloat(vals.pmax_crop);
                     const fr = parseFloat(vals.fr_crop);
                     return (cstat * (pao2 / pao2_alv) * pmax) / (fr * paco2);
-                }, interpret: (val) => val >= 13 ? `CROP = ${val.toFixed(1)} - Bom prognóstico (≥ 13)` : `CROP = ${val.toFixed(1)} - Risco de falha` }
-            ],
-            vni_cnaf: [
-                { id: 'hacor', name: 'HACOR Score (VNI)', icon: 'fa-heartbeat', formula: 'FC + pH + Glasgow + P/F + FR', inputs: [
-                    { id: 'fc', label: 'Frequência Cardíaca', type: 'select', options: [
-                        '≤ 100 (0)', '101-120 (2)', '121-140 (3)', '≥ 141 (5)'
-                    ] },
-                    { id: 'ph', label: 'pH', type: 'select', options: [
-                        '≥ 7.35 (0)', '7.30-7.34 (2)', '7.25-7.29 (4)', '7.20-7.24 (6)', '< 7.20 (10)'
-                    ] },
-                    { id: 'glasgow_hacor', label: 'Escala de Glasgow', type: 'select', options: [
-                        '15 (0)', '13-14 (2)', '11-12 (6)', '≤ 10 (10)'
-                    ] },
-                    { id: 'pf_hacor', label: 'Relação P/F', type: 'select', options: [
-                        '≥ 300 (0)', '251-300 (3)', '201-250 (5)', '151-200 (8)', '≤ 150 (10)'
-                    ] },
-                    { id: 'fr_hacor', label: 'Frequência Respiratória', type: 'select', options: [
-                        '≤ 30 (0)', '31-35 (1)', '36-40 (2)', '41-45 (3)', '≥ 46 (4)'
-                    ] }
+                }, interpret: (val) => val >= 13 ? `CROP = ${val.toFixed(1)} - Bom prognóstico (≥ 13)` : `CROP = ${val.toFixed(1)} - Risco de falha` },
+                
+                { id: 'visage', name: 'VISAGE Score (Neurocríticos)', icon: 'fa-brain', formula: 'VISAGE = Acompanhamento Visual + Tentativa Deglutição + Idade + Glasgow', inputs: [
+                    { id: 'acompanhamento', label: 'Acompanhamento Visual', type: 'select', options: ['Sim (1)', 'Não (0)'] },
+                    { id: 'degluticao', label: 'Tentativa de Deglutição', type: 'select', options: ['Sim (1)', 'Não (0)'] },
+                    { id: 'idade_visage', label: 'Idade', type: 'select', options: ['< 40 anos (1)', '≥ 40 anos (0)'] },
+                    { id: 'glasgow_visage', label: 'Escala de Glasgow', type: 'select', options: ['≥ 10 (1)', '< 10 (0)'] }
                 ], calculate: (vals) => {
                     let score = 0;
-                    score += parseInt(vals.fc.split('(')[1].replace(')', ''));
-                    score += parseInt(vals.ph.split('(')[1].replace(')', ''));
-                    score += parseInt(vals.glasgow_hacor.split('(')[1].replace(')', ''));
-                    score += parseInt(vals.pf_hacor.split('(')[1].replace(')', ''));
-                    score += parseInt(vals.fr_hacor.split('(')[1].replace(')', ''));
+                    if (vals.acompanhamento === 'Sim (1)') score += 1;
+                    if (vals.degluticao === 'Sim (1)') score += 1;
+                    if (vals.idade_visage === '< 40 anos (1)') score += 1;
+                    if (vals.glasgow_visage === '≥ 10 (1)') score += 1;
                     return score;
                 }, interpret: (val) => {
-                    if (val <= 5) return `HACOR = ${val} pontos - Baixo risco de falha da VNI (≤ 5)`;
-                    if (val <= 7) return `HACOR = ${val} pontos - Risco intermediário (6-7). Monitorar de perto.`;
-                    if (val <= 9) return `HACOR = ${val} pontos - Risco elevado (8-9). Considerar intubação.`;
-                    return `HACOR = ${val} pontos - Alto risco de falha (≥ 10). Forte indicação de intubação.`;
+                    if (val >= 3) return `VISAGE = ${val} pontos - Preditor de SUCESSO no desmame e extubação (≥ 3)`;
+                    return `VISAGE = ${val} pontos - Maior chance de INSUCESSO no desmame e extubação (< 3)`;
+                } }
+            ],
+            vni_cnaf: [
+                { id: 'hacor', name: 'HACOR Score (VNI)', icon: 'fa-heartbeat', formula: 'Selecione o tipo de IRpA e preencha os campos', inputs: [
+                    { id: 'tipo_irpa', label: 'Tipo de IRpA', type: 'select', options: ['IRpA Hipoxêmica', 'IRpA Hipercapnica'] }
+                ],
+                dynamicInputs: true,
+                calculate: (vals) => {
+                    let score = 0;
+                    if (vals.tipo_irpa === 'IRpA Hipoxêmica') {
+                        score += parseInt(document.getElementById('input_fc_hacor').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_ph_hacor').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_glasgow_hacor').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_pf_hacor').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_fr_hacor').value.split('(')[1].replace(')', ''));
+                    } else {
+                        score += parseInt(document.getElementById('input_fc_hacor_hc').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_ph_hacor_hc').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_glasgow_hacor_hc').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_pf_hacor_hc').value.split('(')[1].replace(')', ''));
+                        score += parseInt(document.getElementById('input_fr_hacor_hc').value.split('(')[1].replace(')', ''));
+                    }
+                    return score;
+                },
+                interpret: (val, vals) => {
+                    const tipo = vals.tipo_irpa;
+                    let result = `HACOR (${tipo}) = ${val} pontos - `;
+                    if (val > 5) {
+                        result += `Forte indicação de Intubação Orotraqueal (> 5)`;
+                    } else {
+                        result += `Baixo risco de falha da VNI (≤ 5)`;
+                    }
+                    return result;
+                },
+                getFullResult: false,
+                infoNote: '⚠️ Considerar o uso após a realização de VNI por pelo menos 1 a 2 horas.',
+                buildDynamicInputs: (container, currentFormulaObj, tipoSelecionado) => {
+                    const html = gerarInputsHACOR(tipoSelecionado);
+                    container.innerHTML = html;
                 } },
                 
                 { id: 'rox', name: 'ROX Index (CNAF)', icon: 'fa-wind', formula: 'ROX = (SpO₂ / (FiO₂/100)) / Frequência Respiratória', inputs: [
@@ -1206,11 +1540,187 @@
                     if (val >= 3.85) return `ROX Index = ${val.toFixed(2)} - Risco intermediário (3,85-4,88). Monitorar de perto. Reavaliar em 2-4h.`;
                     return `ROX Index = ${val.toFixed(2)} - Alto risco de falha (< 3,85). Considerar intubação ou escalonar suporte.`;
                 } }
+            ],
+            variaveis_fisiologicas: [
+                { id: 'gradiente_alveolo_arterial', name: 'Gradiente Alvéolo-Arterial (A-a)', icon: 'fa-chart-line', formula: 'PAO₂ - PaO₂', inputs: [
+                    { id: 'fio2_ga', label: 'FiO₂', type: 'number', unit: '%' },
+                    { id: 'pb_ga', label: 'Pressão Barométrica', type: 'number', unit: 'mmHg' },
+                    { id: 'paco2_ga', label: 'PaCO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'qr_ga', label: 'Quociente Respiratório (QR)', type: 'select', options: [
+                        '1.0 (Dieta calórica / hipernutrição)',
+                        '0.8 (Dieta proteica / padrão hospitalar)',
+                        '0.7 (Dieta lipídica)'
+                    ] },
+                    { id: 'pao2_ga', label: 'PaO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'idade_ga', label: 'Idade (anos)', type: 'number', unit: 'anos' }
+                ], calculate: (vals) => {
+                    const fio2 = parseFloat(vals.fio2_ga) / 100;
+                    const pb = parseFloat(vals.pb_ga);
+                    const paco2 = parseFloat(vals.paco2_ga);
+                    let qr = 0.8;
+                    if (vals.qr_ga.includes('1.0')) qr = 1.0;
+                    else if (vals.qr_ga.includes('0.8')) qr = 0.8;
+                    else if (vals.qr_ga.includes('0.7')) qr = 0.7;
+                    const pao2 = parseFloat(vals.pao2_ga);
+                    const pao2_alv = (pb - 47) * fio2 - (paco2 / qr);
+                    return pao2_alv - pao2;
+                }, interpret: (val, vals) => {
+                    const idade = parseFloat(vals.idade_ga);
+                    const referencia = (idade / 4) + 4;
+                    const valorAbs = Math.abs(val);
+                    if (valorAbs <= referencia) {
+                        return `Gradiente A-a = ${val.toFixed(1)} mmHg. DENTRO ou ABAIXO da normalidade para a idade (referência: ${referencia.toFixed(1)} mmHg). Indica que a causa da IRpA é HIPOVENTILAÇÃO ALVEOLAR.`;
+                    } else {
+                        return `Gradiente A-a = ${val.toFixed(1)} mmHg. ACIMA da normalidade para a idade (referência: ${referencia.toFixed(1)} mmHg). Indica DISTÚRBIOS DE TROCA GASOSA (difusão, shunt ou relação V/Q).`;
+                    }
+                },
+                helpLink: { text: '🌍 Pesquisar pressão barométrica da minha localização', url: 'https://www.google.com/search?q=press%C3%A3o+atmosferica+da+minha+altitude+em+mmHg' } },
+                
+                { id: 'espaco_morto', name: 'Espaço Morto (Bohr-Enghoff)', icon: 'fa-chart-simple', formula: 'VD/VT = (PaCO₂ - PeCO₂) / PaCO₂', inputs: [
+                    { id: 'paco2_em', label: 'PaCO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'peco2', label: 'PeCO₂ (capnografia volumétrica)', type: 'number', unit: 'mmHg' }
+                ], calculate: (vals) => {
+                    const paco2 = parseFloat(vals.paco2_em);
+                    const peco2 = parseFloat(vals.peco2);
+                    return (paco2 - peco2) / paco2;
+                }, interpret: (val) => {
+                    const percentual = (val * 100).toFixed(1);
+                    if (val <= 0.35) {
+                        return `VD/VT = ${val.toFixed(2)} (${percentual}%) - Valores normais (0,2-0,35 / 20-35%)`;
+                    } else if (val <= 0.55) {
+                        return `VD/VT = ${val.toFixed(2)} (${percentual}%) - Valores intermediários. Monitorar.`;
+                    } else {
+                        return `VD/VT = ${val.toFixed(2)} (${percentual}%) - VALOR ELEVADO (> 0,55). Indica grave disfunção na troca gasosa e maior risco de falha na extubação.`;
+                    }
+                } },
+                
+                { id: 'razao_ventilatoria', name: 'Razão Ventilatória (RV)', icon: 'fa-calculator', formula: 'RV = (VM × PaCO₂) / (Peso Predito × 100 × 37,5)', inputs: [
+                    { id: 'vm', label: 'Volume Minuto', type: 'number', unit: 'L/min' },
+                    { id: 'paco2_rv', label: 'PaCO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'ibw_rv', label: 'Peso Predito (IBW)', type: 'number', unit: 'kg' }
+                ], calculate: (vals) => {
+                    let vm = parseFloat(vals.vm);
+                    const paco2 = parseFloat(vals.paco2_rv);
+                    const ibw = parseFloat(vals.ibw_rv);
+                    
+                    if (isNaN(vm) || isNaN(paco2) || isNaN(ibw) || vm <= 0 || paco2 <= 0 || ibw <= 0) {
+                        return null;
+                    }
+                    
+                    // Converter Volume Minuto de L/min para mL/min (multiplicar por 1000)
+                    vm = vm * 1000;
+                    
+                    const resultado = (vm * paco2) / (ibw * 100 * 37.5);
+                    return resultado;
+                }, interpret: (val) => {
+                    if (val === null) {
+                        return 'Aguardando dados válidos. Verifique se todos os campos foram preenchidos corretamente.';
+                    }
+                    if (val <= 1.0) {
+                        return `Razão Ventilatória = ${val.toFixed(2)} - Eficiência ventilatória NORMAL (≤ 1,0)`;
+                    } else if (val < 2.0) {
+                        return `Razão Ventilatória = ${val.toFixed(2)} - Indica aumento do espaço morto ou produção excessiva de CO₂ (> 1,0)`;
+                    } else {
+                        return `Razão Ventilatória = ${val.toFixed(2)} - Déficit SEVERO de ventilação. Associado a maior VD/VT e pior prognóstico (maior mortalidade na SDRA) (≥ 2,0)`;
+                    }
+                } },
+                
+                { id: 'anion_gap', name: 'Ânion Gap', icon: 'fa-chart-bar', formula: 'AG = (Na⁺ + K⁺) - (Cl⁻ + HCO₃⁻)', inputs: [
+                    { id: 'sodio', label: 'Sódio (Na⁺)', type: 'number', unit: 'mEq/L' },
+                    { id: 'potassio', label: 'Potássio (K⁺)', type: 'number', unit: 'mEq/L' },
+                    { id: 'cloro', label: 'Cloro (Cl⁻)', type: 'number', unit: 'mEq/L' },
+                    { id: 'bicarbonato', label: 'Bicarbonato (HCO₃⁻)', type: 'number', unit: 'mEq/L' }
+                ], calculate: (vals) => {
+                    const sodio = parseFloat(vals.sodio);
+                    const potassio = parseFloat(vals.potassio);
+                    const cloro = parseFloat(vals.cloro);
+                    const bicarbonato = parseFloat(vals.bicarbonato);
+                    return sodio + potassio - (cloro + bicarbonato);
+                }, interpret: (val) => {
+                    if (val >= 12 && val <= 20) {
+                        return `Ânion Gap = ${val.toFixed(1)} mEq/L - Valor normal (12-20 mEq/L)`;
+                    } else if (val < 12) {
+                        return `Ânion Gap = ${val.toFixed(1)} mEq/L - BAIXO. Causas: hipoalbuminemia, gamopatias, hipercalcemia, intoxicação por lítio.`;
+                    } else {
+                        return `Ânion Gap = ${val.toFixed(1)} mEq/L - ELEVADO. Causas: acidose metabólica (cetoacidose, uremia, intoxicações), desidratação, alcalose metabólica.`;
+                    }
+                } },
+                
+                { id: 'checagem_ph', name: 'Checagem de pH (Henderson-Hasselbalch)', icon: 'fa-flask', formula: 'pH = 6,1 + log(HCO₃⁻ / (PaCO₂ × 0,0301))', inputs: [
+                    { id: 'hco3', label: 'Bicarbonato (HCO₃⁻)', type: 'number', unit: 'mEq/L' },
+                    { id: 'paco2_ph', label: 'PaCO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'ph_gasometro', label: 'pH do gasômetro (opcional, para verificação)', type: 'number', unit: '' }
+                ], calculate: (vals) => {
+                    const hco3 = parseFloat(vals.hco3);
+                    const paco2 = parseFloat(vals.paco2_ph);
+                    const ratio = hco3 / (paco2 * 0.0301);
+                    return 6.1 + Math.log10(ratio);
+                }, interpret: (val, vals) => {
+                    let mensagem = `pH calculado = ${val.toFixed(2)} (fórmula de Henderson-Hasselbalch)`;
+                    if (vals.ph_gasometro && !isNaN(parseFloat(vals.ph_gasometro))) {
+                        const gasometriaPH = parseFloat(vals.ph_gasometro);
+                        const diferenca = Math.abs(val - gasometriaPH);
+                        if (diferenca > 0.05) {
+                            mensagem += `\n⚠️ DISCREPÂNCIA com o pH do gasômetro (${gasometriaPH.toFixed(2)}). Diferença de ${diferenca.toFixed(3)}. Considerar a possibilidade de DISTÚRBIO DE ÂNION GAP ou erro de coleta.`;
+                        } else {
+                            mensagem += `\n✅ pH consistente com o gasômetro (${gasometriaPH.toFixed(2)}). Diferença de ${diferenca.toFixed(3)}.`;
+                        }
+                    } else {
+                        mensagem += `\n💡 Para verificar a consistência do gasômetro, informe o pH do exame no campo opcional.`;
+                    }
+                    return mensagem;
+                } },
+                
+                { id: 'gap_co2', name: 'Gap CO₂ (Venoso-Arterial)', icon: 'fa-exchange-alt', formula: 'Gap CO₂ = PvcCO₂ - PaCO₂', inputs: [
+                    { id: 'pvcco2', label: 'PvcCO₂ (Pressão venosa central de CO₂)', type: 'number', unit: 'mmHg' },
+                    { id: 'paco2_gap', label: 'PaCO₂', type: 'number', unit: 'mmHg' },
+                    { id: 'svco2', label: 'SvcO₂ (Saturação venosa central de O₂) - opcional', type: 'number', unit: '%' }
+                ], calculate: (vals) => {
+                    const pvcco2 = parseFloat(vals.pvcco2);
+                    const paco2 = parseFloat(vals.paco2_gap);
+                    if (isNaN(pvcco2) || isNaN(paco2)) return null;
+                    return pvcco2 - paco2;
+                }, interpret: (val, vals) => {
+                    if (val === null) return 'Aguardando dados válidos. Verifique se todos os campos foram preenchidos corretamente.';
+                    
+                    let interpretacao = `Gap CO₂ = ${val.toFixed(1)} mmHg. `;
+                    
+                    if (val >= 2 && val <= 6) {
+                        interpretacao += `Valor normal (2-6 mmHg).`;
+                    } else if (val > 6) {
+                        interpretacao += `Elevado (> 6 mmHg). `;
+                        if (vals.svco2 && !isNaN(parseFloat(vals.svco2))) {
+                            const svco2 = parseFloat(vals.svco2);
+                            if (svco2 < 70) {
+                                interpretacao += `Com SvcO₂ = ${svco2}% (< 70%): Sugere HIPOPERFUSÃO TECIDUAL por débito cardíaco inadequado. Pacientes podem responder bem à expansão volêmica ou inotrópicos.`;
+                            } else {
+                                interpretacao += `Com SvcO₂ = ${svco2}% (≥ 70%): Avaliar outras causas para o aumento do gap.`;
+                            }
+                        } else {
+                            interpretacao += `Considerar associar com SvcO₂ para melhor interpretação.`;
+                        }
+                    } else if (val < 2) {
+                        interpretacao += `Reduzido (< 2 mmHg). `;
+                        if (vals.svco2 && !isNaN(parseFloat(vals.svco2))) {
+                            const svco2 = parseFloat(vals.svco2);
+                            if (svco2 > 70) {
+                                interpretacao += `Com SvcO₂ = ${svco2}% (> 70%): Geralmente descarta falha macrocirculatória de oxigênio. O aumento de lactato (se presente) pode ter outras causas não relacionadas à oferta de O₂.`;
+                            } else {
+                                interpretacao += `Com SvcO₂ = ${svco2}% (< 70%): Avaliar outras causas.`;
+                            }
+                        } else {
+                            interpretacao += `Considerar associar com SvcO₂ para melhor interpretação.`;
+                        }
+                    }
+                    
+                    return interpretacao;
+                },
+                infoNote: '⚠️ Gasometria Arterial e Venosa Central devem ser coletadas no mesmo momento.' }
             ]
         };
 
         // Variáveis globais
-        let currentCategory = 'protective';
+        let currentCategory = 'altura_volume';
         let currentFormulaObj = null;
         let patients = JSON.parse(localStorage.getItem('ventila_patients') || '[]');
         let selectedPatient = localStorage.getItem('selected_patient');
@@ -1220,23 +1730,31 @@
 
         // Mapeamento
         const formulaNames = {
+            meia_envergadura: 'Meia Envergadura ×2', altura_joelho: 'Altura do Joelho', tamanho_ulna: 'Tamanho da Ulna',
             ibw: 'Peso Predito', vc: 'Volume Corrente', driving_pressure: 'Driving Pressure',
             mechanical_power: 'Mechanical Power', dp4rr: '4DPRR', ri_ratio: 'R/I Ratio',
             pf_ratio: 'Relação P/F', sf_ratio: 'Relação S/F', io: 'Índice de Oxigenação',
             pao2_calc: 'PAO₂ Alveolar', compliance: 'Complacência Estática', compliance_dinamica: 'Complacência Dinâmica',
             elastance: 'Elastância', resistance: 'Resistência', time_const: 'Constante de Tempo', 
-            pmus: 'PMUS', dp_transpulmonar: 'DP Transpulmonar', iwi: 'IWI', tobin: 'Índice de Tobin',
-            express: 'ExPreS Score', crop_weaning: 'CROP', hacor: 'HACOR Score', rox: 'ROX Index'
+            pmus: 'PMUS', dp_transpulmonar: 'DP Transpulmonar', pmi: 'PMI', delta_pocc: 'ΔPocc', indice_fadiga: 'Índice de Fadiga',
+            iwi: 'IWI', tobin: 'Índice de Tobin', express: 'ExPreS Score', crop_weaning: 'CROP', visage: 'VISAGE Score',
+            hacor: 'HACOR Score', rox: 'ROX Index',
+            gradiente_alveolo_arterial: 'Gradiente A-a', espaco_morto: 'Espaço Morto', razao_ventilatoria: 'Razão Ventilatória',
+            anion_gap: 'Ânion Gap', checagem_ph: 'Checagem de pH', gap_co2: 'Gap CO₂'
         };
 
         const categoryMap = {
+            meia_envergadura: 'altura_volume', altura_joelho: 'altura_volume', tamanho_ulna: 'altura_volume',
             ibw: 'protective', vc: 'protective', driving_pressure: 'protective',
             mechanical_power: 'protective', dp4rr: 'protective', ri_ratio: 'protective',
             pf_ratio: 'oxygenation', sf_ratio: 'oxygenation', io: 'oxygenation', pao2_calc: 'oxygenation',
             compliance: 'mechanics', compliance_dinamica: 'mechanics', elastance: 'mechanics', resistance: 'mechanics', time_const: 'mechanics',
-            pmus: 'effort', dp_transpulmonar: 'effort',
-            iwi: 'weaning', tobin: 'weaning', express: 'weaning', crop_weaning: 'weaning',
-            hacor: 'vni_cnaf', rox: 'vni_cnaf'
+            pmus: 'effort', dp_transpulmonar: 'effort', pmi: 'effort', delta_pocc: 'effort', indice_fadiga: 'effort',
+            iwi: 'weaning', tobin: 'weaning', express: 'weaning', crop_weaning: 'weaning', visage: 'weaning',
+            hacor: 'vni_cnaf', rox: 'vni_cnaf',
+            gradiente_alveolo_arterial: 'variaveis_fisiologicas', espaco_morto: 'variaveis_fisiologicas',
+            razao_ventilatoria: 'variaveis_fisiologicas', anion_gap: 'variaveis_fisiologicas', checagem_ph: 'variaveis_fisiologicas',
+            gap_co2: 'variaveis_fisiologicas'
         };
 
         function saveToHistory(formulaId, result, unit) {
@@ -1365,8 +1883,86 @@
             const history = historyData[patientName] || {};
             const modal = document.getElementById('historyModal');
             const modalBody = document.getElementById('modalBody');
+            
+            // Buscar o último VC 6 mL/kg registrado para este paciente
+            let ultimoVC6 = null;
+            
+            // Verificar nos cálculos de altura_volume (salvos como "Alt:xxxcm PBW:xxxkg")
+            const formulasAltura = ['meia_envergadura', 'altura_joelho', 'tamanho_ulna'];
+            for (const formulaId of formulasAltura) {
+                const calcHistory = history[formulaId];
+                if (calcHistory && calcHistory.length > 0) {
+                    const ultimo = calcHistory[calcHistory.length - 1];
+                    if (ultimo.result && ultimo.result.includes('PBW:')) {
+                        const pbwMatch = ultimo.result.match(/PBW:\s*([\d\.]+)/);
+                        if (pbwMatch) {
+                            const pbw = parseFloat(pbwMatch[1]);
+                            if (!isNaN(pbw)) {
+                                ultimoVC6 = Math.round(pbw * 6);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Se não encontrou nos cálculos de altura, verificar no PBW manual (IBW)
+            if (!ultimoVC6) {
+                const ibwHistory = history['ibw'];
+                if (ibwHistory && ibwHistory.length > 0) {
+                    const ultimoIbw = ibwHistory[ibwHistory.length - 1];
+                    if (ultimoIbw.result) {
+                        const pbwMatch = ultimoIbw.result.match(/[\d\.]+/);
+                        if (pbwMatch) {
+                            const pbw = parseFloat(pbwMatch[0]);
+                            if (!isNaN(pbw)) {
+                                ultimoVC6 = Math.round(pbw * 6);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Se ainda não encontrou, verificar no VC com alvo 6
+            if (!ultimoVC6) {
+                const vcHistory = history['vc'];
+                if (vcHistory && vcHistory.length > 0) {
+                    for (const item of vcHistory) {
+                        if (item.result && item.result.includes('6 mL/kg')) {
+                            const vcMatch = item.result.match(/(\d+)\s*mL/);
+                            if (vcMatch) {
+                                ultimoVC6 = parseInt(vcMatch[1]);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Construir o card de destaque do VC 6
+            let vc6Card = '';
+            if (ultimoVC6) {
+                vc6Card = `
+                    <div class="history-vc6-card" style="background: linear-gradient(135deg, var(--secondary), var(--secondary-dark)); border-radius: 15px; padding: 15px; margin-bottom: 20px; text-align: center; color: white;">
+                        <div style="font-size: 12px; opacity: 0.9;">📊 VOLUME CORRENTE ALVO (6 mL/kg)</div>
+                        <div style="font-size: 32px; font-weight: 700;">${ultimoVC6} mL</div>
+                        <div style="font-size: 11px; margin-top: 5px;">⭐ Ponto de partida para ventilação protetora</div>
+                    </div>
+                `;
+            } else {
+                vc6Card = `
+                    <div class="history-vc6-card" style="background: var(--border); border-radius: 15px; padding: 15px; margin-bottom: 20px; text-align: center; color: var(--text-light);">
+                        <div style="font-size: 12px;">📊 VOLUME CORRENTE ALVO (6 mL/kg)</div>
+                        <div style="font-size: 20px; margin-top: 5px;">Ainda não calculado</div>
+                        <div style="font-size: 11px;">Calcule a altura ou o peso predito do paciente</div>
+                    </div>
+                `;
+            }
+            
             document.getElementById('modalTitle').innerHTML = `<i class="fas fa-history"></i> Histórico - ${patientName}`;
-            let html = '<div class="history-list">';
+            
+            let html = vc6Card;
+            html += '<div class="history-list">';
             for (const [catKey, cat] of Object.entries(categoriesConfig)) {
                 const calcs = Object.keys(formulaNames).filter(fid => categoryMap[fid] === catKey);
                 const hasData = calcs.some(cid => history[cid] && history[cid].length > 0);
@@ -1402,11 +1998,11 @@
             const chartData = [];
             const chartLabels = [];
             calcHistory.forEach((item, idx) => {
-                tableHtml += `<tr><td>${item.date}</td><td><strong>${item.result}</strong> ${item.unit || ''}</td></tr>`;
+                tableHtml += `<tr><td>${item.date}侧膀<td><strong>${item.result}</strong> ${item.unit || ''}侧膀</tr>`;
                 chartLabels.push(idx + 1);
                 chartData.push(parseFloat(item.result));
             });
-            tableHtml += `</tbody></tr>`;
+            tableHtml += `</tbody></table>`;
             let chartHtml = `<div class="chart-container"><h4>📈 Tendência - ${formulaNames[formulaId]}</h4>
                             <canvas id="trendChart"></canvas><p style="font-size:12px; margin-top:8px; text-align:center;">Evolução sequencial das avaliações</p></div>`;
             document.getElementById('detailModalBody').innerHTML = tableHtml + chartHtml;
@@ -1467,20 +2063,65 @@
             document.getElementById('calcFormula').textContent = currentFormulaObj.formula;
             const inputsContainer = document.getElementById('inputsContainer');
             inputsContainer.innerHTML = '';
-            currentFormulaObj.inputs.forEach(input => {
+            
+            if (currentFormulaObj.infoNote) {
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'info-note';
+                infoDiv.innerHTML = currentFormulaObj.infoNote;
+                inputsContainer.appendChild(infoDiv);
+            }
+            
+            if (currentFormulaObj.dynamicInputs) {
+                // Para o HACOR, adicionamos primeiro o select de tipo e depois os inputs dinâmicos
+                const tipoSelect = currentFormulaObj.inputs[0];
                 const div = document.createElement('div');
                 div.className = 'input-group';
-                let html = `<label>${input.label} (${input.unit || ''})</label>`;
-                if (input.type === 'select') {
-                    html += `<select id="input_${input.id}">`;
-                    input.options.forEach(opt => { html += `<option value="${opt}">${opt}</option>`; });
-                    html += `</select>`;
-                } else {
-                    html += `<input type="number" id="input_${input.id}" placeholder="${input.unit || ''}">`;
-                }
+                let html = `<label>${tipoSelect.label}</label>`;
+                html += `<select id="input_${tipoSelect.id}" class="hacor-type-select">`;
+                tipoSelect.options.forEach(opt => {
+                    html += `<option value="${opt}">${opt}</option>`;
+                });
+                html += `</select>`;
                 div.innerHTML = html;
                 inputsContainer.appendChild(div);
-            });
+                
+                // Container para os inputs dinâmicos
+                const dynamicContainer = document.createElement('div');
+                dynamicContainer.id = 'hacor-dynamic-container';
+                dynamicContainer.className = 'inputs-grid';
+                inputsContainer.appendChild(dynamicContainer);
+                
+                // Inicializar com o tipo padrão
+                const tipoInicial = tipoSelect.options[0];
+                if (currentFormulaObj.buildDynamicInputs) {
+                    currentFormulaObj.buildDynamicInputs(dynamicContainer, currentFormulaObj, tipoInicial);
+                }
+                
+                // Adicionar event listener para mudança de tipo
+                const typeSelect = document.getElementById(`input_${tipoSelect.id}`);
+                typeSelect.addEventListener('change', (e) => {
+                    if (currentFormulaObj.buildDynamicInputs) {
+                        currentFormulaObj.buildDynamicInputs(dynamicContainer, currentFormulaObj, e.target.value);
+                    }
+                });
+            } else {
+                currentFormulaObj.inputs.forEach(input => {
+                    const div = document.createElement('div');
+                    div.className = 'input-group';
+                    let html = `<label>${input.label} (${input.unit || ''})</label>`;
+                    if (input.type === 'select') {
+                        html += `<select id="input_${input.id}">`;
+                        input.options.forEach(opt => {
+                            html += `<option value="${opt}">${opt}</option>`;
+                        });
+                        html += `</select>`;
+                    } else {
+                        html += `<input type="number" id="input_${input.id}" placeholder="${input.unit || ''}" step="any">`;
+                    }
+                    div.innerHTML = html;
+                    inputsContainer.appendChild(div);
+                });
+            }
             
             if (currentFormulaObj.helpLink) {
                 const helpDiv = document.createElement('div');
@@ -1501,12 +2142,62 @@
         function performCalculation() {
             if (!currentFormulaObj) return;
             const inputs = {};
+            
+            // Coletar inputs normais
+            for (const input of currentFormulaObj.inputs) {
+                const el = document.getElementById(`input_${input.id}`);
+                if (el) inputs[input.id] = el.value;
+            }
+            
+            // Para o HACOR, os inputs dinâmicos são acessados diretamente no cálculo
+            if (currentFormulaObj.dynamicInputs) {
+                try {
+                    const result = currentFormulaObj.calculate(inputs);
+                    const interpretResult = currentFormulaObj.interpret(result, inputs);
+                    const resultValue = typeof result === 'number' ? result.toFixed(2) : result;
+                    document.getElementById('resultValue').innerHTML = resultValue;
+                    document.getElementById('subResult').innerHTML = '';
+                    document.getElementById('highlightContainer').innerHTML = '';
+                    document.getElementById('interpretation').innerHTML = interpretResult;
+                    document.getElementById('disclaimer').innerHTML = currentFormulaObj.infoNote || '';
+                    document.getElementById('resultArea').classList.add('show');
+                    saveToHistory(currentFormulaObj.id, resultValue, '');
+                } catch(e) {
+                    console.error(e);
+                    alert('Erro no cálculo. Verifique os valores.');
+                }
+                return;
+            }
+            
+            // Para fórmulas normais
             for (const input of currentFormulaObj.inputs) {
                 const el = document.getElementById(`input_${input.id}`);
                 if (el) inputs[input.id] = el.value;
             }
             try {
                 const result = currentFormulaObj.calculate(inputs);
+                
+                // Para as fórmulas de altura que retornam objeto completo
+                if (currentFormulaObj.getFullResult) {
+                    const interpretResult = currentFormulaObj.interpret(result, inputs, true);
+                    document.getElementById('resultValue').innerHTML = interpretResult.altura;
+                    const subResultDiv = document.getElementById('subResult');
+                    subResultDiv.innerHTML = `<div class="result-sub">PBW: ${interpretResult.pbw} kg</div>`;
+                    const highlightContainer = document.getElementById('highlightContainer');
+                    if (interpretResult.tabelaVC) {
+                        highlightContainer.innerHTML = interpretResult.tabelaVC;
+                    } else {
+                        highlightContainer.innerHTML = '';
+                    }
+                    document.getElementById('interpretation').innerHTML = interpretResult.text;
+                    let disclaimerText = '';
+                    if (currentFormulaObj.id === 'time_const') disclaimerText = '⚠️ Cálculo teórico...';
+                    document.getElementById('disclaimer').innerHTML = disclaimerText;
+                    document.getElementById('resultArea').classList.add('show');
+                    saveToHistory(currentFormulaObj.id, `Alt:${interpretResult.altura}cm PBW:${interpretResult.pbw}kg`, '');
+                    return;
+                }
+                
                 const interpretResult = currentFormulaObj.interpret(result, inputs);
                 const resultValue = typeof result === 'number' ? result.toFixed(2) : result;
                 document.getElementById('resultValue').innerHTML = resultValue;
@@ -1515,6 +2206,7 @@
                 else subResultDiv.innerHTML = '';
                 const highlightContainer = document.getElementById('highlightContainer');
                 if (currentFormulaObj.id === 'vc' && interpretResult.highlight) highlightContainer.innerHTML = interpretResult.highlight;
+                else if (interpretResult.tabelaVC) highlightContainer.innerHTML = interpretResult.tabelaVC;
                 else highlightContainer.innerHTML = '';
                 const interpretText = typeof interpretResult === 'string' ? interpretResult : (interpretResult.text || '');
                 document.getElementById('interpretation').innerHTML = interpretText;
@@ -1524,7 +2216,10 @@
                 document.getElementById('disclaimer').innerHTML = disclaimerText;
                 document.getElementById('resultArea').classList.add('show');
                 saveToHistory(currentFormulaObj.id, resultValue, '');
-            } catch(e) { alert('Erro no cálculo. Verifique os valores.'); }
+            } catch(e) { 
+                console.error(e);
+                alert('Erro no cálculo. Verifique os valores.'); 
+            }
         }
 
         function backToMenu() {
@@ -1543,15 +2238,15 @@
         updatePatientBar();
     </script>
 
-       <!-- Service Worker para PWA -->
+    <!-- Service Worker para PWA -->
     <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('SW registrado!', reg))
-                .catch(err => console.log('Erro SW:', err));
-        });
-    }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW registrado!', reg))
+                    .catch(err => console.log('Erro SW:', err));
+            });
+        }
     </script>
 </body>
 </html>
