@@ -1335,8 +1335,14 @@
             effort: [
                 { id: 'pmus', name: 'PMUS (Pressão Muscular)', icon: 'fa-dumbbell', formula: 'PMUS = -0.75 × ΔPocc', inputs: [
                     { id: 'dpocc', label: 'ΔP Oclusão (ΔPocc)', type: 'number', unit: 'cmH₂O' }
-                ], calculate: (vals) => -0.75 * parseFloat(vals.dpocc),
-                interpret: (val) => {
+                ], calculate: (vals) => {
+                    let dpocc = parseFloat(vals.dpocc);
+                    if (isNaN(dpocc)) return null;
+                    // Garantir que ΔPocc seja tratado como NEGATIVO
+                    if (dpocc > 0) dpocc = -dpocc;
+                    return -0.75 * dpocc;
+                }, interpret: (val) => {
+                    if (val === null) return 'Aguardando dados...';
                     const absVal = Math.abs(val);
                     if (absVal <= 9) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço adequado`;
                     if (absVal <= 12) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço moderado`;
@@ -1347,14 +1353,26 @@
                     { id: 'peak_dp', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
                     { id: 'peep_dp', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' },
                     { id: 'dpocc_dp', label: 'ΔP Oclusão (ΔPocc)', type: 'number', unit: 'cmH₂O' }
-                ], calculate: (vals) => (parseFloat(vals.peak_dp) - parseFloat(vals.peep_dp)) - (2/3) * parseFloat(vals.dpocc_dp),
-                interpret: (val) => val <= 15 ? `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Aceitável` : `DP Transpulmonar = ${val.toFixed(1)} - Risco de P-SILI` },
+                ], calculate: (vals) => {
+                    let dpocc = parseFloat(vals.dpocc_dp);
+                    const peak = parseFloat(vals.peak_dp);
+                    const peep = parseFloat(vals.peep_dp);
+                    if (isNaN(dpocc) || isNaN(peak) || isNaN(peep)) return null;
+                    // Garantir que ΔPocc seja tratado como NEGATIVO
+                    if (dpocc > 0) dpocc = -dpocc;
+                    return (peak - peep) - (2/3) * dpocc;
+                }, interpret: (val) => {
+                    if (val === null) return 'Aguardando dados...';
+                    if (val <= 15) return `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Aceitável`;
+                    return `DP Transpulmonar = ${val.toFixed(1)} - Risco de P-SILI`;
+                } },
                 
                 { id: 'pmi', name: 'PMI (Índice de Pressão Muscular)', icon: 'fa-chart-simple', formula: 'PMI = Pressão de Platô - Pressão de Pico', inputs: [
                     { id: 'plateau_pmi', label: 'Pressão de Platô', type: 'number', unit: 'cmH₂O' },
                     { id: 'pico_pmi', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' }
                 ], calculate: (vals) => parseFloat(vals.plateau_pmi) - parseFloat(vals.pico_pmi),
                 interpret: (val) => {
+                    if (val === null) return 'Aguardando dados...';
                     if (val >= 3 && val <= 6) return `PMI = ${val.toFixed(1)} cmH₂O - Valor ideal (3-6 cmH₂O)`;
                     if (val < 3) return `PMI = ${val.toFixed(1)} cmH₂O - SUPERASSISTÊNCIA (< 3). Risco de atrofia e fraqueza muscular diafragmática.`;
                     return `PMI = ${val.toFixed(1)} cmH₂O - SUBASSISTÊNCIA (> 6). Esforço excessivo, risco de fadiga muscular.`;
@@ -1383,6 +1401,7 @@
                     { id: 'pimax_pre', label: 'PiMax pré TRE', type: 'number', unit: 'cmH₂O' }
                 ], calculate: (vals) => parseFloat(vals.pimax_pos) / parseFloat(vals.pimax_pre),
                 interpret: (val) => {
+                    if (val === null) return 'Aguardando dados...';
                     if (val >= 1) return `IRF = ${val.toFixed(2)} - Bom endurance (≥ 1)`;
                     return `IRF = ${val.toFixed(2)} - Baixo endurance (< 1). Risco de fadiga muscular.`;
                 } }
