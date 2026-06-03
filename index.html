@@ -1253,8 +1253,16 @@
                     { id: 'fio2_io', label: 'FiO₂', type: 'number', unit: '%' },
                     { id: 'pmean', label: 'Pressão Média', type: 'number', unit: 'cmH₂O' },
                     { id: 'pao2_io', label: 'PaO₂', type: 'number', unit: 'mmHg' }
-                ], calculate: (vals) => (parseFloat(vals.fio2_io) * parseFloat(vals.pmean) * 100) / parseFloat(vals.pao2_io),
-                interpret: (val) => val < 5 ? `IO = ${val.toFixed(1)} - Distúrbio leve` : (val < 15 ? `IO = ${val.toFixed(1)} - Distúrbio moderado` : `IO = ${val.toFixed(1)} - Distúrbio grave`) },
+                ], calculate: (vals) => {
+                    const fio2 = parseFloat(vals.fio2_io) / 100;
+                    const pmean = parseFloat(vals.pmean);
+                    const pao2 = parseFloat(vals.pao2_io);
+                    return (fio2 * pmean * 100) / pao2;
+                }, interpret: (val) => {
+                    if (val < 5) return `IO = ${val.toFixed(2)} - Distúrbio leve`;
+                    if (val < 15) return `IO = ${val.toFixed(2)} - Distúrbio moderado`;
+                    return `IO = ${val.toFixed(2)} - Distúrbio grave`;
+                } },
                 
                 { id: 'pao2_calc', name: 'PAO₂ Alveolar', icon: 'fa-calculator', formula: 'PAO₂ = (PB - 47) × FiO₂ - (PaCO₂/QR)', inputs: [
                     { id: 'pb', label: 'Pressão Barométrica', type: 'number', unit: 'mmHg' },
@@ -1994,7 +2002,7 @@
             const calcHistory = history[formulaId] || [];
             const modal = document.getElementById('detailModal');
             document.getElementById('detailModalTitle').innerHTML = `<i class="fas fa-chart-line"></i> ${formulaNames[formulaId]} - ${patientName}`;
-            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></tr></thead><tbody>`;
+            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></td></thead><tbody>`;
             const chartData = [];
             const chartLabels = [];
             calcHistory.forEach((item, idx) => {
