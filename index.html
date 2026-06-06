@@ -574,6 +574,82 @@
             font-size: 13px;
         }
         
+        /* ========== TOOLTIP FLUTUANTE PARA PDROP ========== */
+        .input-label-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+        
+        .info-tooltip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+        }
+        
+        .info-tooltip i {
+            font-size: 10px;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 280px;
+            background-color: var(--primary-dark);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            font-weight: normal;
+            line-height: 1.4;
+            white-space: normal;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--primary-dark) transparent transparent transparent;
+        }
+        
+        .info-tooltip:hover .tooltip-text,
+        .info-tooltip:focus .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Mobile: tooltip ao toque */
+        @media (max-width: 768px) {
+            .tooltip-text {
+                width: 240px;
+                font-size: 10px;
+            }
+        }
+        
         .help-link {
             background: var(--warning);
             color: #92400e;
@@ -725,7 +801,7 @@
             font-size: 11px;
         }
         
-        /* HOTFIX - Corrige caracteres estranhos no histórico SEM alterar estética */
+        /* HOTFIX - Corrige caracteres estranhos no histórico */
         .history-calc-item .calc-last-result,
         .history-calc-item .calc-last-date,
         .history-detail-table td,
@@ -736,7 +812,6 @@
             text-rendering: optimizeLegibility;
         }
         
-        /* AJUSTE PARA TELA DE HISTÓRICO NO MOBILE */
         @media (max-width: 768px) {
             .history-detail-table {
                 font-size: 12px;
@@ -756,39 +831,42 @@
                 min-width: 50px;
                 font-size: 12px;
             }
+            .app-container { 
+                padding: 12px; 
+            }
+            .result-number { 
+                font-size: 32px; 
+            }
+            .developer-profile { 
+                flex-direction: column; 
+                text-align: center; 
+            }
+            .header-buttons button { 
+                padding: 6px 12px; 
+                font-size: 11px; 
+            }
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        @media (max-width: 768px) {
-            .app-container { padding: 12px; }
-            .result-number { font-size: 32px; }
-            .developer-profile { flex-direction: column; text-align: center; }
-            .header-buttons button { padding: 6px 12px; font-size: 11px; }
-        }
 
-        /* Garantia de rolagem correta no PWA standalone */
         @media all and (display-mode: standalone) {
             .history-detail-table {
                 display: block !important;
                 overflow-x: auto !important;
                 white-space: nowrap !important;
             }
-            
             .modal-content {
                 padding: 15px !important;
                 max-width: 100% !important;
             }
         }
-        
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- CABEÇALHO -->
         <header class="app-header">
             <div class="header-content">
                 <div class="logo-area">
@@ -809,7 +887,6 @@
             </div>
         </header>
 
-        <!-- PAINEL DE PACIENTES -->
         <div id="patientPanel" class="patient-panel">
             <h3 style="margin-bottom: 15px;"><i class="fas fa-user-plus"></i> Cadastrar Paciente</h3>
             <div class="patient-form">
@@ -825,13 +902,11 @@
             </div>
         </div>
 
-        <!-- BARRA DO PACIENTE ATUAL -->
         <div id="patientInfoBar" class="patient-info-bar">
             <div class="patient-badge" id="patientBadge"></div>
             <div class="patient-actions" id="patientActions"></div>
         </div>
 
-        <!-- MENU PRINCIPAL -->
         <div id="mainMenu" class="main-menu">
             <div class="menu-card" onclick="showCategory('altura_volume')">
                 <div class="menu-icon"><i class="fas fa-ruler-combined"></i></div>
@@ -875,7 +950,6 @@
             </div>
         </div>
 
-        <!-- ÁREA DE CATEGORIAS -->
         <div id="categoryArea" style="display: none;">
             <div class="group-nav" id="groupNav"></div>
             <h2 class="category-title" id="categoryTitle"></h2>
@@ -898,7 +972,6 @@
             </div>
         </div>
 
-        <!-- MODAL HISTÓRICO -->
         <div id="historyModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -909,7 +982,6 @@
             </div>
         </div>
 
-        <!-- MODAL DETALHES -->
         <div id="detailModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -920,7 +992,6 @@
             </div>
         </div>
 
-        <!-- DESENVOLVEDOR -->
         <div class="developer-section">
             <div class="developer-profile">
                 <div class="developer-photo">
@@ -953,7 +1024,6 @@
             variaveis_fisiologicas: { name: 'Variáveis Fisiológicas', icon: 'fa-heartbeat' }
         };
 
-        // Função auxiliar para calcular PBW a partir da altura e sexo
         function calcularPBW(alturaCm, sexo) {
             if (sexo === 'Masculino') {
                 return 50 + 0.91 * (alturaCm - 152.4);
@@ -962,7 +1032,6 @@
             }
         }
 
-        // Função auxiliar para gerar tabela de volumes correntes
         function gerarTabelaVC(pbw) {
             const alvos = [4, 5, 6, 7, 8];
             let html = '<div class="vc-table">';
@@ -978,7 +1047,6 @@
             return html;
         }
 
-        // Função para gerar inputs dinâmicos do HACOR baseado no tipo de IRpA
         function gerarInputsHACOR(tipo) {
             if (tipo === 'IRpA Hipoxêmica') {
                 return `
@@ -1032,7 +1100,6 @@
                     </div>
                 `;
             } else {
-                // IRpA Hipercapnica
                 return `
                     <div class="input-group">
                         <label>Frequência Cardíaca</label>
@@ -1083,6 +1150,15 @@
                 `;
             }
         }
+
+        // Campo PDrop padrão com tooltip (texto corrigido)
+        const pdropField = { 
+            id: 'pdrop', 
+            label: 'PDrop', 
+            type: 'number', 
+            unit: 'cmH₂O',
+            tooltip: 'PDrop = Pressão mais negativa alcançada durante um esforço inspiratório na pausa expiratória. Ex: 15 cmH₂O'
+        };
 
         const formulasDB = {
             altura_volume: [
@@ -1344,38 +1420,40 @@
                 } }
             ],
             effort: [
-                { id: 'pmus', name: 'PMUS (Pressão Muscular)', icon: 'fa-dumbbell', formula: 'PMUS = -0.75 × ΔPocc', inputs: [
-                    { id: 'dpocc', label: 'ΔP Oclusão (ΔPocc)', type: 'number', unit: 'cmH₂O' }
+                { id: 'pmus', name: 'PMUS (Pressão Muscular)', icon: 'fa-dumbbell', formula: 'PMUS = -0.75 × (PDrop_corrigido - PEEP)', inputs: [
+                    { ...pdropField, id: 'pdrop_pmus' },
+                    { id: 'peep_pmus', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' }
                 ], calculate: (vals) => {
-                    let dpocc = parseFloat(vals.dpocc);
-                    if (isNaN(dpocc)) return null;
-                    // Garantir que ΔPocc seja tratado como NEGATIVO
-                    if (dpocc > 0) dpocc = -dpocc;
-                    return -0.75 * dpocc;
+                    let pdrop = parseFloat(vals.pdrop_pmus);
+                    const peep = parseFloat(vals.peep_pmus);
+                    if (isNaN(pdrop) || isNaN(peep)) return null;
+                    if (pdrop > 0) pdrop = -pdrop;
+                    return -0.75 * (pdrop - peep);
                 }, interpret: (val) => {
                     if (val === null) return 'Aguardando dados...';
-                    const absVal = Math.abs(val);
-                    if (absVal <= 9) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço adequado`;
-                    if (absVal <= 12) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço moderado`;
-                    return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço acentuado`;
+                    if (val <= 9) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço adequado (≤ 9)`;
+                    if (val <= 12) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço moderado (10-12)`;
+                    if (val <= 15) return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço elevado (13-15)`;
+                    return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço excessivo (> 15), risco de fadiga e P-SILI`;
                 } },
                 
-                { id: 'dp_transpulmonar', name: 'DP Transpulmonar', icon: 'fa-exchange-alt', formula: 'DPtp = (Pico - PEEP) - 2/3 × ΔPocc', inputs: [
+                { id: 'dp_transpulmonar', name: 'DP Transpulmonar', icon: 'fa-exchange-alt', formula: 'DPtp = (Pico - PEEP) - (2/3) × (PDrop_corrigido - PEEP)', inputs: [
                     { id: 'peak_dp', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
                     { id: 'peep_dp', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' },
-                    { id: 'dpocc_dp', label: 'ΔP Oclusão (ΔPocc)', type: 'number', unit: 'cmH₂O' }
+                    { ...pdropField, id: 'pdrop_dp' }
                 ], calculate: (vals) => {
-                    let dpocc = parseFloat(vals.dpocc_dp);
+                    let pdrop = parseFloat(vals.pdrop_dp);
                     const peak = parseFloat(vals.peak_dp);
                     const peep = parseFloat(vals.peep_dp);
-                    if (isNaN(dpocc) || isNaN(peak) || isNaN(peep)) return null;
-                    // Garantir que ΔPocc seja tratado como NEGATIVO
-                    if (dpocc > 0) dpocc = -dpocc;
+                    if (isNaN(pdrop) || isNaN(peak) || isNaN(peep)) return null;
+                    if (pdrop > 0) pdrop = -pdrop;
+                    const dpocc = pdrop - peep;
                     return (peak - peep) - (2/3) * dpocc;
                 }, interpret: (val) => {
                     if (val === null) return 'Aguardando dados...';
-                    if (val <= 15) return `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Aceitável`;
-                    return `DP Transpulmonar = ${val.toFixed(1)} - Risco de P-SILI`;
+                    if (val <= 15) return `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Aceitável (≤ 15)`;
+                    if (val <= 20) return `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Limítrofe (16-20), monitorar`;
+                    return `DP Transpulmonar = ${val.toFixed(1)} cmH₂O - Elevado (> 20), risco de P-SILI`;
                 } },
                 
                 { id: 'pmi', name: 'PMI (Índice de Pressão Muscular)', icon: 'fa-chart-simple', formula: 'PMI = Pressão de Platô - Pressão de Pico', inputs: [
@@ -1389,21 +1467,27 @@
                     return `PMI = ${val.toFixed(1)} cmH₂O - SUBASSISTÊNCIA (> 6). Esforço excessivo, risco de fadiga muscular.`;
                 } },
                 
-                { id: 'delta_pocc', name: 'ΔPocc (Pressão de Oclusão)', icon: 'fa-wave-square', formula: 'ΔPocc = -(Pdrop - PEEP) - resultado sempre negativo', inputs: [
-                    { id: 'pdrop', label: 'Pdrop (Ponto mais negativo de pressão)', type: 'number', unit: 'cmH₂O' },
+                { id: 'delta_pocc', name: 'ΔPocc (Pressão de Oclusão)', icon: 'fa-wave-square', formula: 'ΔPocc = -(PDrop - PEEP)', inputs: [
+                    { ...pdropField, id: 'pdrop_delta' },
                     { id: 'peep_delta', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' }
                 ], calculate: (vals) => {
-                    let pdrop = parseFloat(vals.pdrop);
+                    let pdrop = parseFloat(vals.pdrop_delta);
                     const peep = parseFloat(vals.peep_delta);
                     if (isNaN(pdrop) || isNaN(peep)) return null;
-                    if (pdrop < 0) pdrop = Math.abs(pdrop);
-                    return -(pdrop - peep);
+                    if (pdrop > 0) pdrop = -pdrop;
+                    return pdrop - peep;
                 }, interpret: (val) => {
                     if (val === null) return 'Aguardando dados...';
                     const absVal = Math.abs(val);
-                    if (absVal >= 8 && absVal <= 12) return `ΔPocc = ${val.toFixed(1)} cmH₂O - Esforço ideal (8-12 cmH₂O)`;
-                    if (absVal < 8) return `ΔPocc = ${val.toFixed(1)} cmH₂O - SUPERASSISTÊNCIA (< 8). Risco de atrofia e fraqueza muscular diafragmática.`;
-                    if (absVal > 15) return `ΔPocc = ${val.toFixed(1)} cmH₂O - SUBASSISTÊNCIA GRAVE (> 15). Alto esforço, risco de fadiga e lesão pulmonar auto-induzida.`;
+                    if (absVal >= 8 && absVal <= 12) {
+                        return `ΔPocc = ${val.toFixed(1)} cmH₂O - Esforço ideal (8-12 cmH₂O)`;
+                    }
+                    if (absVal < 8) {
+                        return `ΔPocc = ${val.toFixed(1)} cmH₂O - SUPERASSISTÊNCIA (< 8). Risco de atrofia e fraqueza muscular diafragmática.`;
+                    }
+                    if (absVal > 15) {
+                        return `ΔPocc = ${val.toFixed(1)} cmH₂O - SUBASSISTÊNCIA GRAVE (> 15). Alto esforço, risco de fadiga e lesão pulmonar auto-induzida.`;
+                    }
                     return `ΔPocc = ${val.toFixed(1)} cmH₂O - Esforço moderadamente elevado (13-15 cmH₂O). Monitorar de perto.`;
                 } },
                 
@@ -1645,7 +1729,6 @@
                         return null;
                     }
                     
-                    // Converter Volume Minuto de L/min para mL/min (multiplicar por 1000)
                     vm = vm * 1000;
                     
                     const resultado = (vm * paco2) / (ibw * 100 * 37.5);
@@ -1766,7 +1849,6 @@
         let historyData = JSON.parse(localStorage.getItem('ventila_history') || '{}');
         let currentChart = null;
 
-        // Mapeamento
         const formulaNames = {
             meia_envergadura: 'Meia Envergadura ×2', altura_joelho: 'Altura do Joelho', tamanho_ulna: 'Tamanho da Ulna',
             ibw: 'Peso Predito', vc: 'Volume Corrente', driving_pressure: 'Driving Pressure',
@@ -1912,14 +1994,11 @@
             document.getElementById('patientPanel').classList.remove('show');
         }
 
-        // ==================== HOTFIX: Função para limpar caracteres estranhos ====================
         function limparTextoHistorico(texto) {
             if (!texto || typeof texto !== 'string') return texto;
-            // Normaliza e remove caracteres não-ASCII problemáticos, preservando português
             return texto.normalize('NFC').replace(/[^\x00-\x7F\u00C0-\u00FF\u0100-\u017F]/g, '');
         }
 
-        // ==================== SHOW HISTORY MODAL COM CORREÇÃO ====================
         function showHistoryModal() {
             if (selectedPatient === null || !patients[selectedPatient]) {
                 alert('Selecione um paciente primeiro.');
@@ -1930,10 +2009,7 @@
             const modal = document.getElementById('historyModal');
             const modalBody = document.getElementById('modalBody');
             
-            // Buscar o último VC 6 mL/kg registrado para este paciente
             let ultimoVC6 = null;
-            
-            // Verificar nos cálculos de altura_volume (salvos como "Alt:xxxcm PBW:xxxkg")
             const formulasAltura = ['meia_envergadura', 'altura_joelho', 'tamanho_ulna'];
             for (const formulaId of formulasAltura) {
                 const calcHistory = history[formulaId];
@@ -1952,7 +2028,6 @@
                 }
             }
             
-            // Se não encontrou nos cálculos de altura, verificar no PBW manual (IBW)
             if (!ultimoVC6) {
                 const ibwHistory = history['ibw'];
                 if (ibwHistory && ibwHistory.length > 0) {
@@ -1969,7 +2044,6 @@
                 }
             }
             
-            // Se ainda não encontrou, verificar no VC com alvo 6
             if (!ultimoVC6) {
                 const vcHistory = history['vc'];
                 if (vcHistory && vcHistory.length > 0) {
@@ -1985,7 +2059,6 @@
                 }
             }
             
-            // Construir o card de destaque do VC 6
             let vc6Card = '';
             if (ultimoVC6) {
                 vc6Card = `
@@ -2018,7 +2091,6 @@
                         const calcHistory = history[cid];
                         if (calcHistory && calcHistory.length > 0) {
                             const last = calcHistory[calcHistory.length - 1];
-                            // HOTFIX: Aplica limpeza no resultado
                             const resultLimpo = limparTextoHistorico(last.result);
                             html += `<div class="history-calc-item" onclick="showDetailHistory('${cid}')">
                                         <div><div class="calc-name">${formulaNames[cid]}</div>
@@ -2042,11 +2114,10 @@
             const calcHistory = history[formulaId] || [];
             const modal = document.getElementById('detailModal');
             document.getElementById('detailModalTitle').innerHTML = `<i class="fas fa-chart-line"></i> ${formulaNames[formulaId]} - ${patientName}`;
-            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></tr></thead><tbody>`;
+            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></td></thead><tbody>`;
             const chartData = [];
             const chartLabels = [];
             calcHistory.forEach((item, idx) => {
-                // HOTFIX: Aplica limpeza no resultado
                 const resultLimpo = limparTextoHistorico(item.result);
                 tableHtml += `<tr><td>${item.date}</td><td><strong>${resultLimpo}</strong> ${item.unit || ''}</td></tr>`;
                 chartLabels.push(idx + 1);
@@ -2106,6 +2177,36 @@
             }
         }
 
+        function renderInputWithTooltip(input) {
+            const div = document.createElement('div');
+            div.className = 'input-group';
+            
+            let html = `<div class="input-label-wrapper">
+                            <label>${input.label} (${input.unit || ''})</label>`;
+            
+            if (input.tooltip) {
+                html += `<div class="info-tooltip">
+                            <i class="fas fa-question"></i>
+                            <span class="tooltip-text">${input.tooltip}</span>
+                         </div>`;
+            }
+            
+            html += `</div>`;
+            
+            if (input.type === 'select') {
+                html += `<select id="input_${input.id}">`;
+                input.options.forEach(opt => {
+                    html += `<option value="${opt}">${opt}</option>`;
+                });
+                html += `</select>`;
+            } else {
+                html += `<input type="number" id="input_${input.id}" placeholder="${input.unit || ''}" step="any">`;
+            }
+            
+            div.innerHTML = html;
+            return div;
+        }
+
         function selectFormula(category, formulaId) {
             currentFormulaObj = formulasDB[category].find(f => f.id === formulaId);
             if (!currentFormulaObj) return;
@@ -2122,7 +2223,6 @@
             }
             
             if (currentFormulaObj.dynamicInputs) {
-                // Para o HACOR, adicionamos primeiro o select de tipo e depois os inputs dinâmicos
                 const tipoSelect = currentFormulaObj.inputs[0];
                 const div = document.createElement('div');
                 div.className = 'input-group';
@@ -2135,19 +2235,16 @@
                 div.innerHTML = html;
                 inputsContainer.appendChild(div);
                 
-                // Container para os inputs dinâmicos
                 const dynamicContainer = document.createElement('div');
                 dynamicContainer.id = 'hacor-dynamic-container';
                 dynamicContainer.className = 'inputs-grid';
                 inputsContainer.appendChild(dynamicContainer);
                 
-                // Inicializar com o tipo padrão
                 const tipoInicial = tipoSelect.options[0];
                 if (currentFormulaObj.buildDynamicInputs) {
                     currentFormulaObj.buildDynamicInputs(dynamicContainer, currentFormulaObj, tipoInicial);
                 }
                 
-                // Adicionar event listener para mudança de tipo
                 const typeSelect = document.getElementById(`input_${tipoSelect.id}`);
                 typeSelect.addEventListener('change', (e) => {
                     if (currentFormulaObj.buildDynamicInputs) {
@@ -2156,20 +2253,7 @@
                 });
             } else {
                 currentFormulaObj.inputs.forEach(input => {
-                    const div = document.createElement('div');
-                    div.className = 'input-group';
-                    let html = `<label>${input.label} (${input.unit || ''})</label>`;
-                    if (input.type === 'select') {
-                        html += `<select id="input_${input.id}">`;
-                        input.options.forEach(opt => {
-                            html += `<option value="${opt}">${opt}</option>`;
-                        });
-                        html += `</select>`;
-                    } else {
-                        html += `<input type="number" id="input_${input.id}" placeholder="${input.unit || ''}" step="any">`;
-                    }
-                    div.innerHTML = html;
-                    inputsContainer.appendChild(div);
+                    inputsContainer.appendChild(renderInputWithTooltip(input));
                 });
             }
             
@@ -2193,13 +2277,11 @@
             if (!currentFormulaObj) return;
             const inputs = {};
             
-            // Coletar inputs normais
             for (const input of currentFormulaObj.inputs) {
                 const el = document.getElementById(`input_${input.id}`);
                 if (el) inputs[input.id] = el.value;
             }
             
-            // Para o HACOR, os inputs dinâmicos são acessados diretamente no cálculo
             if (currentFormulaObj.dynamicInputs) {
                 try {
                     const result = currentFormulaObj.calculate(inputs);
@@ -2219,7 +2301,6 @@
                 return;
             }
             
-            // Para fórmulas normais
             for (const input of currentFormulaObj.inputs) {
                 const el = document.getElementById(`input_${input.id}`);
                 if (el) inputs[input.id] = el.value;
@@ -2227,7 +2308,6 @@
             try {
                 const result = currentFormulaObj.calculate(inputs);
                 
-                // Para as fórmulas de altura que retornam objeto completo
                 if (currentFormulaObj.getFullResult) {
                     const interpretResult = currentFormulaObj.interpret(result, inputs, true);
                     document.getElementById('resultValue').innerHTML = interpretResult.altura;
@@ -2277,7 +2357,6 @@
             document.getElementById('categoryArea').style.display = 'none';
         }
 
-        // Inicialização
         if (localStorage.getItem('ventila_theme') === 'dark') {
             document.body.classList.add('dark');
             document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i> Claro';
@@ -2288,7 +2367,6 @@
         updatePatientBar();
     </script>
 
-    <!-- Service Worker para PWA -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
