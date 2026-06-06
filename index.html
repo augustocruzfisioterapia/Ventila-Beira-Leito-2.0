@@ -725,6 +725,17 @@
             font-size: 11px;
         }
         
+        /* HOTFIX - Corrige caracteres estranhos no histórico SEM alterar estética */
+        .history-calc-item .calc-last-result,
+        .history-calc-item .calc-last-date,
+        .history-detail-table td,
+        .history-detail-table th {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+            font-weight: normal;
+            letter-spacing: normal;
+            text-rendering: optimizeLegibility;
+        }
+        
         /* AJUSTE PARA TELA DE HISTÓRICO NO MOBILE */
         @media (max-width: 768px) {
             .history-detail-table {
@@ -1901,6 +1912,14 @@
             document.getElementById('patientPanel').classList.remove('show');
         }
 
+        // ==================== HOTFIX: Função para limpar caracteres estranhos ====================
+        function limparTextoHistorico(texto) {
+            if (!texto || typeof texto !== 'string') return texto;
+            // Normaliza e remove caracteres não-ASCII problemáticos, preservando português
+            return texto.normalize('NFC').replace(/[^\x00-\x7F\u00C0-\u00FF\u0100-\u017F]/g, '');
+        }
+
+        // ==================== SHOW HISTORY MODAL COM CORREÇÃO ====================
         function showHistoryModal() {
             if (selectedPatient === null || !patients[selectedPatient]) {
                 alert('Selecione um paciente primeiro.');
@@ -1999,10 +2018,12 @@
                         const calcHistory = history[cid];
                         if (calcHistory && calcHistory.length > 0) {
                             const last = calcHistory[calcHistory.length - 1];
+                            // HOTFIX: Aplica limpeza no resultado
+                            const resultLimpo = limparTextoHistorico(last.result);
                             html += `<div class="history-calc-item" onclick="showDetailHistory('${cid}')">
                                         <div><div class="calc-name">${formulaNames[cid]}</div>
                                         <div class="calc-last-date">Último: ${last.date}</div></div>
-                                        <div class="calc-last-result">${last.result}</div>
+                                        <div class="calc-last-result">${resultLimpo}</div>
                                     </div>`;
                         }
                     }
@@ -2021,11 +2042,13 @@
             const calcHistory = history[formulaId] || [];
             const modal = document.getElementById('detailModal');
             document.getElementById('detailModalTitle').innerHTML = `<i class="fas fa-chart-line"></i> ${formulaNames[formulaId]} - ${patientName}`;
-            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></td></thead><tbody>`;
+            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></tr></thead><tbody>`;
             const chartData = [];
             const chartLabels = [];
             calcHistory.forEach((item, idx) => {
-                tableHtml += `<tr><td>${item.date}侧膀<td><strong>${item.result}</strong> ${item.unit || ''}侧膀</tr>`;
+                // HOTFIX: Aplica limpeza no resultado
+                const resultLimpo = limparTextoHistorico(item.result);
+                tableHtml += `<tr><td>${item.date}</td><td><strong>${resultLimpo}</strong> ${item.unit || ''}</td></tr>`;
                 chartLabels.push(idx + 1);
                 chartData.push(parseFloat(item.result));
             });
