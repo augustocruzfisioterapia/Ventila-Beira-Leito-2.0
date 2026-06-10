@@ -43,6 +43,9 @@
             --bg-body: #f1f5f9;
             --text: #1e293b;
             --text-light: #64748b;
+            --success: #10b981;
+            --info: #3b82f6;
+            --orange: #f97316;
         }
         
         body.dark {
@@ -72,7 +75,6 @@
             padding: 20px;
         }
         
-        /* CABEÇALHO */
         .app-header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
@@ -126,21 +128,26 @@
             transform: scale(1.02);
         }
         
-        /* INFO PACIENTE */
         .patient-info-bar {
             background: var(--bg-card);
             border-radius: 20px;
-            padding: 12px 20px;
+            padding: 16px 20px;
             margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+        
+        .patient-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            border: 1px solid var(--border);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
         }
         
-        .patient-badge {
+        .patient-name-area {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -154,6 +161,29 @@
             border-radius: 30px;
             font-weight: 600;
             font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .clear-patient-btn {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .clear-patient-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.05);
         }
         
         .quick-mode-badge {
@@ -165,19 +195,151 @@
             font-size: 14px;
         }
         
+        .vc-target-badge {
+            background: var(--primary-light);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .vc-target-badge i {
+            margin-right: 6px;
+        }
+        
+        .action-icon {
+            background: transparent;
+            color: var(--text-light);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .action-icon:hover {
+            background: var(--border);
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .history-button, .cronologia-button {
+            background: var(--info);
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+        
+        .history-button:hover, .cronologia-button:hover {
+            background: var(--primary);
+            transform: scale(1.02);
+        }
+        
+        .cronologia-button {
+            background: var(--primary-light);
+        }
+        
+        .patient-info-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+        
+        .info-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .info-line i {
+            width: 20px;
+            color: var(--primary-light);
+        }
+        
+        .vm-time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .vm-time-green {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        
+        .vm-time-yellow {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .vm-time-orange {
+            background: rgba(249, 115, 22, 0.2);
+            color: var(--orange);
+        }
+        
+        .vm-time-red {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .success-banner {
+            background: linear-gradient(135deg, var(--success), var(--secondary-dark));
+            color: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .success-banner i {
+            font-size: 20px;
+        }
+        
         .patient-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
         }
         
         .patient-actions button {
             background: var(--border);
             border: none;
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 12px;
+            font-weight: 500;
             transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .patient-actions button:hover {
@@ -185,7 +347,108 @@
             color: white;
         }
         
-        /* PAINEL DE PACIENTES */
+        .vni-toggle-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border);
+        }
+        
+        .vni-toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 22px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            transition: 0.3s;
+            border-radius: 22px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--secondary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        .info-tooltip-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: white;
+            font-size: 11px;
+            cursor: help;
+            position: relative;
+        }
+        
+        .tooltip-text-simple {
+            visibility: hidden;
+            width: 260px;
+            background-color: var(--primary-dark);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            line-height: 1.4;
+            white-space: normal;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .info-tooltip-btn:hover .tooltip-text-simple {
+            visibility: visible;
+            opacity: 1;
+        }
+        
         .patient-panel {
             background: var(--bg-card);
             border-radius: 20px;
@@ -271,7 +534,6 @@
             transform: scale(1.05);
         }
         
-        /* MODAIS */
         .modal {
             display: none;
             position: fixed;
@@ -294,10 +556,8 @@
         .modal-content {
             background: var(--bg-card);
             border-radius: 25px;
-            max-width: 850px;
+            max-width: 500px;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
             padding: 25px;
             position: relative;
         }
@@ -319,74 +579,118 @@
             color: var(--text-light);
         }
         
-        .history-list {
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-body input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-body);
+            color: var(--text);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-body label {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            cursor: pointer;
         }
         
-        .history-group {
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            overflow: hidden;
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
         }
         
-        .history-group-header {
-            background: var(--primary);
-            color: white;
-            padding: 10px 15px;
+        .modal-footer button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
             font-weight: 600;
         }
         
-        .history-calc-item {
-            padding: 10px 15px;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
-        }
-        
-        .history-calc-item:hover {
-            background: var(--border);
-        }
-        
-        .history-detail-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        
-        .history-detail-table th, 
-        .history-detail-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        
-        .history-detail-table th {
-            background: var(--primary);
+        .btn-confirm {
+            background: var(--secondary);
             color: white;
         }
         
-        .chart-container {
-            margin-top: 20px;
-            padding: 15px;
-            background: var(--bg-body);
-            border-radius: 15px;
+        .btn-cancel {
+            background: var(--border);
+            color: var(--text);
         }
         
-        canvas {
-            max-height: 280px;
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-copy {
+            background: var(--primary-light);
+            color: white;
+            margin-top: 15px;
             width: 100%;
         }
         
-        /* MENU PRINCIPAL */
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .btn-small-danger {
+            background: var(--danger);
+        }
+        
+        .cronologia-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .cronologia-item {
+            padding: 12px;
+            border-left: 3px solid var(--primary);
+            background: var(--bg-body);
+            border-radius: 8px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .cronologia-item strong {
+            color: var(--primary);
+        }
+        
+        .cronologia-item-content {
+            flex: 1;
+        }
+        
+        .cronologia-item-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
         .main-menu {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -434,7 +738,6 @@
             color: var(--text-light);
         }
         
-        /* NAVEGAÇÃO */
         .group-nav {
             background: var(--bg-card);
             border-radius: 20px;
@@ -469,7 +772,6 @@
             color: var(--primary);
         }
         
-        /* SUB-TABS */
         .sub-tabs-container {
             background: var(--bg-card);
             border-radius: 20px;
@@ -503,7 +805,6 @@
             color: white;
         }
         
-        /* PAINEL DE CÁLCULO */
         .calculation-panel {
             background: var(--bg-card);
             border-radius: 20px;
@@ -574,7 +875,6 @@
             font-size: 13px;
         }
         
-        /* ========== TOOLTIP FLUTUANTE PARA PDROP ========== */
         .input-label-wrapper {
             display: flex;
             align-items: center;
@@ -640,14 +940,6 @@
         .info-tooltip:focus .tooltip-text {
             visibility: visible;
             opacity: 1;
-        }
-        
-        /* Mobile: tooltip ao toque */
-        @media (max-width: 768px) {
-            .tooltip-text {
-                width: 240px;
-                font-size: 10px;
-            }
         }
         
         .help-link {
@@ -748,60 +1040,103 @@
             margin-top: 10px;
         }
         
-        /* DESENVOLVEDOR */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .history-group {
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .history-group-header {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+        
+        .history-calc-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        
+        .history-calc-item:hover {
+            background: var(--border);
+        }
+        
+        .history-detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .history-detail-table th, 
+        .history-detail-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        
+        .history-detail-table th {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .chart-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-body);
+            border-radius: 15px;
+        }
+        
+        canvas {
+            max-height: 280px;
+            width: 100%;
+        }
+        
         .developer-section {
             background: var(--bg-card);
             border-radius: 20px;
             padding: 20px;
             margin-top: 30px;
             border: 1px solid var(--border);
+            text-align: center;
         }
         
-        .developer-profile {
-            display: flex;
+        .developer-info-with-icon {
+            display: inline-flex;
             align-items: center;
-            gap: 18px;
+            justify-content: center;
+            gap: 6px;
             flex-wrap: wrap;
         }
         
-        .developer-photo {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: var(--primary);
-            display: flex;
+        .instagram-link {
+            color: var(--text);
+            transition: color 0.3s;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: white;
-            overflow: hidden;
+            gap: 4px;
+            text-decoration: none;
         }
         
-        .developer-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .instagram-link:hover {
+            color: #e4405f;
         }
         
-        .developer-info h3 {
-            color: var(--primary);
-            margin-bottom: 4px;
-            font-size: 18px;
-        }
-        
-        .developer-info p {
-            font-size: 13px;
-        }
-        
-        .version {
-            text-align: center;
-            padding-top: 12px;
-            margin-top: 12px;
-            border-top: 1px solid var(--border);
-            font-size: 11px;
-        }
-        
-        /* HOTFIX - Corrige caracteres estranhos no histórico */
         .history-calc-item .calc-last-result,
         .history-calc-item .calc-last-date,
         .history-detail-table td,
@@ -812,56 +1147,29 @@
             text-rendering: optimizeLegibility;
         }
         
-        @media (max-width: 768px) {
-            .history-detail-table {
-                font-size: 12px;
-            }
-            .history-detail-table th,
-            .history-detail-table td {
-                padding: 8px 6px;
-            }
-            .modal-content {
-                padding: 15px;
-            }
-            .vc-table {
-                gap: 5px;
-            }
-            .vc-item {
-                padding: 6px;
-                min-width: 50px;
-                font-size: 12px;
-            }
-            .app-container { 
-                padding: 12px; 
-            }
-            .result-number { 
-                font-size: 32px; 
-            }
-            .developer-profile { 
-                flex-direction: column; 
-                text-align: center; 
-            }
-            .header-buttons button { 
-                padding: 6px 12px; 
-                font-size: 11px; 
-            }
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        @media (max-width: 768px) {
+            .app-container { padding: 12px; }
+            .result-number { font-size: 32px; }
+            .patient-info-details { grid-template-columns: 1fr; }
+            .patient-header-row { flex-direction: column; align-items: flex-start; }
+            .modal-content { width: 95%; margin: 0 auto; max-height: 85vh; }
+            .history-detail-table { font-size: 12px; }
+            .history-detail-table th, .history-detail-table td { padding: 8px 6px; }
+            .vc-table { gap: 5px; }
+            .vc-item { padding: 6px; min-width: 50px; font-size: 12px; }
+            .header-buttons button { padding: 6px 12px; font-size: 11px; }
+            .cronologia-item { flex-direction: column; align-items: flex-start; }
+            .cronologia-item-actions { align-self: flex-end; }
+        }
 
         @media all and (display-mode: standalone) {
-            .history-detail-table {
-                display: block !important;
-                overflow-x: auto !important;
-                white-space: nowrap !important;
-            }
-            .modal-content {
-                padding: 15px !important;
-                max-width: 100% !important;
-            }
+            .history-detail-table { display: block !important; overflow-x: auto !important; white-space: nowrap !important; }
+            .modal-content { padding: 15px !important; max-width: 100% !important; max-height: 90vh !important; }
         }
     </style>
 </head>
@@ -903,13 +1211,12 @@
         </div>
 
         <div id="patientInfoBar" class="patient-info-bar">
-            <div class="patient-badge" id="patientBadge"></div>
-            <div class="patient-actions" id="patientActions"></div>
+            <div id="patientClinicalInfo"></div>
         </div>
 
         <div id="mainMenu" class="main-menu">
             <div class="menu-card" onclick="showCategory('altura_volume')">
-                <div class="menu-icon"><i class="fas fa-ruler-combined"></i></div>
+                <div class="menu-icon"><i class="fas fa-arrows-alt-v"></i></div>
                 <h3>Altura / Volume Alvo</h3>
                 <p>Meia Envergadura, Joelho (Chumlea), Ulna | PBW e VC sugerido</p>
             </div>
@@ -943,6 +1250,11 @@
                 <h3>VNI / CNAF</h3>
                 <p>HACOR Score, ROX Index</p>
             </div>
+            <div class="menu-card" onclick="showCategory('nivel_consciencia')">
+                <div class="menu-icon"><i class="fas fa-brain"></i></div>
+                <h3>Nível de Consciência</h3>
+                <p>Glasgow (GCS), FOUR, RASS e SAS</p>
+            </div>
             <div class="menu-card" onclick="showCategory('variaveis_fisiologicas')">
                 <div class="menu-icon"><i class="fas fa-heartbeat"></i></div>
                 <h3>Variáveis Fisiológicas</h3>
@@ -972,13 +1284,27 @@
             </div>
         </div>
 
+        <!-- MODAIS -->
         <div id="historyModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 id="modalTitle">Histórico de Cálculos</h3>
                     <button class="close-modal" onclick="closeHistoryModal()">&times;</button>
                 </div>
-                <div id="modalBody"></div>
+                <div id="modalBody" style="max-height: calc(90vh - 120px); overflow-y: auto;"></div>
+            </div>
+        </div>
+
+        <div id="cronologiaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-timeline"></i> Cronologia do Paciente</h3>
+                    <button class="close-modal" onclick="closeCronologiaModal()">&times;</button>
+                </div>
+                <div id="cronologiaBody" style="max-height: calc(90vh - 120px); overflow-y: auto;"></div>
+                <div class="modal-footer" style="margin-top: 15px;">
+                    <button class="btn-copy" onclick="copiarCronologia()"><i class="fas fa-copy"></i> Copiar Cronologia</button>
+                </div>
             </div>
         </div>
 
@@ -988,25 +1314,290 @@
                     <h3 id="detailModalTitle">Detalhes do Cálculo</h3>
                     <button class="close-modal" onclick="closeDetailModal()">&times;</button>
                 </div>
-                <div id="detailModalBody"></div>
+                <div id="detailModalBody" style="max-height: calc(90vh - 120px); overflow-y: auto;"></div>
+            </div>
+        </div>
+
+        <div id="extubacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-lungs"></i> Registrar Extubação</h3>
+                    <button class="close-modal" onclick="closeExtubacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Extubação:</label>
+                    <input type="datetime-local" id="extubacaoDateTime" step="1">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 15px;">
+                        <input type="checkbox" id="vniAposExtubacao" style="width: 18px; height: 18px; margin: 0;">
+                        <label for="vniAposExtubacao" style="margin: 0; cursor: pointer;">Paciente mantido em VNI</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeExtubacaoModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarExtubacao()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="editarExtubacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-edit"></i> Editar Extubação</h3>
+                    <button class="close-modal" onclick="closeEditarExtubacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Extubação:</label>
+                    <input type="datetime-local" id="editarExtubacaoDateTime" step="1">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 15px;">
+                        <input type="checkbox" id="editarVniAposExtubacao" style="width: 18px; height: 18px; margin: 0;">
+                        <label for="editarVniAposExtubacao" style="margin: 0; cursor: pointer;">Paciente mantido em VNI</label>
+                    </div>
+                    <input type="hidden" id="editarExtubacaoIndex" value="-1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeEditarExtubacaoModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarEditarExtubacao()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="traqueostomiaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-procedures"></i> Registrar Traqueostomia</h3>
+                    <button class="close-modal" onclick="closeTraqueostomiaModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Traqueostomia:</label>
+                    <input type="datetime-local" id="traqueostomiaDateTime" step="1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeTraqueostomiaModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarTraqueostomia()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="editarTraqueostomiaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-edit"></i> Editar Traqueostomia</h3>
+                    <button class="close-modal" onclick="closeEditarTraqueostomiaModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Traqueostomia:</label>
+                    <input type="datetime-local" id="editarTraqueostomiaDateTime" step="1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeEditarTraqueostomiaModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarEditarTraqueostomia()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="excluirTraqueostomiaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-trash-alt"></i> Excluir Traqueostomia</h3>
+                    <button class="close-modal" onclick="closeExcluirTraqueostomiaModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja <strong>excluir o registro de traqueostomia</strong> deste paciente?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeExcluirTraqueostomiaModal()">Cancelar</button>
+                    <button class="btn-danger" onclick="confirmarExcluirTraqueostomia()">Excluir</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="desconexaoContinuadaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-plug"></i> Registrar Desconexão Contínua da VM</h3>
+                    <button class="close-modal" onclick="closeDesconexaoContinuadaModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Desconexão:</label>
+                    <input type="datetime-local" id="desconexaoContinuadaDateTime" step="1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeDesconexaoContinuadaModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarDesconexaoContinuada()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="editarDesconexaoContinuadaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-edit"></i> Editar Desconexão Contínua</h3>
+                    <button class="close-modal" onclick="closeEditarDesconexaoContinuadaModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Desconexão:</label>
+                    <input type="datetime-local" id="editarDesconexaoContinuadaDateTime" step="1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeEditarDesconexaoContinuadaModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarEditarDesconexaoContinuada()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="excluirDesconexaoContinuadaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-trash-alt"></i> Excluir Desconexão Contínua</h3>
+                    <button class="close-modal" onclick="closeExcluirDesconexaoContinuadaModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja <strong>excluir o registro de desconexão contínua</strong> deste paciente?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeExcluirDesconexaoContinuadaModal()">Cancelar</button>
+                    <button class="btn-danger" onclick="confirmarExcluirDesconexaoContinuada()">Excluir</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="decanulacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-check-circle"></i> Registrar Decanulação</h3>
+                    <button class="close-modal" onclick="closeDecanulacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Decanulação:</label>
+                    <input type="datetime-local" id="decanulacaoDateTime" step="1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeDecanulacaoModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarDecanulacao()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="editarDecanulacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-edit"></i> Editar Decanulação</h3>
+                    <button class="close-modal" onclick="closeEditarDecanulacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Decanulação:</label>
+                    <input type="datetime-local" id="editarDecanulacaoDateTime" step="1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeEditarDecanulacaoModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarEditarDecanulacao()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="excluirDecanulacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-trash-alt"></i> Excluir Decanulação</h3>
+                    <button class="close-modal" onclick="closeExcluirDecanulacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja <strong>excluir o registro de decanulação</strong> deste paciente?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeExcluirDecanulacaoModal()">Cancelar</button>
+                    <button class="btn-danger" onclick="confirmarExcluirDecanulacao()">Excluir</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="novaIntubacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-sync-alt"></i> Confirmar Nova Intubação</h3>
+                    <button class="close-modal" onclick="closeNovaIntubacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja registrar uma <strong>nova intubação</strong> para este paciente?</p>
+                    <p style="font-size: 13px; margin-top: 10px;">⚠️ Isso irá:</p>
+                    <ul style="margin-left: 20px; font-size: 12px;">
+                        <li>Registrar uma nova intubação no histórico</li>
+                        <li>Manter a data da intubação anterior</li>
+                        <li>Limpar os dados da extubação atual</li>
+                        <li>Desativar o uso de VNI</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeNovaIntubacaoModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarNovaIntubacao()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="registrarIntubacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-thermometer-half"></i> Registrar Intubação</h3>
+                    <button class="close-modal" onclick="closeRegistrarIntubacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Intubação:</label>
+                    <input type="datetime-local" id="intubacaoDateTime" step="1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeRegistrarIntubacaoModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarRegistrarIntubacao()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="editarIntubacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-edit"></i> Editar Intubação</h3>
+                    <button class="close-modal" onclick="closeEditarIntubacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Data e Hora da Intubação:</label>
+                    <input type="datetime-local" id="editarIntubacaoDateTime" step="1">
+                    <input type="hidden" id="editarIntubacaoIndex" value="-1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeEditarIntubacaoModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="confirmarEditarIntubacao()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="excluirIntubacaoModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-trash-alt"></i> Excluir Intubação</h3>
+                    <button class="close-modal" onclick="closeExcluirIntubacaoModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja <strong>excluir este registro de intubação</strong>?</p>
+                    <p style="font-size: 13px; margin-top: 10px;">⚠️ Isso irá remover apenas esta intubação específica do histórico.</p>
+                    <input type="hidden" id="excluirIntubacaoIndex" value="-1">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeExcluirIntubacaoModal()">Cancelar</button>
+                    <button class="btn-danger" onclick="confirmarExcluirIntubacao()">Excluir</button>
+                </div>
             </div>
         </div>
 
         <div class="developer-section">
-            <div class="developer-profile">
-                <div class="developer-photo">
-                    <img src="https://files-upload-funfarme.s3.amazonaws.com/production/blog/271/img-9018.jpg" alt="Augusto Cruz" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-user-md\'></i>';">
-                </div>
-                <div class="developer-info">
-                    <h3>Augusto Cruz</h3>
-                    <p>Fisioterapeuta Intensivista</p>
-                    <p><i class="fas fa-envelope"></i> @augustocruzfisioterapia</p>
-                    <p><i class="fas fa-graduation-cap"></i> Especialista em Terapia Intensiva</p>
-                </div>
-            </div>
-            <div class="version">
-                Versão 2.0 • Desenvolvido para prática baseada em evidências<br>
-                © 2026 - Ventila Beira-Leito
+            <div>
+                <p style="margin-bottom: 4px;">Desenvolvido por <strong>Augusto Cruz</strong> - 
+                    <span class="developer-info-with-icon">
+                        Fisioterapeuta Intensivista
+                        <a href="https://instagram.com/augustocruzfisioterapia" target="_blank" class="instagram-link" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </span>
+                </p>
+                <p style="font-size: 11px; opacity: 0.8;">© 2026 - Auxilium Tools - Instituto Reverte</p>
             </div>
         </div>
     </div>
@@ -1014,13 +1605,14 @@
     <script>
         // ==================== BANCO DE DADOS DE FÓRMULAS ====================
         const categoriesConfig = {
-            altura_volume: { name: 'Altura / Volume Alvo', icon: 'fa-ruler-combined' },
+            altura_volume: { name: 'Altura / Volume Alvo', icon: 'fa-arrows-alt-v' },
             protective: { name: 'Ventilação Protetora', icon: 'fa-shield-alt' },
             oxygenation: { name: 'Oxigenação', icon: 'fa-lungs' },
             mechanics: { name: 'Mecânica Respiratória', icon: 'fa-chart-line' },
             effort: { name: 'Esforço Respiratório', icon: 'fa-dumbbell' },
             weaning: { name: 'Índices de Desmame', icon: 'fa-flag-checkered' },
             vni_cnaf: { name: 'VNI / CNAF', icon: 'fa-mask' },
+            nivel_consciencia: { name: 'Nível de Consciência', icon: 'fa-brain' },
             variaveis_fisiologicas: { name: 'Variáveis Fisiológicas', icon: 'fa-heartbeat' }
         };
 
@@ -1151,7 +1743,6 @@
             }
         }
 
-        // Campo PDrop padrão com tooltip (texto corrigido)
         const pdropField = { 
             id: 'pdrop', 
             label: 'PDrop', 
@@ -1420,7 +2011,7 @@
                 } }
             ],
             effort: [
-                { id: 'pmus', name: 'PMUS (Pressão Muscular)', icon: 'fa-dumbbell', formula: 'PMUS = -0.75 × (PDrop_corrigido - PEEP)', inputs: [
+                { id: 'pmus', name: 'PMUS (Pressão Muscular)', icon: 'fa-dumbbell', formula: 'PMUS = -0.75 × (PDrop - PEEP)', inputs: [
                     { ...pdropField, id: 'pdrop_pmus' },
                     { id: 'peep_pmus', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' }
                 ], calculate: (vals) => {
@@ -1437,7 +2028,7 @@
                     return `PMUS = ${val.toFixed(1)} cmH₂O - Esforço excessivo (> 15), risco de fadiga e P-SILI`;
                 } },
                 
-                { id: 'dp_transpulmonar', name: 'DP Transpulmonar', icon: 'fa-exchange-alt', formula: 'DPtp = (Pico - PEEP) - (2/3) × (PDrop_corrigido - PEEP)', inputs: [
+                { id: 'dp_transpulmonar', name: 'DP Transpulmonar', icon: 'fa-exchange-alt', formula: 'DPtp = (Pico - PEEP) - (2/3) × (PDrop - PEEP)', inputs: [
                     { id: 'peak_dp', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
                     { id: 'peep_dp', label: 'PEEP Total', type: 'number', unit: 'cmH₂O' },
                     { ...pdropField, id: 'pdrop_dp' }
@@ -1663,6 +2254,111 @@
                     return `ROX Index = ${val.toFixed(2)} - Alto risco de falha (< 3,85). Considerar intubação ou escalonar suporte.`;
                 } }
             ],
+            nivel_consciencia: [
+                { id: 'gcs', name: 'Glasgow (GCS)', icon: 'fa-eye', formula: 'Glasgow = Abertura Ocular + Resposta Verbal + Resposta Motora', inputs: [
+                    { id: 'ocular_gcs', label: 'Abertura Ocular', type: 'select', options: [
+                        '4 - Espontânea',
+                        '3 - Ao comando verbal',
+                        '2 - À dor',
+                        '1 - Nenhuma'
+                    ] },
+                    { id: 'verbal_gcs', label: 'Resposta Verbal', type: 'select', options: [
+                        '5 - Orientado',
+                        '4 - Confuso',
+                        '3 - Palavras inapropriadas',
+                        '2 - Sons incompreensíveis',
+                        '1 - Nenhuma'
+                    ] },
+                    { id: 'motora_gcs', label: 'Resposta Motora', type: 'select', options: [
+                        '6 - Obedece comandos',
+                        '5 - Localiza dor',
+                        '4 - Retirada à dor',
+                        '3 - Flexão anormal',
+                        '2 - Extensão anormal',
+                        '1 - Nenhuma'
+                    ] }
+                ], calculate: (vals) => {
+                    const total = parseInt(vals.ocular_gcs) + parseInt(vals.verbal_gcs) + parseInt(vals.motora_gcs);
+                    return Number.isNaN(total) ? null : total;
+                }, interpret: (val) => {
+                    if (val === null) return '';
+                    if (val <= 8) return '⚠️ Considerar intubação orotraqueal; avaliar proteção das vias aéreas em pacientes neurocríticos.';
+                    return '';
+                }, infoNote: 'Glasgow Coma Scale: avalia abertura ocular, resposta verbal e resposta motora. Faixa total: 3 a 15.' },
+
+                { id: 'four', name: 'FOUR', icon: 'fa-brain', formula: 'FOUR = Resposta Ocular + Resposta Motora + Reflexos de Tronco + Respiração', inputs: [
+                    { id: 'ocular_four', label: 'Resposta Ocular', type: 'select', options: [
+                        '4 - Pálpebras abertas, piscando',
+                        '3 - Abre ao comando',
+                        '2 - Abre com estímulo doloroso',
+                        '1 - Não abre',
+                        '0 - Sem resposta ocular'
+                    ] },
+                    { id: 'motora_four', label: 'Resposta Motora', type: 'select', options: [
+                        '4 - Sinal de positivo',
+                        '3 - Localiza dor',
+                        '2 - Flexão à dor',
+                        '1 - Extensão à dor',
+                        '0 - Sem resposta'
+                    ] },
+                    { id: 'tronco_four', label: 'Reflexos de Tronco', type: 'select', options: [
+                        '4 - Pupilas e córnea presentes',
+                        '3 - Uma pupila fixa',
+                        '2 - Pupilas OU córnea ausentes',
+                        '1 - Pupilas E córnea ausentes',
+                        '0 - Todos ausentes'
+                    ] },
+                    { id: 'respiracao_four', label: 'Respiração', type: 'select', options: [
+                        '4 - Não intubado, padrão regular',
+                        '3 - Cheyne-Stokes',
+                        '2 - Irregular',
+                        '1 - Intubado, acima da FR do ventilador',
+                        '0 - Apneia ou FR = ventilador'
+                    ] }
+                ], calculate: (vals) => {
+                    return parseInt(vals.ocular_four) + parseInt(vals.motora_four) + parseInt(vals.tronco_four) + parseInt(vals.respiracao_four);
+                }, interpret: (val) => {
+                    if (val >= 13) return `FOUR = ${val}. Bom prognóstico neurológico.`;
+                    if (val >= 9) return `FOUR = ${val}. Lesão moderada.`;
+                    if (val >= 5) return `FOUR = ${val}. Lesão grave.`;
+                    return `FOUR = ${val}. Muito grave.`;
+                }, infoNote: 'Full Outline of UnResponsiveness: inclui resposta ocular, resposta motora, reflexos de tronco e padrão respiratório. Faixa total: 0 a 16.' },
+
+                { id: 'rass', name: 'RASS', icon: 'fa-sliders', formula: 'RASS = Richmond Agitation-Sedation Scale (-5 a +4)', inputs: [
+                    { id: 'nivel_rass', label: 'Sedação/Agitação', type: 'select', options: [
+                        '4 - +4 Combativo',
+                        '3 - +3 Muito agitado',
+                        '2 - +2 Agitado',
+                        '1 - +1 Inquieto',
+                        '0 - 0 Alerta e calmo',
+                        '-1 - −1 Sonolento',
+                        '-2 - −2 Sedação leve',
+                        '-3 - −3 Sedação moderada',
+                        '-4 - −4 Sedação profunda',
+                        '-5 - −5 Não despertável'
+                    ] }
+                ], calculate: (vals) => parseInt(vals.nivel_rass), interpret: (val) => {
+                    if (val > 1) return `RASS = ${val}. Agitação - avaliar segurança.`;
+                    if (val >= -1) return `RASS = ${val}. Nível adequado.`;
+                    return `RASS = ${val}. Sedação profunda.`;
+                }, infoNote: 'Richmond Agitation-Sedation Scale: avalia sedação e agitação. Faixa: -5 a +4.' },
+
+                { id: 'sas', name: 'SAS', icon: 'fa-gauge-high', formula: 'SAS = Sedation-Agitation Scale (1 a 7)', inputs: [
+                    { id: 'nivel_sas', label: 'Nível', type: 'select', options: [
+                        '7 - Agitação perigosa',
+                        '6 - Muito agitado',
+                        '5 - Agitado',
+                        '4 - Calmo e cooperativo',
+                        '3 - Sedado',
+                        '2 - Muito sedado',
+                        '1 - Não despertável'
+                    ] }
+                ], calculate: (vals) => parseInt(vals.nivel_sas), interpret: (val) => {
+                    if (val >= 5) return `SAS = ${val}. Agitação.`;
+                    if (val === 4) return `SAS = ${val}. Ideal para mobilização.`;
+                    return `SAS = ${val}. Sedado.`;
+                }, infoNote: 'Sedation-Agitation Scale: avalia sedação e agitação. Faixa total: 1 a 7.' }
+            ],
             variaveis_fisiologicas: [
                 { id: 'gradiente_alveolo_arterial', name: 'Gradiente Alvéolo-Arterial (A-a)', icon: 'fa-chart-line', formula: 'PAO₂ - PaO₂', inputs: [
                     { id: 'fio2_ga', label: 'FiO₂', type: 'number', unit: '%' },
@@ -1840,15 +2536,481 @@
             ]
         };
 
-        // Variáveis globais
-        let currentCategory = 'altura_volume';
-        let currentFormulaObj = null;
         let patients = JSON.parse(localStorage.getItem('ventila_patients') || '[]');
         let selectedPatient = localStorage.getItem('selected_patient');
         if (selectedPatient === 'null' || selectedPatient === 'undefined') selectedPatient = null;
         let historyData = JSON.parse(localStorage.getItem('ventila_history') || '{}');
         let currentChart = null;
-
+        
+        function getDefaultClinicalData() {
+            return {
+                historicoIntubacoes: [],
+                dataTraqueostomia: null,
+                dataDecanulacao: null,
+                dataDesconexaoContinuada: null,
+                historicoExtubacoes: [],
+                alertaDesmameMostrado: false,
+                ultimoVC6: null,
+                fonteVC6: null
+            };
+        }
+        
+        let clinicalData = JSON.parse(localStorage.getItem('ventila_clinical_data') || '{}');
+        
+        function salvarDadosPacientes() {
+            localStorage.setItem('ventila_patients', JSON.stringify(patients));
+            localStorage.setItem('ventila_clinical_data', JSON.stringify(clinicalData));
+        }
+        
+        for (let i = 0; i < patients.length; i++) {
+            if (!clinicalData[patients[i].name]) {
+                clinicalData[patients[i].name] = getDefaultClinicalData();
+            }
+        }
+        salvarDadosPacientes();
+        
+        function clearPatientSelection() {
+            selectedPatient = null;
+            localStorage.setItem('selected_patient', 'null');
+            updatePatientBar();
+            document.getElementById('patientPanel').classList.remove('show');
+        }
+        
+        function getUltimaIntubacao(patientData) {
+            if (!patientData.historicoIntubacoes || patientData.historicoIntubacoes.length === 0) return null;
+            return patientData.historicoIntubacoes[patientData.historicoIntubacoes.length - 1];
+        }
+        
+        function getUltimaExtubacao(patientData) {
+            if (!patientData.historicoExtubacoes || patientData.historicoExtubacoes.length === 0) return null;
+            return patientData.historicoExtubacoes[patientData.historicoExtubacoes.length - 1];
+        }
+        
+        function pacienteEstaEmVM(data) {
+            if (data.dataDecanulacao) return false;
+            if (data.dataTraqueostomia && data.dataDesconexaoContinuada) return false;
+            if (data.dataTraqueostomia) return true;
+            const ultimaIntubacao = getUltimaIntubacao(data);
+            if (ultimaIntubacao) return true;
+            return false;
+        }
+        
+        function getDataReferenciaVM(data) {
+            if (data.dataTraqueostomia && !data.dataDesconexaoContinuada) {
+                return data.dataTraqueostomia;
+            }
+            const ultimaIntubacao = getUltimaIntubacao(data);
+            if (ultimaIntubacao) {
+                return ultimaIntubacao.data;
+            }
+            return null;
+        }
+        
+        function calcularTempoVM(dataReferencia) {
+            if (!dataReferencia) return null;
+            const inicio = new Date(dataReferencia);
+            const agora = new Date();
+            const diffMs = agora - inicio;
+            const diffHoras = Math.floor(diffMs / (1000 * 60 * 60));
+            const dias = Math.floor(diffHoras / 24);
+            const horas = diffHoras % 24;
+            return { dias, horas, totalHoras: diffHoras };
+        }
+        
+        function getCorTempoVM(dias) {
+            if (dias < 7) return 'green';
+            if (dias < 12) return 'yellow';
+            if (dias < 15) return 'orange';
+            return 'red';
+        }
+        
+        function calcularTempoForaTubo(dataExtubacao) {
+            if (!dataExtubacao) return null;
+            const inicio = new Date(dataExtubacao);
+            const agora = new Date();
+            const diffMs = agora - inicio;
+            const diffHoras = Math.floor(diffMs / (1000 * 60 * 60));
+            const dias = Math.floor(diffHoras / 24);
+            const horas = diffHoras % 24;
+            return { dias, horas, totalHoras: diffHoras };
+        }
+        
+        function calcularTempoForaVMDesconexao(dataDesconexao) {
+            if (!dataDesconexao) return null;
+            const inicio = new Date(dataDesconexao);
+            const agora = new Date();
+            const diffMs = agora - inicio;
+            const diffHoras = Math.floor(diffMs / (1000 * 60 * 60));
+            const dias = Math.floor(diffHoras / 24);
+            const horas = diffHoras % 24;
+            return { dias, horas, totalHoras: diffHoras };
+        }
+        
+        function calcularTempoRestanteDesmame(tempoVniDesativado) {
+            if (!tempoVniDesativado) return null;
+            const inicio = new Date(tempoVniDesativado);
+            const agora = new Date();
+            const diffMs = agora - inicio;
+            const horasPassadas = diffMs / (1000 * 60 * 60);
+            const horasRestantes = Math.max(0, 48 - horasPassadas);
+            if (horasRestantes <= 0) return 0;
+            const dias = Math.floor(horasRestantes / 24);
+            const horas = Math.floor(horasRestantes % 24);
+            return { dias, horas, totalHoras: horasRestantes };
+        }
+        
+        function verificarSucessoDesmame(patientData, patientIdx) {
+            const ultimaExtubacao = getUltimaExtubacao(patientData);
+            if (!ultimaExtubacao) return false;
+            
+            if (ultimaExtubacao.sucessoDesmame && patientData.alertaDesmameMostrado) return false;
+            
+            if (ultimaExtubacao.vniDesativadoEm) {
+                const inicio = new Date(ultimaExtubacao.vniDesativadoEm);
+                const agora = new Date();
+                const diffMs = agora - inicio;
+                const horasPassadas = diffMs / (1000 * 60 * 60);
+                
+                if (horasPassadas >= 48 && !ultimaExtubacao.sucessoDesmame) {
+                    ultimaExtubacao.sucessoDesmame = true;
+                    patientData.alertaDesmameMostrado = false;
+                    salvarDadosPacientes();
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        function registrarSucessoDesmameHistorico(patientName) {
+            if (!historyData[patientName]) historyData[patientName] = {};
+            if (!historyData[patientName]['eventos']) historyData[patientName]['eventos'] = [];
+            historyData[patientName]['eventos'].push({
+                date: new Date().toLocaleString('pt-BR'),
+                timestamp: Date.now(),
+                tipo: 'sucesso_desmame',
+                message: '✅ SUCESSO DE DESMAME! Paciente completou 48 horas sem Ventilação Mecânica (invasiva ou não invasiva).'
+            });
+            localStorage.setItem('ventila_history', JSON.stringify(historyData));
+        }
+        
+        function atualizarUltimoVC6(patientName, vc6, fonte) {
+            if (!clinicalData[patientName]) {
+                clinicalData[patientName] = getDefaultClinicalData();
+            }
+            clinicalData[patientName].ultimoVC6 = vc6;
+            clinicalData[patientName].fonteVC6 = fonte;
+            salvarDadosPacientes();
+            updatePatientBar();
+        }
+        
+        function obterUltimoVC6(patientName) {
+            if (clinicalData[patientName] && clinicalData[patientName].ultimoVC6) {
+                return clinicalData[patientName].ultimoVC6;
+            }
+            return null;
+        }
+        
+        function buscarVC6DasFontes(patientName) {
+            const history = historyData[patientName] || {};
+            
+            const meiaEnvergadura = history['meia_envergadura'];
+            if (meiaEnvergadura && meiaEnvergadura.length > 0) {
+                const ultimo = meiaEnvergadura[meiaEnvergadura.length - 1];
+                if (ultimo.result && ultimo.result.includes('PBW:')) {
+                    const pbwMatch = ultimo.result.match(/PBW:\s*([\d\.]+)/);
+                    if (pbwMatch) {
+                        const pbw = parseFloat(pbwMatch[1]);
+                        if (!isNaN(pbw)) {
+                            const vc6 = Math.round(pbw * 6);
+                            atualizarUltimoVC6(patientName, vc6, 'Meia Envergadura');
+                            return vc6;
+                        }
+                    }
+                }
+            }
+            
+            const alturaJoelho = history['altura_joelho'];
+            if (alturaJoelho && alturaJoelho.length > 0) {
+                const ultimo = alturaJoelho[alturaJoelho.length - 1];
+                if (ultimo.result && ultimo.result.includes('PBW:')) {
+                    const pbwMatch = ultimo.result.match(/PBW:\s*([\d\.]+)/);
+                    if (pbwMatch) {
+                        const pbw = parseFloat(pbwMatch[1]);
+                        if (!isNaN(pbw)) {
+                            const vc6 = Math.round(pbw * 6);
+                            atualizarUltimoVC6(patientName, vc6, 'Altura do Joelho');
+                            return vc6;
+                        }
+                    }
+                }
+            }
+            
+            const tamanhoUlna = history['tamanho_ulna'];
+            if (tamanhoUlna && tamanhoUlna.length > 0) {
+                const ultimo = tamanhoUlna[tamanhoUlna.length - 1];
+                if (ultimo.result && ultimo.result.includes('PBW:')) {
+                    const pbwMatch = ultimo.result.match(/PBW:\s*([\d\.]+)/);
+                    if (pbwMatch) {
+                        const pbw = parseFloat(pbwMatch[1]);
+                        if (!isNaN(pbw)) {
+                            const vc6 = Math.round(pbw * 6);
+                            atualizarUltimoVC6(patientName, vc6, 'Tamanho da Ulna');
+                            return vc6;
+                        }
+                    }
+                }
+            }
+            
+            const vcHistory = history['vc'];
+            if (vcHistory && vcHistory.length > 0) {
+                for (const item of vcHistory) {
+                    if (item.result && item.result.includes('6 mL/kg')) {
+                        const vcMatch = item.result.match(/(\d+)\s*mL/);
+                        if (vcMatch) {
+                            const vc6 = parseInt(vcMatch[0]);
+                            atualizarUltimoVC6(patientName, vc6, 'Volume Corrente (6 mL/kg)');
+                            return vc6;
+                        }
+                    }
+                }
+            }
+            
+            return null;
+        }
+        
+        function gerarCronologia(patientData, patientName) {
+            const eventos = [];
+            
+            if (patientData.historicoIntubacoes && patientData.historicoIntubacoes.length > 0) {
+                for (let i = 0; i < patientData.historicoIntubacoes.length; i++) {
+                    const intubacao = patientData.historicoIntubacoes[i];
+                    const isReintubacao = i > 0;
+                    
+                    eventos.push({
+                        data: new Date(intubacao.data),
+                        tipo: 'intubacao',
+                        texto: `${isReintubacao ? `🔄 ${i + 1}ª INTUBAÇÃO (REINTUBAÇÃO)` : `📅 ${i + 1}ª INTUBAÇÃO`} em ${new Date(intubacao.data).toLocaleString('pt-BR')}`,
+                        id: `intubacao_${i}`,
+                        intIdx: i
+                    });
+                    
+                    if (patientData.historicoExtubacoes && patientData.historicoExtubacoes.length > i) {
+                        const extubacao = patientData.historicoExtubacoes[i];
+                        if (new Date(extubacao.data) > new Date(intubacao.data)) {
+                            eventos.push({
+                                data: new Date(extubacao.data),
+                                tipo: 'extubacao',
+                                texto: `🫁 ${i + 1}ª EXTUBAÇÃO em ${new Date(extubacao.data).toLocaleString('pt-BR')}${extubacao.vniAtivo ? ' (Paciente mantido em VNI)' : ''}`,
+                                id: `extubacao_${i}`,
+                                extIdx: i
+                            });
+                            
+                            if (extubacao.vniDesativadoEm) {
+                                eventos.push({
+                                    data: new Date(extubacao.vniDesativadoEm),
+                                    tipo: 'vni_desativada',
+                                    texto: `🟢 VNI desativada em ${new Date(extubacao.vniDesativadoEm).toLocaleString('pt-BR')}`,
+                                    id: `vni_${i}`,
+                                    extIdx: i
+                                });
+                            }
+                            
+                            if (extubacao.sucessoDesmame) {
+                                eventos.push({
+                                    data: new Date(new Date(extubacao.vniDesativadoEm).getTime() + (48 * 60 * 60 * 1000)),
+                                    tipo: 'sucesso_desmame',
+                                    texto: `✅ SUCESSO DE DESMAME! 48h sem VM completas`,
+                                    id: `sucesso_${i}`,
+                                    extIdx: i
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (patientData.dataTraqueostomia) {
+                eventos.push({
+                    data: new Date(patientData.dataTraqueostomia),
+                    tipo: 'traqueostomia',
+                    texto: `📌 TRAQUEOSTOMIA realizada em ${new Date(patientData.dataTraqueostomia).toLocaleString('pt-BR')}`,
+                    id: 'traqueostomia'
+                });
+            }
+            
+            if (patientData.dataDesconexaoContinuada) {
+                eventos.push({
+                    data: new Date(patientData.dataDesconexaoContinuada),
+                    tipo: 'desconexao_continua',
+                    texto: `🔌 DESCONEXÃO CONTÍNUA DA VM em ${new Date(patientData.dataDesconexaoContinuada).toLocaleString('pt-BR')}`,
+                    id: 'desconexao_continua'
+                });
+            }
+            
+            if (patientData.dataDecanulacao) {
+                eventos.push({
+                    data: new Date(patientData.dataDecanulacao),
+                    tipo: 'decanulacao',
+                    texto: `✅ DECANULAÇÃO em ${new Date(patientData.dataDecanulacao).toLocaleString('pt-BR')}`,
+                    id: 'decanulacao'
+                });
+            }
+            
+            eventos.sort((a, b) => a.data - b.data);
+            
+            return eventos;
+        }
+        
+        function mostrarCronologia() {
+            if (selectedPatient === null || !patients[selectedPatient]) {
+                alert('Selecione um paciente primeiro.');
+                return;
+            }
+            
+            const patient = patients[selectedPatient];
+            const data = clinicalData[patient.name] || getDefaultClinicalData();
+            const eventos = gerarCronologia(data, patient.name);
+            
+            const modal = document.getElementById('cronologiaModal');
+            const body = document.getElementById('cronologiaBody');
+            
+            if (eventos.length === 0) {
+                body.innerHTML = '<div style="text-align: center; padding: 40px;">Nenhum evento registrado para este paciente.</div>';
+            } else {
+                let html = '<div class="cronologia-list">';
+                eventos.forEach(evento => {
+                    html += `<div class="cronologia-item" data-id="${evento.id}" data-tipo="${evento.tipo}" data-intidx="${evento.intIdx || ''}" data-extidx="${evento.extIdx || ''}">
+                                <div class="cronologia-item-content">
+                                    <strong>${evento.data.toLocaleString('pt-BR')}</strong><br>
+                                    ${evento.texto}
+                                </div>
+                                <div class="cronologia-item-actions">
+                                    <button class="btn-small" onclick="editarEventoCronologia('${evento.tipo}', '${evento.id}', ${evento.intIdx || 0}, ${evento.extIdx || 0})"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-small btn-small-danger" onclick="excluirEventoCronologia('${evento.tipo}', '${evento.id}', ${evento.intIdx || 0}, ${evento.extIdx || 0})"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>`;
+                });
+                html += '</div>';
+                body.innerHTML = html;
+            }
+            
+            modal.classList.add('show');
+        }
+        
+        function editarEventoCronologia(tipo, id, intIdx, extIdx) {
+            const patient = patients[selectedPatient];
+            const data = clinicalData[patient.name];
+            
+            if (tipo === 'intubacao') {
+                const intubacao = data.historicoIntubacoes[intIdx];
+                const dataAtual = formatarDataHoraParaInput(intubacao.data);
+                document.getElementById('editarIntubacaoDateTime').value = dataAtual;
+                document.getElementById('editarIntubacaoIndex').value = intIdx;
+                document.getElementById('editarIntubacaoModal').classList.add('show');
+            } else if (tipo === 'traqueostomia') {
+                const dataAtual = formatarDataHoraParaInput(data.dataTraqueostomia);
+                document.getElementById('editarTraqueostomiaDateTime').value = dataAtual;
+                document.getElementById('editarTraqueostomiaModal').classList.add('show');
+            } else if (tipo === 'extubacao') {
+                const ext = data.historicoExtubacoes[extIdx];
+                const dataAtual = formatarDataHoraParaInput(ext.data);
+                document.getElementById('editarExtubacaoDateTime').value = dataAtual;
+                document.getElementById('editarVniAposExtubacao').checked = ext.vniAtivo;
+                document.getElementById('editarExtubacaoIndex').value = extIdx;
+                document.getElementById('editarExtubacaoModal').classList.add('show');
+            } else if (tipo === 'desconexao_continua') {
+                const dataAtual = formatarDataHoraParaInput(data.dataDesconexaoContinuada);
+                document.getElementById('editarDesconexaoContinuadaDateTime').value = dataAtual;
+                document.getElementById('editarDesconexaoContinuadaModal').classList.add('show');
+            } else if (tipo === 'decanulacao') {
+                const dataAtual = formatarDataHoraParaInput(data.dataDecanulacao);
+                document.getElementById('editarDecanulacaoDateTime').value = dataAtual;
+                document.getElementById('editarDecanulacaoModal').classList.add('show');
+            }
+            
+            closeCronologiaModal();
+        }
+        
+        function excluirEventoCronologia(tipo, id, intIdx, extIdx) {
+            const patient = patients[selectedPatient];
+            const data = clinicalData[patient.name];
+            
+            if (tipo === 'intubacao') {
+                document.getElementById('excluirIntubacaoIndex').value = intIdx;
+                document.getElementById('excluirIntubacaoModal').classList.add('show');
+            } else if (tipo === 'traqueostomia') {
+                document.getElementById('excluirTraqueostomiaModal').classList.add('show');
+            } else if (tipo === 'extubacao' || tipo === 'vni_desativada' || tipo === 'sucesso_desmame') {
+                if (confirm('Deseja excluir esta extubação e todos os eventos relacionados (VNI, sucesso de desmame)?')) {
+                    data.historicoExtubacoes.splice(extIdx, 1);
+                    data.alertaDesmameMostrado = false;
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                    mostrarCronologia();
+                }
+            } else if (tipo === 'desconexao_continua') {
+                document.getElementById('excluirDesconexaoContinuadaModal').classList.add('show');
+            } else if (tipo === 'decanulacao') {
+                document.getElementById('excluirDecanulacaoModal').classList.add('show');
+            }
+            
+            closeCronologiaModal();
+        }
+        
+        function copiarCronologia() {
+            if (selectedPatient === null || !patients[selectedPatient]) {
+                alert('Selecione um paciente primeiro.');
+                return;
+            }
+            
+            const patient = patients[selectedPatient];
+            const data = clinicalData[patient.name] || getDefaultClinicalData();
+            const eventos = gerarCronologia(data, patient.name);
+            
+            if (eventos.length === 0) {
+                alert('Nenhum evento registrado para copiar.');
+                return;
+            }
+            
+            let texto = `CRONOLOGIA DO PACIENTE - ${patient.name}\n`;
+            texto += `${'='.repeat(50)}\n\n`;
+            
+            eventos.forEach(evento => {
+                texto += `[${evento.data.toLocaleString('pt-BR')}] ${evento.texto}\n`;
+            });
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(texto).then(() => {
+                    alert('Cronologia copiada para a área de transferência!');
+                }).catch(() => {
+                    copiarTextoFallback(texto);
+                });
+            } else {
+                copiarTextoFallback(texto);
+            }
+        }
+        
+        function copiarTextoFallback(texto) {
+            const textarea = document.createElement('textarea');
+            textarea.value = texto;
+            textarea.style.position = 'fixed';
+            textarea.style.top = '-9999px';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                alert('Cronologia copiada para a área de transferência!');
+            } catch (err) {
+                alert('Erro ao copiar. Tente selecionar e copiar manualmente.');
+            }
+            document.body.removeChild(textarea);
+        }
+        
+        function closeCronologiaModal() {
+            document.getElementById('cronologiaModal').classList.remove('show');
+        }
+        
         const formulaNames = {
             meia_envergadura: 'Meia Envergadura ×2', altura_joelho: 'Altura do Joelho', tamanho_ulna: 'Tamanho da Ulna',
             ibw: 'Peso Predito', vc: 'Volume Corrente', driving_pressure: 'Driving Pressure',
@@ -1859,10 +3021,11 @@
             pmus: 'PMUS', dp_transpulmonar: 'DP Transpulmonar', pmi: 'PMI', delta_pocc: 'ΔPocc', indice_fadiga: 'Índice de Fadiga',
             iwi: 'IWI', tobin: 'Índice de Tobin', express: 'ExPreS Score', crop_weaning: 'CROP', visage: 'VISAGE Score',
             hacor: 'HACOR Score', rox: 'ROX Index',
+            gcs: 'Glasgow (GCS)', four: 'FOUR', rass: 'RASS', sas: 'SAS',
             gradiente_alveolo_arterial: 'Gradiente A-a', espaco_morto: 'Espaço Morto', razao_ventilatoria: 'Razão Ventilatória',
             anion_gap: 'Ânion Gap', checagem_ph: 'Checagem de pH', gap_co2: 'Gap CO₂'
         };
-
+        
         const categoryMap = {
             meia_envergadura: 'altura_volume', altura_joelho: 'altura_volume', tamanho_ulna: 'altura_volume',
             ibw: 'protective', vc: 'protective', driving_pressure: 'protective',
@@ -1872,16 +3035,31 @@
             pmus: 'effort', dp_transpulmonar: 'effort', pmi: 'effort', delta_pocc: 'effort', indice_fadiga: 'effort',
             iwi: 'weaning', tobin: 'weaning', express: 'weaning', crop_weaning: 'weaning', visage: 'weaning',
             hacor: 'vni_cnaf', rox: 'vni_cnaf',
+            gcs: 'nivel_consciencia', four: 'nivel_consciencia', rass: 'nivel_consciencia', sas: 'nivel_consciencia',
             gradiente_alveolo_arterial: 'variaveis_fisiologicas', espaco_morto: 'variaveis_fisiologicas',
             razao_ventilatoria: 'variaveis_fisiologicas', anion_gap: 'variaveis_fisiologicas', checagem_ph: 'variaveis_fisiologicas',
             gap_co2: 'variaveis_fisiologicas'
         };
-
+        
+        function limparTextoHistorico(texto) {
+            if (!texto || typeof texto !== 'string') return texto;
+            return texto.normalize('NFC').replace(/[^\x00-\x7F\u00C0-\u00FF\u0100-\u017F]/g, '');
+        }
+        
         function saveToHistory(formulaId, result, unit) {
             if (selectedPatient === null || !patients[selectedPatient]) return;
             const patientKey = patients[selectedPatient].name;
             if (!historyData[patientKey]) historyData[patientKey] = {};
             if (!historyData[patientKey][formulaId]) historyData[patientKey][formulaId] = [];
+            
+            if (formulaId === 'vc') {
+                const vcMatch = result.toString().match(/(\d+)/);
+                if (vcMatch && result.toString().includes('6 mL/kg')) {
+                    const vc6 = parseInt(vcMatch[0]);
+                    atualizarUltimoVC6(patientKey, vc6, 'Volume Corrente (6 mL/kg)');
+                }
+            }
+            
             historyData[patientKey][formulaId].push({
                 date: new Date().toLocaleString('pt-BR'),
                 timestamp: Date.now(),
@@ -1890,115 +3068,7 @@
             });
             localStorage.setItem('ventila_history', JSON.stringify(historyData));
         }
-
-        function updatePatientBar() {
-            const badgeDiv = document.getElementById('patientBadge');
-            const actionsDiv = document.getElementById('patientActions');
-            if (selectedPatient !== null && patients[selectedPatient]) {
-                badgeDiv.innerHTML = `<div class="patient-name-badge"><i class="fas fa-user-check"></i> ${patients[selectedPatient].name} | Leito: ${patients[selectedPatient].bed}</div>`;
-                actionsDiv.innerHTML = `<button onclick="clearPatientSelection()"><i class="fas fa-times"></i> Limpar</button>
-                                        <button onclick="showHistoryModal()"><i class="fas fa-history"></i> Histórico</button>
-                                        <button onclick="togglePatientPanel()"><i class="fas fa-edit"></i> Gerenciar</button>`;
-            } else {
-                badgeDiv.innerHTML = `<div class="quick-mode-badge"><i class="fas fa-fast-forward"></i> Modo: Cálculo Rápido</div>`;
-                actionsDiv.innerHTML = `<button onclick="togglePatientPanel()"><i class="fas fa-users"></i> Selecionar Paciente</button>`;
-            }
-        }
-
-        function clearPatientSelection() {
-            selectedPatient = null;
-            localStorage.setItem('selected_patient', 'null');
-            updatePatientBar();
-            document.getElementById('patientPanel').classList.remove('show');
-        }
-
-        function toggleTheme() {
-            const isDark = document.body.classList.toggle('dark');
-            localStorage.setItem('ventila_theme', isDark ? 'dark' : 'light');
-            const themeBtn = document.getElementById('themeBtn');
-            if (isDark) {
-                themeBtn.innerHTML = '<i class="fas fa-sun"></i> Claro';
-            } else {
-                themeBtn.innerHTML = '<i class="fas fa-moon"></i> Escuro';
-            }
-        }
-
-        function togglePatientPanel() {
-            const panel = document.getElementById('patientPanel');
-            panel.classList.toggle('show');
-            renderPatientList();
-        }
-
-        function renderPatientList() {
-            const container = document.getElementById('patientList');
-            container.innerHTML = '';
-            patients.forEach((p, idx) => {
-                const div = document.createElement('div');
-                div.className = `patient-item ${selectedPatient && selectedPatient == idx ? 'selected' : ''}`;
-                div.innerHTML = `
-                    <div class="patient-info" onclick="selectPatient(${idx})">
-                        <strong>${p.name}</strong><br>
-                        <span style="font-size: 11px;">Leito: ${p.bed} | ${p.record}</span>
-                    </div>
-                    <button class="delete-patient" onclick="deletePatient(${idx}); event.stopPropagation();" title="Excluir paciente">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function deletePatient(idx) {
-            if (confirm(`Tem certeza que deseja excluir o paciente "${patients[idx].name}" e todo o seu histórico?`)) {
-                const patientKey = patients[idx].name;
-                patients.splice(idx, 1);
-                localStorage.setItem('ventila_patients', JSON.stringify(patients));
-                
-                if (historyData[patientKey]) {
-                    delete historyData[patientKey];
-                    localStorage.setItem('ventila_history', JSON.stringify(historyData));
-                }
-                
-                if (selectedPatient == idx) {
-                    selectedPatient = null;
-                    localStorage.setItem('selected_patient', 'null');
-                    updatePatientBar();
-                } else if (selectedPatient > idx) {
-                    selectedPatient--;
-                    localStorage.setItem('selected_patient', selectedPatient);
-                }
-                
-                renderPatientList();
-                updatePatientBar();
-            }
-        }
-
-        function addPatient() {
-            const name = document.getElementById('patientName').value.trim();
-            const bed = document.getElementById('patientBed').value.trim();
-            const record = document.getElementById('patientRecord').value.trim();
-            if (!name) return alert('Nome obrigatório');
-            patients.push({ name, bed, record });
-            localStorage.setItem('ventila_patients', JSON.stringify(patients));
-            document.getElementById('patientName').value = '';
-            document.getElementById('patientBed').value = '';
-            document.getElementById('patientRecord').value = '';
-            renderPatientList();
-        }
-
-        function selectPatient(idx) {
-            selectedPatient = idx;
-            localStorage.setItem('selected_patient', idx);
-            renderPatientList();
-            updatePatientBar();
-            document.getElementById('patientPanel').classList.remove('show');
-        }
-
-        function limparTextoHistorico(texto) {
-            if (!texto || typeof texto !== 'string') return texto;
-            return texto.normalize('NFC').replace(/[^\x00-\x7F\u00C0-\u00FF\u0100-\u017F]/g, '');
-        }
-
+        
         function showHistoryModal() {
             if (selectedPatient === null || !patients[selectedPatient]) {
                 alert('Selecione um paciente primeiro.');
@@ -2009,56 +3079,22 @@
             const modal = document.getElementById('historyModal');
             const modalBody = document.getElementById('modalBody');
             
-            let ultimoVC6 = null;
-            const formulasAltura = ['meia_envergadura', 'altura_joelho', 'tamanho_ulna'];
-            for (const formulaId of formulasAltura) {
-                const calcHistory = history[formulaId];
-                if (calcHistory && calcHistory.length > 0) {
-                    const ultimo = calcHistory[calcHistory.length - 1];
-                    if (ultimo.result && ultimo.result.includes('PBW:')) {
-                        const pbwMatch = ultimo.result.match(/PBW:\s*([\d\.]+)/);
-                        if (pbwMatch) {
-                            const pbw = parseFloat(pbwMatch[1]);
-                            if (!isNaN(pbw)) {
-                                ultimoVC6 = Math.round(pbw * 6);
-                                break;
-                            }
-                        }
-                    }
-                }
+            const eventosClinicos = history['eventos'] || [];
+            let html = '';
+            
+            if (eventosClinicos.length > 0) {
+                html += `<div class="history-group">
+                            <div class="history-group-header"><i class="fas fa-notes-medical"></i> Eventos Clínicos</div>`;
+                eventosClinicos.forEach(evento => {
+                    html += `<div class="history-calc-item">
+                                <div><div class="calc-name">📋 ${evento.message}</div>
+                                <div class="calc-last-date">${evento.date}</div></div>
+                            </div>`;
+                });
+                html += `</div>`;
             }
             
-            if (!ultimoVC6) {
-                const ibwHistory = history['ibw'];
-                if (ibwHistory && ibwHistory.length > 0) {
-                    const ultimoIbw = ibwHistory[ibwHistory.length - 1];
-                    if (ultimoIbw.result) {
-                        const pbwMatch = ultimoIbw.result.match(/[\d\.]+/);
-                        if (pbwMatch) {
-                            const pbw = parseFloat(pbwMatch[0]);
-                            if (!isNaN(pbw)) {
-                                ultimoVC6 = Math.round(pbw * 6);
-                            }
-                        }
-                    }
-                }
-            }
-            
-            if (!ultimoVC6) {
-                const vcHistory = history['vc'];
-                if (vcHistory && vcHistory.length > 0) {
-                    for (const item of vcHistory) {
-                        if (item.result && item.result.includes('6 mL/kg')) {
-                            const vcMatch = item.result.match(/(\d+)\s*mL/);
-                            if (vcMatch) {
-                                ultimoVC6 = parseInt(vcMatch[1]);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            
+            let ultimoVC6 = obterUltimoVC6(patientName);
             let vc6Card = '';
             if (ultimoVC6) {
                 vc6Card = `
@@ -2078,9 +3114,7 @@
                 `;
             }
             
-            document.getElementById('modalTitle').innerHTML = `<i class="fas fa-history"></i> Histórico - ${patientName}`;
-            
-            let html = vc6Card;
+            html = vc6Card + html;
             html += '<div class="history-list">';
             for (const [catKey, cat] of Object.entries(categoriesConfig)) {
                 const calcs = Object.keys(formulaNames).filter(fid => categoryMap[fid] === catKey);
@@ -2103,10 +3137,12 @@
                 }
             }
             html += '</div>';
+            
+            document.getElementById('modalTitle').innerHTML = `<i class="fas fa-history"></i> Histórico - ${patientName}`;
             modalBody.innerHTML = html;
             modal.classList.add('show');
         }
-
+        
         function showDetailHistory(formulaId) {
             if (selectedPatient === null || !patients[selectedPatient]) return;
             const patientName = patients[selectedPatient].name;
@@ -2114,12 +3150,12 @@
             const calcHistory = history[formulaId] || [];
             const modal = document.getElementById('detailModal');
             document.getElementById('detailModalTitle').innerHTML = `<i class="fas fa-chart-line"></i> ${formulaNames[formulaId]} - ${patientName}`;
-            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></td></thead><tbody>`;
+            let tableHtml = `<table class="history-detail-table"><thead><tr><th>Data/Hora</th><th>Resultado</th></tr></thead><tbody>`;
             const chartData = [];
             const chartLabels = [];
             calcHistory.forEach((item, idx) => {
                 const resultLimpo = limparTextoHistorico(item.result);
-                tableHtml += `<tr><td>${item.date}</td><td><strong>${resultLimpo}</strong> ${item.unit || ''}</td></tr>`;
+                tableHtml += `<tr><td>${item.date}<tr><td><strong>${resultLimpo}</strong> ${item.unit || ''}</td></tr>`;
                 chartLabels.push(idx + 1);
                 chartData.push(parseFloat(item.result));
             });
@@ -2140,10 +3176,765 @@
                 }
             }, 100);
         }
-
+        
         function closeHistoryModal() { document.getElementById('historyModal').classList.remove('show'); }
         function closeDetailModal() { document.getElementById('detailModal').classList.remove('show'); }
+        
+        function updatePatientBar() {
+            const container = document.getElementById('patientClinicalInfo');
+            
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name] || getDefaultClinicalData();
+                
+                const emVM = pacienteEstaEmVM(data);
+                const dataReferenciaVM = getDataReferenciaVM(data);
+                const tempoVM = emVM ? calcularTempoVM(dataReferenciaVM) : null;
+                const corTempo = tempoVM ? getCorTempoVM(tempoVM.dias) : 'green';
+                
+                let ultimoVC6 = obterUltimoVC6(patient.name);
+                if (!ultimoVC6) {
+                    ultimoVC6 = buscarVC6DasFontes(patient.name);
+                }
+                
+                const pacienteIntubado = data.historicoIntubacoes && data.historicoIntubacoes.length > 0;
+                const pacienteTraqueostomizado = !!data.dataTraqueostomia;
+                const pacienteDecanulado = !!data.dataDecanulacao;
+                
+                const ultimaExtubacao = getUltimaExtubacao(data);
+                const temExtubacaoAtiva = ultimaExtubacao && !ultimaExtubacao.reintubado && !pacienteTraqueostomizado;
+                const tempoForaTubo = ultimaExtubacao && !ultimaExtubacao.vniAtivo ? calcularTempoForaTubo(ultimaExtubacao.data) : null;
+                const tempoForaVMDesconexao = data.dataDesconexaoContinuada ? calcularTempoForaVMDesconexao(data.dataDesconexaoContinuada) : null;
+                const tempoRestanteDesmame = ultimaExtubacao && ultimaExtubacao.vniDesativadoEm ? calcularTempoRestanteDesmame(ultimaExtubacao.vniDesativadoEm) : null;
+                
+                const sucessoDesmame = verificarSucessoDesmame(data, selectedPatient);
+                if (sucessoDesmame) {
+                    registrarSucessoDesmameHistorico(patient.name);
+                    data.alertaDesmameMostrado = true;
+                    salvarDadosPacientes();
+                }
+                
+                const mostrarBannerSucesso = ultimaExtubacao && ultimaExtubacao.sucessoDesmame && !data.alertaDesmameMostrado;
+                
+                let html = `
+                    <div class="patient-header-row">
+                        <div class="patient-name-area">
+                            <div class="patient-name-badge">
+                                <i class="fas fa-user-circle"></i> ${patient.name} | Leito: ${patient.bed}
+                                <button class="clear-patient-btn" onclick="clearPatientSelection()" title="Desselecionar paciente"><i class="fas fa-times"></i></button>
+                            </div>
+                            <button class="history-button" onclick="showHistoryModal()">
+                                <i class="fas fa-history"></i> Histórico
+                            </button>
+                            <button class="cronologia-button" onclick="mostrarCronologia()">
+                                <i class="fas fa-timeline"></i> Cronologia
+                            </button>
+                        </div>
+                        <div class="vc-target-badge">
+                            <i class="fas fa-lungs"></i> ${ultimoVC6 ? ultimoVC6 + ' mL (6mL/kg)' : 'VC 6mL/kg não calculado'}
+                        </div>
+                    </div>
+                    <div class="patient-info-details">
+                `;
+                
+                if (pacienteTraqueostomizado && !data.dataDesconexaoContinuada && !data.dataDecanulacao) {
+                    const dataTraqueostomiaFormatada = new Date(data.dataTraqueostomia).toLocaleString('pt-BR');
+                    html += `<div class="info-line">
+                                <i class="fas fa-procedures"></i>
+                                <span>📌 Traqueostomia: ${dataTraqueostomiaFormatada}</span>
+                                ${emVM && tempoVM ? `<span class="vm-time-badge vm-time-${corTempo}"><i class="fas fa-hourglass-half"></i> VM: ${tempoVM.dias}d ${tempoVM.horas}h</span>` : ''}
+                                <button class="action-icon" onclick="abrirModalEditarTraqueostomia()" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="action-icon" onclick="abrirModalExcluirTraqueostomia()" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                            </div>`;
+                } else if (pacienteTraqueostomizado && data.dataDesconexaoContinuada && !data.dataDecanulacao) {
+                    const dataTraqueostomiaFormatada = new Date(data.dataTraqueostomia).toLocaleString('pt-BR');
+                    const dataDesconexaoFormatada = new Date(data.dataDesconexaoContinuada).toLocaleString('pt-BR');
+                    html += `<div class="info-line">
+                                <i class="fas fa-procedures"></i>
+                                <span>📌 Traqueostomia: ${dataTraqueostomiaFormatada}</span>
+                                <button class="action-icon" onclick="abrirModalEditarTraqueostomia()" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="action-icon" onclick="abrirModalExcluirTraqueostomia()" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                            </div>`;
+                    html += `<div class="info-line">
+                                <i class="fas fa-plug"></i>
+                                <span>🔌 Desconexão contínua da VM: ${dataDesconexaoFormatada}</span>
+                                ${tempoForaVMDesconexao ? `<span><i class="fas fa-clock"></i> Fora da VM: ${tempoForaVMDesconexao.dias}d ${tempoForaVMDesconexao.horas}h</span>` : ''}
+                                <button class="action-icon" onclick="abrirModalEditarDesconexaoContinuada()" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="action-icon" onclick="abrirModalExcluirDesconexaoContinuada()" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                            </div>`;
+                } else if (pacienteIntubado && !pacienteTraqueostomizado) {
+                    const ultimaInt = data.historicoIntubacoes[data.historicoIntubacoes.length - 1];
+                    const numIntubacao = data.historicoIntubacoes.length;
+                    const isReintubacao = numIntubacao > 1;
+                    const intubacaoTexto = `${isReintubacao ? `${numIntubacao}ª INTUBAÇÃO (REINTUBAÇÃO)` : `${numIntubacao}ª INTUBAÇÃO`}: ${new Date(ultimaInt.data).toLocaleString('pt-BR')}`;
+                    html += `<div class="info-line">
+                                <i class="fas fa-thermometer-half"></i>
+                                <span>📅 ${intubacaoTexto}</span>
+                                ${emVM && tempoVM ? `<span class="vm-time-badge vm-time-${corTempo}"><i class="fas fa-hourglass-half"></i> VM: ${tempoVM.dias}d ${tempoVM.horas}h</span>` : ''}
+                                <button class="action-icon" onclick="abrirModalEditarIntubacao()" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="action-icon" onclick="abrirModalExcluirIntubacao()" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                            </div>`;
+                }
+                
+                if (data.dataDecanulacao) {
+                    const dataDecanulacaoFormatada = new Date(data.dataDecanulacao).toLocaleString('pt-BR');
+                    html += `<div class="info-line">
+                                <i class="fas fa-check-circle"></i>
+                                <span>✅ Decanulação: ${dataDecanulacaoFormatada}</span>
+                                <button class="action-icon" onclick="abrirModalEditarDecanulacao()" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="action-icon" onclick="abrirModalExcluirDecanulacao()" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                            </div>`;
+                }
+                
+                if (temExtubacaoAtiva && !pacienteTraqueostomizado) {
+                    const dataExtubacaoFormatada = new Date(ultimaExtubacao.data).toLocaleString('pt-BR');
+                    html += `<div class="info-line">
+                                <i class="fas fa-lungs"></i>
+                                <span>🫁 Extubação: ${dataExtubacaoFormatada}</span>
+                                ${tempoForaTubo ? `<span><i class="fas fa-clock"></i> Fora do tubo: ${tempoForaTubo.dias}d ${tempoForaTubo.horas}h</span>` : ''}
+                                <button class="action-icon" onclick="abrirModalEditarExtubacao()" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="action-icon" onclick="abrirModalExcluirExtubacao()" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                            </div>`;
+                    
+                    if (ultimaExtubacao.vniAtivo) {
+                        html += `<div class="info-line">
+                                    <i class="fas fa-mask"></i>
+                                    <span>🟡 Em uso de VNI (ativo)</span>
+                                </div>`;
+                    } else if (ultimaExtubacao.vniDesativadoEm) {
+                        const dataDesativacao = new Date(ultimaExtubacao.vniDesativadoEm).toLocaleString('pt-BR');
+                        html += `<div class="info-line">
+                                    <i class="fas fa-mask"></i>
+                                    <span>🟢 VNI desativada desde: ${dataDesativacao}</span>
+                                    ${tempoRestanteDesmame ? (tempoRestanteDesmame.totalHoras > 0 ? 
+                                        `<span><i class="fas fa-hourglass-start"></i> 48h restantes: ${tempoRestanteDesmame.dias}d ${tempoRestanteDesmame.horas}h</span>` :
+                                        `<span><i class="fas fa-check-circle"></i> 48h concluídas! ✅</span>`) : ''}
+                                </div>`;
+                    }
+                }
+                
+                html += `</div>`;
+                
+                if (mostrarBannerSucesso && ultimaExtubacao && ultimaExtubacao.sucessoDesmame) {
+                    html += `
+                        <div class="success-banner" id="successBanner">
+                            <div><i class="fas fa-trophy"></i> 🎉 SUCESSO DE DESMAME! Paciente completou 48 horas sem Ventilação Mecânica (invasiva ou não invasiva) ✅</div>
+                            <button onclick="fecharBannerSucesso()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 12px; border-radius: 20px; cursor: pointer;"><i class="fas fa-times"></i> OK</button>
+                        </div>
+                    `;
+                }
+                
+                html += `<div class="patient-actions">`;
+                
+                if (pacienteIntubado && !pacienteTraqueostomizado) {
+                    html += `<button onclick="abrirModalTraqueostomia()"><i class="fas fa-procedures"></i> Traqueostomia</button>`;
+                }
+                
+                if (pacienteTraqueostomizado && !data.dataDesconexaoContinuada && !data.dataDecanulacao) {
+                    html += `<button onclick="abrirModalDesconexaoContinuada()"><i class="fas fa-plug"></i> Desconexão Contínua</button>`;
+                    html += `<button onclick="abrirModalDecanulacao()"><i class="fas fa-check-circle"></i> Decanulação</button>`;
+                } else if (pacienteTraqueostomizado && data.dataDesconexaoContinuada && !data.dataDecanulacao) {
+                    html += `<button onclick="abrirModalDecanulacao()"><i class="fas fa-check-circle"></i> Decanulação</button>`;
+                }
+                
+                if (!temExtubacaoAtiva && pacienteIntubado && !pacienteTraqueostomizado) {
+                    html += `<button onclick="abrirModalExtubacao()"><i class="fas fa-lungs"></i> Extubar</button>`;
+                }
+                
+                if (temExtubacaoAtiva && !pacienteTraqueostomizado) {
+                    html += `<button onclick="abrirModalNovaIntubacao()"><i class="fas fa-sync-alt"></i> Nova Intubação</button>`;
+                }
+                
+                if (!pacienteIntubado) {
+                    html += `<button onclick="abrirModalRegistrarIntubacao()"><i class="fas fa-thermometer-half"></i> Registrar Intubação</button>`;
+                }
+                
+                html += `</div>`;
+                
+                if (temExtubacaoAtiva && ultimaExtubacao && !ultimaExtubacao.sucessoDesmame && !pacienteTraqueostomizado) {
+                    const vniChecked = ultimaExtubacao.vniAtivo ? 'checked' : '';
+                    html += `
+                        <div class="vni-toggle-area">
+                            <div class="vni-toggle-label">
+                                <i class="fas fa-mask"></i> Em uso de VNI?
+                                <label class="toggle-switch" style="margin-left: 8px;">
+                                    <input type="checkbox" id="vniToggle" ${vniChecked} onchange="toggleVNI(this.checked)">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <div class="info-tooltip-btn" style="margin-left: 5px;">
+                                    <i class="fas fa-question"></i>
+                                    <span class="tooltip-text-simple">Desative após a retirada completa da VNI. O sistema iniciará contagem de 48h para sucesso de desmame.</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `
+                    <div class="patient-header-row">
+                        <div class="patient-name-area">
+                            <div class="quick-mode-badge">
+                                <i class="fas fa-fast-forward"></i> Modo: Cálculo Rápido
+                            </div>
+                        </div>
+                        <div class="patient-actions">
+                            <button onclick="togglePatientPanel()"><i class="fas fa-users"></i> Selecionar Paciente</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function fecharBannerSucesso() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (clinicalData[patient.name]) {
+                    clinicalData[patient.name].alertaDesmameMostrado = true;
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                }
+            }
+        }
+        
+        function abrirModalDesconexaoContinuada() {
+            const agora = new Date();
+            const ano = agora.getFullYear();
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(agora.getMinutes()).padStart(2, '0');
+            document.getElementById('desconexaoContinuadaDateTime').value = `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+            document.getElementById('desconexaoContinuadaModal').classList.add('show');
+        }
+        
+        function closeDesconexaoContinuadaModal() {
+            document.getElementById('desconexaoContinuadaModal').classList.remove('show');
+        }
+        
+        function confirmarDesconexaoContinuada() {
+            const dataHora = document.getElementById('desconexaoContinuadaDateTime').value;
+            if (dataHora && selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                clinicalData[patient.name].dataDesconexaoContinuada = new Date(dataHora).toISOString();
+                salvarDadosPacientes();
+                updatePatientBar();
+            }
+            closeDesconexaoContinuadaModal();
+        }
+        
+        function confirmarEditarDesconexaoContinuada() {
+            const dataHora = document.getElementById('editarDesconexaoContinuadaDateTime').value;
+            if (dataHora && selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                clinicalData[patient.name].dataDesconexaoContinuada = new Date(dataHora).toISOString();
+                salvarDadosPacientes();
+                updatePatientBar();
+                mostrarCronologia();
+            }
+            closeEditarDesconexaoContinuadaModal();
+        }
+        
+        function closeEditarDesconexaoContinuadaModal() {
+            document.getElementById('editarDesconexaoContinuadaModal').classList.remove('show');
+        }
+        
+        function confirmarExcluirDesconexaoContinuada() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (clinicalData[patient.name]) {
+                    clinicalData[patient.name].dataDesconexaoContinuada = null;
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                    mostrarCronologia();
+                }
+            }
+            closeExcluirDesconexaoContinuadaModal();
+        }
+        
+        function closeExcluirDesconexaoContinuadaModal() {
+            document.getElementById('excluirDesconexaoContinuadaModal').classList.remove('show');
+        }
+        
+        function abrirModalDecanulacao() {
+            const agora = new Date();
+            const ano = agora.getFullYear();
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(agora.getMinutes()).padStart(2, '0');
+            document.getElementById('decanulacaoDateTime').value = `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+            document.getElementById('decanulacaoModal').classList.add('show');
+        }
+        
+        function closeDecanulacaoModal() {
+            document.getElementById('decanulacaoModal').classList.remove('show');
+        }
+        
+        function confirmarDecanulacao() {
+            const dataHora = document.getElementById('decanulacaoDateTime').value;
+            if (dataHora && selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                clinicalData[patient.name].dataDecanulacao = new Date(dataHora).toISOString();
+                salvarDadosPacientes();
+                updatePatientBar();
+            }
+            closeDecanulacaoModal();
+        }
+        
+        function confirmarEditarDecanulacao() {
+            const dataHora = document.getElementById('editarDecanulacaoDateTime').value;
+            if (dataHora && selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                clinicalData[patient.name].dataDecanulacao = new Date(dataHora).toISOString();
+                salvarDadosPacientes();
+                updatePatientBar();
+                mostrarCronologia();
+            }
+            closeEditarDecanulacaoModal();
+        }
+        
+        function closeEditarDecanulacaoModal() {
+            document.getElementById('editarDecanulacaoModal').classList.remove('show');
+        }
+        
+        function confirmarExcluirDecanulacao() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (clinicalData[patient.name]) {
+                    clinicalData[patient.name].dataDecanulacao = null;
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                    mostrarCronologia();
+                }
+            }
+            closeExcluirDecanulacaoModal();
+        }
+        
+        function closeExcluirDecanulacaoModal() {
+            document.getElementById('excluirDecanulacaoModal').classList.remove('show');
+        }
+        
+        function abrirModalRegistrarIntubacao() {
+            const agora = new Date();
+            const ano = agora.getFullYear();
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(agora.getMinutes()).padStart(2, '0');
+            document.getElementById('intubacaoDateTime').value = `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+            document.getElementById('registrarIntubacaoModal').classList.add('show');
+        }
+        
+        function closeRegistrarIntubacaoModal() {
+            document.getElementById('registrarIntubacaoModal').classList.remove('show');
+        }
+        
+        function confirmarRegistrarIntubacao() {
+            const dataHora = document.getElementById('intubacaoDateTime').value;
+            if (dataHora && selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                if (!clinicalData[patient.name].historicoIntubacoes) {
+                    clinicalData[patient.name].historicoIntubacoes = [];
+                }
+                clinicalData[patient.name].historicoIntubacoes.push({
+                    data: new Date(dataHora).toISOString()
+                });
+                salvarDadosPacientes();
+                updatePatientBar();
+            }
+            closeRegistrarIntubacaoModal();
+        }
+        
 
+        function formatarDataHoraParaInput(dataValor) {
+            if (!dataValor) return '';
+            const data = new Date(dataValor);
+            if (isNaN(data.getTime())) return '';
+            const ano = data.getFullYear();
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const dia = String(data.getDate()).padStart(2, '0');
+            const horas = String(data.getHours()).padStart(2, '0');
+            const minutos = String(data.getMinutes()).padStart(2, '0');
+            return `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+        }
+
+        function abrirModalEditarIntubacao() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name] || getDefaultClinicalData();
+                const historico = data.historicoIntubacoes || [];
+                const intIdx = historico.length - 1;
+
+                if (intIdx >= 0 && historico[intIdx]) {
+                    document.getElementById('editarIntubacaoDateTime').value = formatarDataHoraParaInput(historico[intIdx].data);
+                    document.getElementById('editarIntubacaoIndex').value = intIdx;
+                    document.getElementById('editarIntubacaoModal').classList.add('show');
+                }
+            }
+        }
+
+        function abrirModalExcluirIntubacao() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name] || getDefaultClinicalData();
+                const historico = data.historicoIntubacoes || [];
+                const intIdx = historico.length - 1;
+
+                if (intIdx >= 0) {
+                    document.getElementById('excluirIntubacaoIndex').value = intIdx;
+                    document.getElementById('excluirIntubacaoModal').classList.add('show');
+                }
+            }
+        }
+
+        function abrirModalExcluirExtubacao() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name] || getDefaultClinicalData();
+                const historico = data.historicoExtubacoes || [];
+                const extIdx = historico.length - 1;
+
+                if (extIdx >= 0 && confirm('Deseja excluir esta extubação e todos os eventos relacionados (VNI e sucesso de desmame)?')) {
+                    historico.splice(extIdx, 1);
+                    data.alertaDesmameMostrado = false;
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                }
+            }
+        }
+
+        function confirmarEditarIntubacao() {
+            const dataHora = document.getElementById('editarIntubacaoDateTime').value;
+            const intIdx = parseInt(document.getElementById('editarIntubacaoIndex').value);
+            if (dataHora && selectedPatient !== null && patients[selectedPatient] && intIdx >= 0) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                if (clinicalData[patient.name].historicoIntubacoes && clinicalData[patient.name].historicoIntubacoes[intIdx]) {
+                    clinicalData[patient.name].historicoIntubacoes[intIdx].data = new Date(dataHora).toISOString();
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                    mostrarCronologia();
+                }
+            }
+            closeEditarIntubacaoModal();
+        }
+        
+        function closeEditarIntubacaoModal() {
+            document.getElementById('editarIntubacaoModal').classList.remove('show');
+        }
+        
+        function confirmarExcluirIntubacao() {
+            const intIdx = parseInt(document.getElementById('excluirIntubacaoIndex').value);
+            if (selectedPatient !== null && patients[selectedPatient] && intIdx >= 0) {
+                const patient = patients[selectedPatient];
+                if (clinicalData[patient.name] && clinicalData[patient.name].historicoIntubacoes) {
+                    clinicalData[patient.name].historicoIntubacoes.splice(intIdx, 1);
+                    if (clinicalData[patient.name].historicoIntubacoes.length === 0) {
+                        clinicalData[patient.name].historicoExtubacoes = [];
+                        clinicalData[patient.name].alertaDesmameMostrado = false;
+                    }
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                    mostrarCronologia();
+                }
+            }
+            closeExcluirIntubacaoModal();
+        }
+        
+        function closeExcluirIntubacaoModal() {
+            document.getElementById('excluirIntubacaoModal').classList.remove('show');
+        }
+        
+        function abrirModalExtubacao() {
+            const agora = new Date();
+            const ano = agora.getFullYear();
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(agora.getMinutes()).padStart(2, '0');
+            document.getElementById('extubacaoDateTime').value = `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+            document.getElementById('vniAposExtubacao').checked = false;
+            document.getElementById('extubacaoModal').classList.add('show');
+        }
+        
+        function closeExtubacaoModal() {
+            document.getElementById('extubacaoModal').classList.remove('show');
+        }
+        
+        function confirmarExtubacao() {
+            const dataHora = document.getElementById('extubacaoDateTime').value;
+            const vniApos = document.getElementById('vniAposExtubacao').checked;
+            
+            if (!dataHora) {
+                alert('Selecione a data e hora da extubação');
+                return;
+            }
+            
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                
+                if (!clinicalData[patient.name].historicoExtubacoes) {
+                    clinicalData[patient.name].historicoExtubacoes = [];
+                }
+                
+                clinicalData[patient.name].historicoExtubacoes.push({
+                    data: new Date(dataHora).toISOString(),
+                    vniAtivo: vniApos,
+                    vniDesativadoEm: null,
+                    sucessoDesmame: false,
+                    reintubado: false
+                });
+                
+                salvarDadosPacientes();
+                updatePatientBar();
+            }
+            
+            closeExtubacaoModal();
+        }
+        
+        function abrirModalEditarExtubacao() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name] || getDefaultClinicalData();
+                const historico = data.historicoExtubacoes || [];
+                const extIdx = historico.length - 1;
+                const ultimaExtubacao = historico[extIdx];
+
+                if (extIdx >= 0 && ultimaExtubacao) {
+                    document.getElementById('editarExtubacaoDateTime').value = formatarDataHoraParaInput(ultimaExtubacao.data);
+                    document.getElementById('editarVniAposExtubacao').checked = !!ultimaExtubacao.vniAtivo;
+                    document.getElementById('editarExtubacaoIndex').value = extIdx;
+                    document.getElementById('editarExtubacaoModal').classList.add('show');
+                }
+            }
+        }
+        
+        function closeEditarExtubacaoModal() {
+            document.getElementById('editarExtubacaoModal').classList.remove('show');
+        }
+        
+        function confirmarEditarExtubacao() {
+            const dataHora = document.getElementById('editarExtubacaoDateTime').value;
+            const vniApos = document.getElementById('editarVniAposExtubacao').checked;
+            const extIdx = parseInt(document.getElementById('editarExtubacaoIndex').value);
+            
+            if (dataHora && selectedPatient !== null && patients[selectedPatient] && extIdx >= 0) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name];
+                if (data.historicoExtubacoes && data.historicoExtubacoes[extIdx]) {
+                    data.historicoExtubacoes[extIdx].data = new Date(dataHora).toISOString();
+                    data.historicoExtubacoes[extIdx].vniAtivo = vniApos;
+                    if (!vniApos && !data.historicoExtubacoes[extIdx].vniDesativadoEm) {
+                        data.historicoExtubacoes[extIdx].vniDesativadoEm = new Date().toISOString();
+                    } else if (vniApos) {
+                        data.historicoExtubacoes[extIdx].vniDesativadoEm = null;
+                        data.historicoExtubacoes[extIdx].sucessoDesmame = false;
+                        data.alertaDesmameMostrado = false;
+                    }
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                    mostrarCronologia();
+                }
+            }
+            closeEditarExtubacaoModal();
+        }
+        
+        function abrirModalTraqueostomia() {
+            const agora = new Date();
+            const ano = agora.getFullYear();
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(agora.getMinutes()).padStart(2, '0');
+            document.getElementById('traqueostomiaDateTime').value = `${ano}-${mes}-${dia}T${horas}:${minutos}`;
+            document.getElementById('traqueostomiaModal').classList.add('show');
+        }
+        
+        function closeTraqueostomiaModal() {
+            document.getElementById('traqueostomiaModal').classList.remove('show');
+        }
+        
+        function confirmarTraqueostomia() {
+            const dataHora = document.getElementById('traqueostomiaDateTime').value;
+            if (dataHora && selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                clinicalData[patient.name].dataTraqueostomia = new Date(dataHora).toISOString();
+                salvarDadosPacientes();
+                updatePatientBar();
+            }
+            closeTraqueostomiaModal();
+        }
+        
+        function abrirModalEditarTraqueostomia() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name];
+                if (data.dataTraqueostomia) {
+                    const dataFormatada = formatarDataHoraParaInput(data.dataTraqueostomia);
+                    document.getElementById('editarTraqueostomiaDateTime').value = dataFormatada;
+                    document.getElementById('editarTraqueostomiaModal').classList.add('show');
+                }
+            }
+        }
+        
+        function closeEditarTraqueostomiaModal() {
+            document.getElementById('editarTraqueostomiaModal').classList.remove('show');
+        }
+        
+        function confirmarEditarTraqueostomia() {
+            const dataHora = document.getElementById('editarTraqueostomiaDateTime').value;
+            if (dataHora && selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (!clinicalData[patient.name]) {
+                    clinicalData[patient.name] = getDefaultClinicalData();
+                }
+                clinicalData[patient.name].dataTraqueostomia = new Date(dataHora).toISOString();
+                salvarDadosPacientes();
+                updatePatientBar();
+                mostrarCronologia();
+            }
+            closeEditarTraqueostomiaModal();
+        }
+        
+        function abrirModalExcluirTraqueostomia() {
+            document.getElementById('excluirTraqueostomiaModal').classList.add('show');
+        }
+        
+        function closeExcluirTraqueostomiaModal() {
+            document.getElementById('excluirTraqueostomiaModal').classList.remove('show');
+        }
+        
+        function confirmarExcluirTraqueostomia() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                if (clinicalData[patient.name]) {
+                    clinicalData[patient.name].dataTraqueostomia = null;
+                    clinicalData[patient.name].dataDesconexaoContinuada = null;
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                    mostrarCronologia();
+                }
+            }
+            closeExcluirTraqueostomiaModal();
+        }
+        
+        function abrirModalNovaIntubacao() {
+            document.getElementById('novaIntubacaoModal').classList.add('show');
+        }
+        
+        function closeNovaIntubacaoModal() {
+            document.getElementById('novaIntubacaoModal').classList.remove('show');
+        }
+        
+        function confirmarNovaIntubacao() {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name];
+                
+                // Marcar última extubação como reintubado
+                if (data.historicoExtubacoes && data.historicoExtubacoes.length > 0) {
+                    data.historicoExtubacoes[data.historicoExtubacoes.length - 1].reintubado = true;
+                }
+                
+                // Registrar nova intubação
+                if (!data.historicoIntubacoes) {
+                    data.historicoIntubacoes = [];
+                }
+                data.historicoIntubacoes.push({
+                    data: new Date().toISOString()
+                });
+                
+                data.alertaDesmameMostrado = false;
+                data.dataDesconexaoContinuada = null;
+                data.dataDecanulacao = null;
+                
+                salvarDadosPacientes();
+                updatePatientBar();
+            }
+            closeNovaIntubacaoModal();
+        }
+        
+        function toggleVNI(ativado) {
+            if (selectedPatient !== null && patients[selectedPatient]) {
+                const patient = patients[selectedPatient];
+                const data = clinicalData[patient.name];
+                
+                if (data.historicoExtubacoes && data.historicoExtubacoes.length > 0) {
+                    const ultimaExtubacao = data.historicoExtubacoes[data.historicoExtubacoes.length - 1];
+                    ultimaExtubacao.vniAtivo = ativado;
+                    
+                    if (!ativado && !ultimaExtubacao.vniDesativadoEm) {
+                        ultimaExtubacao.vniDesativadoEm = new Date().toISOString();
+                    } else if (ativado) {
+                        ultimaExtubacao.vniDesativadoEm = null;
+                        ultimaExtubacao.sucessoDesmame = false;
+                        data.alertaDesmameMostrado = false;
+                    }
+                    
+                    salvarDadosPacientes();
+                    updatePatientBar();
+                }
+            }
+        }
+        
+        let currentCategory = 'altura_volume';
+        let currentFormulaObj = null;
+        
+        function renderInputWithTooltip(input) {
+            const div = document.createElement('div');
+            div.className = 'input-group';
+            
+            let html = `<div class="input-label-wrapper">
+                            <label>${input.label} (${input.unit || ''})</label>`;
+            
+            if (input.tooltip) {
+                html += `<div class="info-tooltip">
+                            <i class="fas fa-question"></i>
+                            <span class="tooltip-text">${input.tooltip}</span>
+                         </div>`;
+            }
+            
+            html += `</div>`;
+            
+            if (input.type === 'select') {
+                html += `<select id="input_${input.id}">`;
+                input.options.forEach(opt => {
+                    html += `<option value="${opt}">${opt}</option>`;
+                });
+                html += `</select>`;
+            } else {
+                html += `<input type="number" id="input_${input.id}" placeholder="${input.unit || ''}" step="any">`;
+            }
+            
+            div.innerHTML = html;
+            return div;
+        }
+        
         function showCategory(category) {
             currentCategory = category;
             document.getElementById('mainMenu').style.display = 'none';
@@ -2176,37 +3967,7 @@
                 }
             }
         }
-
-        function renderInputWithTooltip(input) {
-            const div = document.createElement('div');
-            div.className = 'input-group';
-            
-            let html = `<div class="input-label-wrapper">
-                            <label>${input.label} (${input.unit || ''})</label>`;
-            
-            if (input.tooltip) {
-                html += `<div class="info-tooltip">
-                            <i class="fas fa-question"></i>
-                            <span class="tooltip-text">${input.tooltip}</span>
-                         </div>`;
-            }
-            
-            html += `</div>`;
-            
-            if (input.type === 'select') {
-                html += `<select id="input_${input.id}">`;
-                input.options.forEach(opt => {
-                    html += `<option value="${opt}">${opt}</option>`;
-                });
-                html += `</select>`;
-            } else {
-                html += `<input type="number" id="input_${input.id}" placeholder="${input.unit || ''}" step="any">`;
-            }
-            
-            div.innerHTML = html;
-            return div;
-        }
-
+        
         function selectFormula(category, formulaId) {
             currentFormulaObj = formulasDB[category].find(f => f.id === formulaId);
             if (!currentFormulaObj) return;
@@ -2272,7 +4033,7 @@
                 else btn.classList.remove('active');
             });
         }
-
+        
         function performCalculation() {
             if (!currentFormulaObj) return;
             const inputs = {};
@@ -2329,7 +4090,7 @@
                 }
                 
                 const interpretResult = currentFormulaObj.interpret(result, inputs);
-                const resultValue = typeof result === 'number' ? result.toFixed(2) : result;
+                const resultValue = currentFormulaObj.id === 'gcs' && typeof result === 'number' ? String(Math.round(result)) : (typeof result === 'number' ? result.toFixed(2) : result);
                 document.getElementById('resultValue').innerHTML = resultValue;
                 const subResultDiv = document.getElementById('subResult');
                 if (interpretResult.subResult) subResultDiv.innerHTML = `<div class="result-sub">${interpretResult.subResult}</div>`;
@@ -2351,22 +4112,104 @@
                 alert('Erro no cálculo. Verifique os valores.'); 
             }
         }
-
+        
         function backToMenu() {
             document.getElementById('mainMenu').style.display = 'grid';
             document.getElementById('categoryArea').style.display = 'none';
         }
-
+        
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('ventila_theme', isDark ? 'dark' : 'light');
+            const themeBtn = document.getElementById('themeBtn');
+            if (isDark) {
+                themeBtn.innerHTML = '<i class="fas fa-sun"></i> Claro';
+            } else {
+                themeBtn.innerHTML = '<i class="fas fa-moon"></i> Escuro';
+            }
+        }
+        
+        function togglePatientPanel() {
+            const panel = document.getElementById('patientPanel');
+            panel.classList.toggle('show');
+            renderPatientList();
+        }
+        
+        function renderPatientList() {
+            const container = document.getElementById('patientList');
+            container.innerHTML = '';
+            patients.forEach((p, idx) => {
+                const div = document.createElement('div');
+                div.className = `patient-item ${selectedPatient && selectedPatient == idx ? 'selected' : ''}`;
+                div.innerHTML = `
+                    <div class="patient-info" onclick="selectPatient(${idx})">
+                        <strong>${p.name}</strong><br>
+                        <span style="font-size: 11px;">Leito: ${p.bed} | ${p.record}</span>
+                    </div>
+                    <button class="delete-patient" onclick="deletePatient(${idx}); event.stopPropagation();" title="Excluir paciente">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function selectPatient(idx) {
+            selectedPatient = idx;
+            localStorage.setItem('selected_patient', idx);
+            renderPatientList();
+            updatePatientBar();
+            document.getElementById('patientPanel').classList.remove('show');
+        }
+        
+        function addPatient() {
+            const name = document.getElementById('patientName').value.trim();
+            const bed = document.getElementById('patientBed').value.trim();
+            const record = document.getElementById('patientRecord').value.trim();
+            if (!name) return alert('Nome obrigatório');
+            patients.push({ name, bed, record });
+            clinicalData[name] = getDefaultClinicalData();
+            salvarDadosPacientes();
+            document.getElementById('patientName').value = '';
+            document.getElementById('patientBed').value = '';
+            document.getElementById('patientRecord').value = '';
+            renderPatientList();
+        }
+        
+        function deletePatient(idx) {
+            if (confirm(`Tem certeza que deseja excluir o paciente "${patients[idx].name}" e todo o seu histórico?`)) {
+                const patientKey = patients[idx].name;
+                patients.splice(idx, 1);
+                delete clinicalData[patientKey];
+                delete historyData[patientKey];
+                salvarDadosPacientes();
+                localStorage.setItem('ventila_history', JSON.stringify(historyData));
+                
+                if (selectedPatient == idx) {
+                    selectedPatient = null;
+                    localStorage.setItem('selected_patient', 'null');
+                    updatePatientBar();
+                } else if (selectedPatient > idx) {
+                    selectedPatient--;
+                    localStorage.setItem('selected_patient', selectedPatient);
+                }
+                
+                renderPatientList();
+                updatePatientBar();
+            }
+        }
+        
         if (localStorage.getItem('ventila_theme') === 'dark') {
             document.body.classList.add('dark');
             document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i> Claro';
         } else {
             document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i> Escuro';
         }
+        
         renderPatientList();
         updatePatientBar();
     </script>
-
+    
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
