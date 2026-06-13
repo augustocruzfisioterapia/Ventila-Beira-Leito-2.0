@@ -1023,6 +1023,65 @@
             color: white;
             transform: scale(1.05);
         }
+
+
+        .pbw-vc-wrapper {
+            margin: 16px 0 4px;
+            padding: 14px;
+            border-radius: 16px;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+        }
+
+        .pbw-vc-title {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .pbw-vc-table {
+            display: grid;
+            grid-template-columns: 1fr 1.25fr 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pbw-vc-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        .pbw-vc-item span {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .pbw-vc-item strong {
+            display: block;
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .pbw-vc-highlight {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            color: white;
+            transform: scale(1.08);
+            box-shadow: 0 8px 22px rgba(16, 185, 129, 0.25);
+            border: none;
+        }
+
+        .pbw-vc-highlight span,
+        .pbw-vc-highlight strong {
+            color: white;
+        }
         
         .interpretation {
             margin-top: 12px;
@@ -1162,6 +1221,9 @@
             .history-detail-table th, .history-detail-table td { padding: 8px 6px; }
             .vc-table { gap: 5px; }
             .vc-item { padding: 6px; min-width: 50px; font-size: 12px; }
+            .pbw-vc-table { grid-template-columns: 1fr; }
+            .pbw-vc-highlight { transform: scale(1.02); }
+
             .header-buttons button { padding: 6px 12px; font-size: 11px; }
             .cronologia-item { flex-direction: column; align-items: flex-start; }
             .cronologia-item-actions { align-self: flex-end; }
@@ -1853,7 +1915,34 @@
                     const h = parseFloat(vals.height);
                     if (vals.gender === 'Masculino') return 50 + 0.91 * (h - 152.4);
                     return 45.5 + 0.91 * (h - 152.4);
-                }, interpret: (val) => `Peso predito: ${val.toFixed(1)} kg. Base para VC em VM protetora.` },
+                }, interpret: (val) => {
+                    if (val === null || isNaN(val)) return { text: 'Aguardando dados...' };
+                    const vc4 = Math.round(val * 4);
+                    const vc6 = Math.round(val * 6);
+                    const vc8 = Math.round(val * 8);
+                    return {
+                        text: `Peso predito: ${val.toFixed(1)} kg. Base para cálculo do volume corrente protetor.`,
+                        tabelaVC: `
+                            <div class="pbw-vc-wrapper">
+                                <div class="pbw-vc-title">Volume corrente sugerido pelo peso predito</div>
+                                <div class="pbw-vc-table">
+                                    <div class="pbw-vc-item">
+                                        <span>4 mL/kg</span>
+                                        <strong>${vc4} mL</strong>
+                                    </div>
+                                    <div class="pbw-vc-item pbw-vc-highlight">
+                                        <span>6 mL/kg</span>
+                                        <strong>${vc6} mL</strong>
+                                    </div>
+                                    <div class="pbw-vc-item">
+                                        <span>8 mL/kg</span>
+                                        <strong>${vc8} mL</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                    };
+                } },
                 
                 { id: 'vc', name: 'Volume Corrente (VC)', icon: 'fa-wind', formula: 'VC = Peso Predito × (4-8 mL/kg)', inputs: [
                     { id: 'ibw', label: 'Peso Predito', type: 'number', unit: 'kg' },
@@ -4090,7 +4179,7 @@
                 }
                 
                 const interpretResult = currentFormulaObj.interpret(result, inputs);
-                const resultValue = currentFormulaObj.id === 'gcs' && typeof result === 'number' ? String(Math.round(result)) : (typeof result === 'number' ? result.toFixed(2) : result);
+                const resultValue = currentFormulaObj.id === 'gcs' && typeof result === 'number' ? String(Math.round(result)) : (currentFormulaObj.id === 'ibw' && typeof result === 'number' ? result.toFixed(1) : (typeof result === 'number' ? result.toFixed(2) : result));
                 document.getElementById('resultValue').innerHTML = resultValue;
                 const subResultDiv = document.getElementById('subResult');
                 if (interpretResult.subResult) subResultDiv.innerHTML = `<div class="result-sub">${interpretResult.subResult}</div>`;
