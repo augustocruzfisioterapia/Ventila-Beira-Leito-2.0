@@ -2,7 +2,7 @@
 // Ventila Beira-Leito - Progressive Web App
 // Versão: v13 (atualize este número sempre que modificar o app)
 
-const CACHE_NAME = "ventila-beira-leito-v19";
+const CACHE_NAME = "ventila-beira-leito-v20";
 
 // Arquivos essenciais para o funcionamento offline do app
 const FILES_TO_CACHE = [
