@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -127,7 +128,348 @@
             background: rgba(255,255,255,0.35);
             transform: scale(1.02);
         }
+
+        .compact-header-actions {
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .profile-select {
+            background: rgba(255,255,255,0.22);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            padding: 8px 32px 8px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            outline: none;
+            min-width: 130px;
+        }
+
+        .profile-select option {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .icon-only-btn {
+            width: 38px;
+            height: 38px;
+            padding: 0 !important;
+            border-radius: 50% !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px !important;
+        }
+
+        .compact-action-btn {
+            padding: 8px 12px !important;
+        }
+
+
+        .header-content.refined-header {
+            align-items: flex-start;
+        }
+
+        .header-right-stack {
+            margin-left: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .top-icon-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .header-patient-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .header-patient-actions button {
+            background: rgba(255,255,255,0.18);
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.25s ease;
+        }
+
+        .header-patient-actions button:hover {
+            background: rgba(255,255,255,0.32);
+            transform: scale(1.02);
+        }
+
+        .profile-landing {
+            display: none;
+            min-height: 55vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 40px 24px;
+            margin-bottom: 25px;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            animation: fadeIn 0.25s ease;
+        }
+
+        .profile-landing.show {
+            display: flex;
+        }
+
+        .profile-landing h2 {
+            color: var(--primary);
+            font-size: clamp(28px, 5vw, 44px);
+            margin-bottom: 4px;
+        }
+
+        .profile-landing p {
+            color: var(--text-light);
+            max-width: 620px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .landing-profile-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            gap: 14px;
+            width: min(760px, 100%);
+            margin-top: 12px;
+        }
+
+        .landing-profile-btn {
+            border: 2px solid var(--border);
+            background: var(--bg-body);
+            color: var(--text);
+            padding: 20px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .landing-profile-btn i {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: var(--primary);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .landing-profile-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+        }
         
+
+
+        /* === Ajuste visual v8: cabeçalho compacto em duas linhas === */
+        .app-header {
+            padding: 14px 18px 16px;
+            border-radius: 22px;
+            margin-bottom: 18px;
+        }
+
+        .app-header.hide-on-landing {
+            display: none;
+        }
+
+        .header-content.refined-header {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            border-radius: 0;
+            cursor: default;
+        }
+
+        .header-top-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .header-bottom-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 26px;
+            padding-top: 2px;
+            width: 100%;
+        }
+
+        .logo-area h1 {
+            font-size: clamp(20px, 3vw, 26px);
+            line-height: 1.15;
+            margin-bottom: 4px;
+        }
+
+        .logo-area p {
+            font-size: 12px;
+            opacity: 0.88;
+        }
+
+        .top-icon-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .top-icon-actions .icon-only-btn {
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.28);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .top-icon-actions .icon-only-btn:hover {
+            background: rgba(255,255,255,0.34);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .profile-select {
+            width: 150px;
+            max-width: 100%;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.28);
+            color: white;
+            box-shadow: none;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            outline: none;
+            margin-left: auto;
+        }
+
+        .profile-select option {
+            color: var(--text);
+            background: var(--bg-card);
+        }
+
+        .header-patient-actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-right: auto;
+            align-items: center;
+        }
+
+        .header-patient-actions button {
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.24);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.25s ease;
+            min-height: 30px;
+            white-space: nowrap;
+        }
+
+        .header-patient-actions button:hover {
+            background: rgba(255,255,255,0.30);
+            transform: translateY(-1px);
+        }
+
+        .profile-landing {
+            min-height: calc(100vh - 40px);
+            margin-bottom: 0;
+            border-radius: 30px;
+            background:
+                radial-gradient(circle at top left, rgba(45,141,168,0.16), transparent 32%),
+                var(--bg-card);
+        }
+
+        .profile-landing h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 13px 14px 15px;
+                border-radius: 18px;
+            }
+
+            .header-top-line {
+                align-items: flex-start;
+            }
+
+            .header-bottom-line {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .profile-select {
+                width: 100%;
+            }
+
+            .header-patient-actions {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .header-patient-actions button {
+                flex: 1 1 130px;
+                justify-content: center;
+                padding: 7px 10px;
+            }
+
+            .top-icon-actions .icon-only-btn {
+                width: 34px;
+                height: 34px;
+            }
+
+            .profile-landing {
+                min-height: calc(100vh - 24px);
+                padding: 34px 18px;
+            }
+        }
+
         .patient-info-bar {
             background: var(--bg-card);
             border-radius: 20px;
@@ -151,6 +493,39 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .patient-context-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .patient-context-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .patient-context-primary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .patient-context-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex: 0 0 auto;
             flex-wrap: wrap;
         }
         
@@ -1024,7 +1399,6 @@
             transform: scale(1.05);
         }
 
-
         .pbw-vc-wrapper {
             margin: 16px 0 4px;
             padding: 14px;
@@ -1166,6 +1540,56 @@
             width: 100%;
         }
         
+
+        .whatsapp-community-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(45, 141, 168, 0.10));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin-top: 30px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .whatsapp-community-section h3 {
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .whatsapp-community-section p {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        .whatsapp-community-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.22);
+        }
+
+        .whatsapp-community-btn:hover {
+            background: var(--secondary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.28);
+        }
+
         .developer-section {
             background: var(--bg-card);
             border-radius: 20px;
@@ -1211,20 +1635,172 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+
+        .profile-switcher {
+            display: inline-flex;
+            gap: 6px;
+            padding: 4px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.16);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .profile-btn {
+            border: none;
+            background: transparent;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .profile-btn.active {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        .profile-note {
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.25);
+            color: var(--text);
+            border-radius: 14px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .profile-required-banner {
+            background: rgba(245,158,11,0.14);
+            border-left: 4px solid var(--warning);
+            padding: 12px 14px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        .profile-required-banner input {
+            margin-top: 8px;
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg-body);
+            color: var(--text);
+            width: 160px;
+        }
+
+        .patient-extra-fields {
+            display: contents;
+        }
+
+        .patient-panel-toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .patient-panel-toolbar button,
+        .patient-form-actions button {
+            background: var(--border);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text);
+        }
+
+        .patient-panel-toolbar button:hover,
+        .patient-form-actions button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .patient-form-area {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 18px;
+            background: var(--bg-body);
+        }
+
+        .patient-form-area.hidden {
+            display: none;
+        }
+
+        .patient-form select {
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-body);
+            color: var(--text);
+        }
+
+        .patient-list-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .edit-patient {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .edit-patient:hover {
+            background: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .neonatal-vc-badge {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            box-shadow: 0 4px 10px rgba(16,185,129,0.22);
+        }
+
         @media (max-width: 768px) {
             .app-container { padding: 12px; }
             .result-number { font-size: 32px; }
             .patient-info-details { grid-template-columns: 1fr; }
             .patient-header-row { flex-direction: column; align-items: flex-start; }
+            .patient-context-row { flex-direction: column; align-items: stretch; }
+            .patient-context-actions { justify-content: flex-start; }
+            .patient-context-actions .history-button,
+            .patient-context-actions .cronologia-button { flex: 1 1 140px; justify-content: center; }
             .modal-content { width: 95%; margin: 0 auto; max-height: 85vh; }
             .history-detail-table { font-size: 12px; }
             .history-detail-table th, .history-detail-table td { padding: 8px 6px; }
             .vc-table { gap: 5px; }
             .vc-item { padding: 6px; min-width: 50px; font-size: 12px; }
-            .pbw-vc-table { grid-template-columns: 1fr; }
-            .pbw-vc-highlight { transform: scale(1.02); }
-
             .header-buttons button { padding: 6px 12px; font-size: 11px; }
+            .profile-select { width: 100%; max-width: 220px; }
+            .header-content.refined-header { flex-direction: column; align-items: stretch; }
+            .header-right-stack { align-items: flex-end; width: 100%; }
+            .header-patient-actions { width: 100%; }
+            .landing-profile-buttons { grid-template-columns: 1fr; }
+            .compact-action-btn span { display: none; }
             .cronologia-item { flex-direction: column; align-items: flex-start; }
             .cronologia-item-actions { align-self: flex-end; }
         }
@@ -1233,42 +1809,263 @@
             .history-detail-table { display: block !important; overflow-x: auto !important; white-space: nowrap !important; }
             .modal-content { padding: 15px !important; max-width: 100% !important; max-height: 90vh !important; }
         }
+
+
+        /* === Correção v11: cabeçalho do app exatamente em 2 linhas === */
+        #appHeader.app-header {
+            padding: 14px 18px 15px !important;
+            border-radius: 22px !important;
+            margin-bottom: 18px !important;
+        }
+
+        #appHeader .header-content.refined-header {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        #appHeader .header-top-line {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        #appHeader .logo-area {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+        }
+
+        #appHeader .logo-area h1 {
+            font-size: clamp(19px, 3vw, 25px) !important;
+            line-height: 1.1 !important;
+            margin-bottom: 3px !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        #appHeader .logo-area p {
+            font-size: 12px !important;
+            opacity: 0.86 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        #appHeader .top-icon-actions {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 8px !important;
+            flex: 0 0 auto !important;
+        }
+
+        #appHeader .top-icon-actions .icon-only-btn {
+            width: 35px !important;
+            height: 35px !important;
+            min-width: 35px !important;
+            padding: 0 !important;
+            border-radius: 999px !important;
+            background: rgba(255,255,255,0.18) !important;
+            border: 1px solid rgba(255,255,255,0.28) !important;
+            color: white !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 14px !important;
+        }
+
+        #appHeader .header-bottom-line {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 18px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        #appHeader .header-patient-actions {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 7px !important;
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            margin: 0 !important;
+        }
+
+        #appHeader .header-patient-actions button {
+            flex: 0 0 auto !important;
+            width: auto !important;
+            min-height: 30px !important;
+            padding: 6px 10px !important;
+            border-radius: 999px !important;
+            font-size: 11px !important;
+            font-weight: 650 !important;
+            background: rgba(255,255,255,0.16) !important;
+            border: 1px solid rgba(255,255,255,0.24) !important;
+            color: white !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 5px !important;
+            white-space: nowrap !important;
+        }
+
+        #appHeader .profile-select {
+            flex: 0 0 148px !important;
+            width: 148px !important;
+            max-width: 148px !important;
+            min-height: 30px !important;
+            margin: 0 0 0 auto !important;
+            padding: 6px 28px 6px 10px !important;
+            border-radius: 999px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            background: rgba(255,255,255,0.18) !important;
+            border: 1px solid rgba(255,255,255,0.28) !important;
+            color: white !important;
+            outline: none !important;
+        }
+
+        @media (max-width: 520px) {
+            #appHeader.app-header {
+                padding: 12px 12px 13px !important;
+                border-radius: 18px !important;
+            }
+
+            #appHeader .logo-area h1 {
+                font-size: 18px !important;
+            }
+
+            #appHeader .logo-area p {
+                display: none !important;
+            }
+
+            #appHeader .top-icon-actions .icon-only-btn {
+                width: 32px !important;
+                height: 32px !important;
+                min-width: 32px !important;
+            }
+
+            #appHeader .header-bottom-line {
+                gap: 10px !important;
+            }
+
+            #appHeader .header-patient-actions {
+                gap: 6px !important;
+            }
+
+            #appHeader .header-patient-actions button {
+                padding: 6px 8px !important;
+                font-size: 10.5px !important;
+            }
+
+            #appHeader .profile-select {
+                flex-basis: 116px !important;
+                width: 116px !important;
+                max-width: 116px !important;
+                font-size: 10.5px !important;
+                padding-left: 8px !important;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="app-container">
-        <header class="app-header">
-            <div class="header-content">
-                <div class="logo-area">
-                    <h1><i class="fas fa-lungs"></i> Ventila Beira-Leito</h1>
-                    <p>Calculadora Avançada para Ventilação Mecânica</p>
+        <header id="appHeader" class="app-header hide-on-landing">
+            <div class="header-content refined-header">
+                <div class="header-top-line">
+                    <div class="logo-area">
+                        <h1><i class="fas fa-lungs"></i> Ventila Beira-Leito</h1>
+                        <p>Calculadora Avançada para Ventilação Mecânica</p>
+                    </div>
+                    <div class="top-icon-actions">
+                        <button class="home-btn icon-only-btn" onclick="goHomeReset()" title="Início" aria-label="Início">
+                            <i class="fas fa-home"></i>
+                        </button>
+                        <button id="themeBtn" class="theme-toggle icon-only-btn" onclick="toggleTheme()" title="Alternar tema" aria-label="Alternar tema">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="header-buttons">
-                    <button class="home-btn" onclick="backToMenu()">
-                        <i class="fas fa-home"></i> Início
-                    </button>
-                    <button class="patient-toggle" onclick="togglePatientPanel()">
-                        <i class="fas fa-users"></i> Pacientes
-                    </button>
-                    <button id="themeBtn" class="theme-toggle" onclick="toggleTheme()">
-                        <i class="fas fa-moon"></i> Escuro
-                    </button>
+                <div class="header-bottom-line">
+                    <div class="header-patient-actions">
+                        <button class="patient-toggle" onclick="togglePatientPanel()" title="Pacientes">
+                            <i class="fas fa-users"></i><span>Pacientes</span>
+                        </button>
+                        <button class="patient-toggle" onclick="openNewPatientPanel()" title="Novo Paciente">
+                            <i class="fas fa-user-plus"></i><span>Novo Paciente</span>
+                        </button>
+                    </div>
+                    <select id="clinicalProfileSelect" class="profile-select" aria-label="Selecionar perfil do paciente" onchange="handleClinicalProfileChange(this.value)">
+                        <option value="adulto">Adulto</option>
+                        <option value="pediatrico">Pediatria</option>
+                        <option value="neonatal">Neonatal</option>
+                    </select>
                 </div>
             </div>
         </header>
 
-        <div id="patientPanel" class="patient-panel">
-            <h3 style="margin-bottom: 15px;"><i class="fas fa-user-plus"></i> Cadastrar Paciente</h3>
-            <div class="patient-form">
-                <input type="text" id="patientName" placeholder="Nome do Paciente">
-                <input type="text" id="patientBed" placeholder="Leito">
-                <input type="text" id="patientRecord" placeholder="Registro Hospitalar">
-                <button onclick="addPatient()">Cadastrar</button>
+        <section id="profileLanding" class="profile-landing show" aria-label="Escolha do perfil do paciente">
+            <h2><i class="fas fa-lungs"></i> Ventila Beira-Leito</h2>
+            <p>Selecione o perfil do paciente para abrir a calculadora correspondente. Depois, você ainda pode trocar o perfil pela lista no topo.</p>
+            <div class="landing-profile-buttons">
+                <button class="landing-profile-btn" type="button" onclick="selectProfileFromLanding('adulto')">
+                    <i class="fas fa-user"></i>
+                    Adulto
+                </button>
+                <button class="landing-profile-btn" type="button" onclick="selectProfileFromLanding('pediatrico')">
+                    <i class="fas fa-child"></i>
+                    Pediátrico
+                </button>
+                <button class="landing-profile-btn" type="button" onclick="selectProfileFromLanding('neonatal')">
+                    <i class="fas fa-baby"></i>
+                    Neonatal
+                </button>
             </div>
-            <h3 style="margin: 15px 0 10px;"><i class="fas fa-list"></i> Pacientes Registrados</h3>
+        </section>
+
+        <div id="patientPanel" class="patient-panel">
+            <h3 id="patientPanelTitle" style="margin-bottom: 15px;"><i class="fas fa-users"></i> Pacientes Registrados</h3>
+            <div class="patient-panel-toolbar">
+                <button type="button" onclick="showPatientListOnly()"><i class="fas fa-list"></i> Selecionar Paciente</button>
+                <button type="button" onclick="showNewPatientForm()"><i class="fas fa-user-plus"></i> Novo Paciente</button>
+            </div>
+            <div id="patientFormArea" class="patient-form-area hidden">
+                <h3 id="patientFormTitle" style="margin-bottom: 15px;"><i class="fas fa-user-plus"></i> Cadastrar Paciente</h3>
+                <div class="patient-form">
+                    <input type="hidden" id="patientEditIndex" value="-1">
+                    <input type="text" id="patientName" placeholder="Nome do Paciente">
+                    <input type="text" id="patientBed" placeholder="Leito">
+                    <input type="text" id="patientRecord" placeholder="Registro Hospitalar">
+                    <span class="patient-extra-fields">
+                        <input type="number" id="patientAge" placeholder="Idade" step="any">
+                        <input type="number" id="patientHeight" placeholder="Altura (cm)" step="any">
+                        <input type="number" id="patientWeight" placeholder="Peso (kg)" step="any">
+                        <select id="patientWeightUnit" title="Unidade do peso">
+                            <option value="kg">kg</option>
+                            <option value="g">gramas</option>
+                        </select>
+                    </span>
+                    <button id="patientSaveBtn" onclick="addPatient()">Cadastrar</button>
+                </div>
+                <div class="patient-form-actions" style="margin-top: 10px;">
+                    <button type="button" onclick="hidePatientForm()"><i class="fas fa-times"></i> Cancelar</button>
+                </div>
+            </div>
+            <h3 id="patientListTitle" style="margin: 15px 0 10px;"><i class="fas fa-list"></i> Pacientes Registrados</h3>
             <div id="patientList" class="patient-list"></div>
             <div style="margin-top: 12px; font-size: 12px; color: var(--text-light);">
-                <i class="fas fa-info-circle"></i> Clique no nome para selecionar | Clique na lixeira para remover
+                <i class="fas fa-info-circle"></i> Clique no nome para selecionar | use o lápis para editar | lixeira para remover
             </div>
         </div>
 
@@ -1647,6 +2444,14 @@
                     <button class="btn-danger" onclick="confirmarExcluirIntubacao()">Excluir</button>
                 </div>
             </div>
+        </div>
+
+        <div class="whatsapp-community-section">
+            <h3><i class="fab fa-whatsapp"></i> Grupo exclusivo no WhatsApp</h3>
+            <p>Entre no grupo para receber atualizações, avisos e novidades do Ventila Beira-Leito.</p>
+            <a class="whatsapp-community-btn" href="https://chat.whatsapp.com/JPlV175sog0FcxdLiKSph0?s=cl&p=a&mlu=2" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-whatsapp"></i> Entrar no grupo
+            </a>
         </div>
 
         <div class="developer-section">
@@ -2625,11 +3430,32 @@
             ]
         };
 
-        let patients = JSON.parse(localStorage.getItem('ventila_patients') || '[]');
-        let selectedPatient = localStorage.getItem('selected_patient');
-        if (selectedPatient === 'null' || selectedPatient === 'undefined') selectedPatient = null;
-        let historyData = JSON.parse(localStorage.getItem('ventila_history') || '{}');
+        let activeClinicalProfile = localStorage.getItem('ventila_active_profile') || 'adulto';
+        let profileLandingActive = true;
+        if (!['adulto', 'pediatrico', 'neonatal'].includes(activeClinicalProfile)) activeClinicalProfile = 'adulto';
+
+        function profileStorageKey(base) {
+            return activeClinicalProfile === 'adulto' ? base : `${base}_${activeClinicalProfile}`;
+        }
+
+        function loadProfileScopedData() {
+            patients = JSON.parse(localStorage.getItem(profileStorageKey('ventila_patients')) || '[]');
+            selectedPatient = localStorage.getItem(profileStorageKey('selected_patient'));
+            if (selectedPatient === 'null' || selectedPatient === 'undefined') selectedPatient = null;
+            historyData = JSON.parse(localStorage.getItem(profileStorageKey('ventila_history')) || '{}');
+            clinicalData = JSON.parse(localStorage.getItem(profileStorageKey('ventila_clinical_data')) || '{}');
+        }
+
+        function saveSelectedPatient() {
+            localStorage.setItem(profileStorageKey('selected_patient'), selectedPatient === null ? 'null' : selectedPatient);
+        }
+
+        let patients = [];
+        let selectedPatient = null;
+        let historyData = {};
+        let clinicalData = {};
         let currentChart = null;
+        loadProfileScopedData();
         
         function getDefaultClinicalData() {
             return {
@@ -2644,11 +3470,9 @@
             };
         }
         
-        let clinicalData = JSON.parse(localStorage.getItem('ventila_clinical_data') || '{}');
-        
         function salvarDadosPacientes() {
-            localStorage.setItem('ventila_patients', JSON.stringify(patients));
-            localStorage.setItem('ventila_clinical_data', JSON.stringify(clinicalData));
+            localStorage.setItem(profileStorageKey('ventila_patients'), JSON.stringify(patients));
+            localStorage.setItem(profileStorageKey('ventila_clinical_data'), JSON.stringify(clinicalData));
         }
         
         for (let i = 0; i < patients.length; i++) {
@@ -2660,8 +3484,10 @@
         
         function clearPatientSelection() {
             selectedPatient = null;
-            localStorage.setItem('selected_patient', 'null');
+            saveSelectedPatient();
             updatePatientBar();
+            renderProfileMenu();
+            backToMenu();
             document.getElementById('patientPanel').classList.remove('show');
         }
         
@@ -2779,7 +3605,7 @@
                 tipo: 'sucesso_desmame',
                 message: '✅ SUCESSO DE DESMAME! Paciente completou 48 horas sem Ventilação Mecânica (invasiva ou não invasiva).'
             });
-            localStorage.setItem('ventila_history', JSON.stringify(historyData));
+            localStorage.setItem(profileStorageKey('ventila_history'), JSON.stringify(historyData));
         }
         
         function atualizarUltimoVC6(patientName, vc6, fonte) {
@@ -3100,6 +3926,419 @@
             document.getElementById('cronologiaModal').classList.remove('show');
         }
         
+
+        // ==================== PERFIS CLÍNICOS E MOTORES PED/NEO ====================
+        const adultCategoryKeys = ['altura_volume', 'protective', 'oxygenation', 'mechanics', 'effort', 'weaning', 'vni_cnaf', 'nivel_consciencia', 'variaveis_fisiologicas'];
+        const pediatricSmallCategoryKeys = ['ped_conforto', 'ped_oxigenacao', 'ped_ventilacao', 'ped_mecanica', 'ped_desmame', 'ped_sedacao', 'ped_hp'];
+        const neonatalCategoryKeys = ['neo_conforto', 'neo_oxigenacao', 'neo_ventilacao', 'neo_dor_sedacao', 'neo_hp'];
+
+        function parseSmartNumber(value) {
+            if (value === null || value === undefined) return NaN;
+            return parseFloat(String(value).replace('%', '').replace(',', '.').trim());
+        }
+
+        function normalizeFio2(value) {
+            const n = parseSmartNumber(value);
+            if (isNaN(n)) return NaN;
+            return n > 1 ? n / 100 : n;
+        }
+
+        function getSelectedPatientHeight() {
+            if (selectedPatient === null || !patients[selectedPatient]) return null;
+            const h = parseSmartNumber(patients[selectedPatient].height);
+            return isNaN(h) ? null : h;
+        }
+
+        let quickPediatricHeightValue = localStorage.getItem('ventila_quick_pediatric_height') || '';
+
+        function setQuickPediatricHeight(value, shouldRender = false) {
+            quickPediatricHeightValue = value || '';
+            localStorage.setItem('ventila_quick_pediatric_height', quickPediatricHeightValue);
+            if (shouldRender) {
+                renderProfileMenu();
+                backToMenu();
+            }
+        }
+
+        function resetQuickPediatricHeight() {
+            quickPediatricHeightValue = '';
+            localStorage.removeItem('ventila_quick_pediatric_height');
+            renderProfileMenu();
+            backToMenu();
+        }
+
+        function getQuickPediatricHeight() {
+            const quickEl = document.getElementById('quickPediatricHeight');
+            if (quickEl) quickPediatricHeightValue = quickEl.value;
+            const quickHeight = parseSmartNumber(quickPediatricHeightValue);
+            return isNaN(quickHeight) ? null : quickHeight;
+        }
+
+        function getPediatricEffectiveMode() {
+            if (activeClinicalProfile !== 'pediatrico') return activeClinicalProfile;
+            const patientHeight = getSelectedPatientHeight();
+            if (patientHeight !== null) return patientHeight > 129 ? 'pediatrico_adulto' : 'pediatrico_menor';
+            const quickHeight = getQuickPediatricHeight();
+            if (quickHeight !== null) return quickHeight > 129 ? 'pediatrico_adulto' : 'pediatrico_menor';
+            return 'pediatrico_indefinido';
+        }
+
+        function getActiveCategoryKeys() {
+            if (activeClinicalProfile === 'adulto') return adultCategoryKeys;
+            if (activeClinicalProfile === 'neonatal') return neonatalCategoryKeys;
+            const mode = getPediatricEffectiveMode();
+            if (mode === 'pediatrico_adulto') return adultCategoryKeys;
+            return pediatricSmallCategoryKeys;
+        }
+
+        function getProfileLabel() {
+            if (activeClinicalProfile === 'adulto') return 'Adulto';
+            if (activeClinicalProfile === 'neonatal') return 'Neonatal';
+            const mode = getPediatricEffectiveMode();
+            if (mode === 'pediatrico_adulto') return 'Pediatria >129 cm';
+            if (mode === 'pediatrico_menor') return 'Pediatria ≤129 cm';
+            return 'Pediatria';
+        }
+
+        function showProfileLanding() {
+            profileLandingActive = true;
+            const landing = document.getElementById('profileLanding');
+            const appHeader = document.getElementById('appHeader');
+            const patientInfoBar = document.getElementById('patientInfoBar');
+            const mainMenu = document.getElementById('mainMenu');
+            const categoryArea = document.getElementById('categoryArea');
+            const patientPanel = document.getElementById('patientPanel');
+            if (landing) landing.classList.add('show');
+            if (appHeader) appHeader.classList.add('hide-on-landing');
+            if (patientInfoBar) patientInfoBar.style.display = 'none';
+            if (mainMenu) mainMenu.style.display = 'none';
+            if (categoryArea) categoryArea.style.display = 'none';
+            if (patientPanel) patientPanel.classList.remove('show');
+        }
+
+        function hideProfileLanding() {
+            profileLandingActive = false;
+            const landing = document.getElementById('profileLanding');
+            const appHeader = document.getElementById('appHeader');
+            const patientInfoBar = document.getElementById('patientInfoBar');
+            if (landing) landing.classList.remove('show');
+            if (appHeader) appHeader.classList.remove('hide-on-landing');
+            if (patientInfoBar) patientInfoBar.style.display = 'block';
+        }
+
+        function selectProfileFromLanding(profile) {
+            hideProfileLanding();
+            setClinicalProfile(profile);
+        }
+
+        function handleClinicalProfileChange(profile) {
+            hideProfileLanding();
+            setClinicalProfile(profile);
+        }
+
+        function clearSelectedPatientForCurrentProfile() {
+            selectedPatient = null;
+            saveSelectedPatient();
+            renderPatientList();
+            updatePatientBar();
+            renderProfileMenu();
+        }
+
+        function goHomeReset() {
+            clearSelectedPatientForCurrentProfile();
+            const patientPanel = document.getElementById('patientPanel');
+            if (patientPanel) patientPanel.classList.remove('show');
+            hidePatientForm(false);
+            showProfileLanding();
+        }
+
+        function setClinicalProfile(profile) {
+            activeClinicalProfile = profile;
+            localStorage.setItem('ventila_active_profile', activeClinicalProfile);
+            loadProfileScopedData();
+            normalizeClinicalDataForPatients();
+            updateProfileButtons();
+            updatePatientFormForProfile();
+            hidePatientForm(false);
+            renderProfileMenu();
+            renderPatientList();
+            updatePatientBar();
+            backToMenu();
+        }
+
+        function updateProfileButtons() {
+            const profileSelect = document.getElementById('clinicalProfileSelect');
+            if (profileSelect) profileSelect.value = activeClinicalProfile;
+
+            const legacyMap = { adulto: 'profileBtnAdulto', pediatrico: 'profileBtnPediatrico', neonatal: 'profileBtnNeonatal' };
+            Object.entries(legacyMap).forEach(([profile, id]) => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('active', activeClinicalProfile === profile);
+            });
+        }
+
+        function normalizeClinicalDataForPatients() {
+            for (let i = 0; i < patients.length; i++) {
+                if (!clinicalData[patients[i].name]) clinicalData[patients[i].name] = getDefaultClinicalData();
+            }
+            salvarDadosPacientes();
+        }
+
+        function renderMenuCard(categoryKey) {
+            const cfg = categoriesConfig[categoryKey];
+            const forms = formulasDB[categoryKey] || [];
+            const description = forms.filter(f => f.special !== 'help').map(f => f.name).join(', ');
+            return `<div class="menu-card" onclick="showCategory('${categoryKey}')">
+                <div class="menu-icon"><i class="fas ${cfg.icon}"></i></div>
+                <h3>${cfg.name}</h3>
+                <p>${description}</p>
+            </div>`;
+        }
+
+        function renderProfileMenu() {
+            const menu = document.getElementById('mainMenu');
+            if (!menu) return;
+            let html = '';
+            const pediatricMode = getPediatricEffectiveMode();
+            if (activeClinicalProfile === 'pediatrico' && pediatricMode === 'pediatrico_indefinido') {
+                html += `<div class="profile-required-banner" style="grid-column: 1 / -1;">
+                    <strong><i class="fas fa-ruler-vertical"></i> Pediatria no modo rápido: informe a altura.</strong><br>
+                    A altura define automaticamente se o Ventila usa a calculadora adulta completa (>129 cm) ou a calculadora pediátrica específica (≤129 cm).
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px;">
+                        <input type="number" id="quickPediatricHeight" placeholder="Altura em cm" step="any" value="${quickPediatricHeightValue}" oninput="setQuickPediatricHeight(this.value, false)" onkeydown="if(event.key === 'Enter'){setQuickPediatricHeight(this.value, true)}" style="max-width:180px; padding:10px; border-radius:10px; border:2px solid var(--border); background:var(--bg-body); color:var(--text);">
+                        <button class="btn-small" type="button" onclick="setQuickPediatricHeight(document.getElementById('quickPediatricHeight').value, true)"><i class="fas fa-check"></i> Aplicar altura</button>
+                    </div>
+                </div>`;
+            }
+            html += `<div class="profile-note" style="grid-column: 1 / -1;"><strong>Perfil ativo:</strong> ${getProfileLabel()}. ${activeClinicalProfile === 'pediatrico' ? 'A separação pediátrica acontece internamente pela altura, sem criar duas pediatrias para o usuário.' : 'Pacientes, histórico e dados clínicos ficam separados por perfil.'}</div>`;
+            if (activeClinicalProfile === 'pediatrico' && pediatricMode !== 'pediatrico_indefinido' && selectedPatient === null) {
+                html += `<div class="profile-note" style="grid-column: 1 / -1; display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap;">
+                    <span><strong>Altura no modo rápido:</strong> ${quickPediatricHeightValue} cm. Motor carregado: ${getProfileLabel()}.</span>
+                    <button class="btn-small" type="button" onclick="resetQuickPediatricHeight()"><i class="fas fa-rotate-left"></i> Trocar altura</button>
+                </div>`;
+            }
+            getActiveCategoryKeys().forEach(key => html += renderMenuCard(key));
+            menu.innerHTML = html;
+        }
+
+        categoriesConfig.ped_conforto = { name: 'Conforto Respiratório', icon: 'fa-child-reaching' };
+        categoriesConfig.ped_oxigenacao = { name: 'Oxigenação', icon: 'fa-lungs' };
+        categoriesConfig.ped_ventilacao = { name: 'Parâmetros Ventilatórios', icon: 'fa-wind' };
+        categoriesConfig.ped_mecanica = { name: 'Mecânica Respiratória', icon: 'fa-chart-line' };
+        categoriesConfig.ped_desmame = { name: 'Desmame', icon: 'fa-flag-checkered' };
+        categoriesConfig.ped_sedacao = { name: 'Sedação e Consciência', icon: 'fa-brain' };
+        categoriesConfig.ped_hp = { name: 'Hipertensão Pulmonar', icon: 'fa-heart-pulse' };
+        categoriesConfig.neo_conforto = { name: 'Conforto Respiratório', icon: 'fa-baby' };
+        categoriesConfig.neo_oxigenacao = { name: 'Oxigenação', icon: 'fa-lungs' };
+        categoriesConfig.neo_ventilacao = { name: 'Parâmetros Ventilatórios', icon: 'fa-wind' };
+        categoriesConfig.neo_dor_sedacao = { name: 'Dor e Sedação', icon: 'fa-face-tired' };
+        categoriesConfig.neo_hp = { name: 'Hipertensão Pulmonar', icon: 'fa-heart-pulse' };
+
+        function optionScore(value) {
+            const n = parseInt(String(value || '').trim(), 10);
+            return isNaN(n) ? 0 : n;
+        }
+
+        function pressClassificacao(val) {
+            if (val <= 1) return 'leve';
+            if (val <= 3) return 'moderado';
+            return 'grave';
+        }
+
+        function viClassificacao(val) {
+            if (val <= 20) return 'baixo risco';
+            if (val <= 40) return 'risco moderado';
+            return 'alto risco';
+        }
+
+        function oiOsiClassificacao(val, tipo) {
+            const isOI = String(tipo || '').startsWith('PaO₂');
+            if (isOI) {
+                if (val >= 16) return 'grave';
+                if (val >= 4) return 'leve/moderado';
+                return 'abaixo da faixa de classificação informada';
+            }
+            if (val >= 12.3) return 'grave';
+            if (val >= 5) return 'leve/moderado';
+            return 'abaixo da faixa de classificação informada';
+        }
+
+        function silvermanClassificacao(val) {
+            if (val === 0) return 'sem desconforto pelo escore';
+            if (val <= 3) return 'leve';
+            if (val <= 6) return 'moderado';
+            return 'grave';
+        }
+
+        function downesClassificacao(val) {
+            if (val <= 3) return 'leve';
+            if (val <= 6) return 'moderado';
+            return 'grave';
+        }
+
+        function downesFerresClassificacao(val) {
+            if (val === 0) return 'sem desconforto pelo escore';
+            if (val <= 3) return 'leve';
+            if (val <= 7) return 'moderado';
+            return 'grave';
+        }
+
+        function woodDownesClassificacao(val) {
+            if (val <= 3) return 'leve';
+            if (val <= 7) return 'moderado';
+            return 'grave';
+        }
+
+
+        /* PED CONFORTO V15: PRESS + Downes-Ferrés (Bronquiolite) + Wood-Downes (Asma) */
+        formulasDB.ped_conforto = [
+            { id: 'press_score', name: 'PRESS Score', icon: 'fa-child-reaching', formula: 'PRESS = soma de 5 itens clínicos (0-5)', inputs: [
+                { id: 'press_taquipneia', label: 'Taquipneia', type: 'select', options: ['0 Ausente', '1 Presente'] },
+                { id: 'press_sibilancia', label: 'Sibilância', type: 'select', options: ['0 Ausente', '1 Presente'] },
+                { id: 'press_musculatura', label: 'Uso de musculatura acessória', type: 'select', options: ['0 Ausente', '1 Presente'] },
+                { id: 'press_saturacao', label: 'Saturação reduzida', type: 'select', options: ['0 Ausente', '1 Presente'] },
+                { id: 'press_alimentacao', label: 'Dificuldade para alimentação', type: 'select', options: ['0 Ausente', '1 Presente'] }
+            ], calculate: vals => ['press_taquipneia','press_sibilancia','press_musculatura','press_saturacao','press_alimentacao'].reduce((t,k)=>t+optionScore(vals[k]),0),
+            interpret: val => ({ text: `PRESS Score: ${val}/5. Classificação pelo escore: ${pressClassificacao(val)}. Ferramenta de avaliação do desconforto respiratório pediátrico. Interpretar em conjunto com exame físico, sinais vitais e contexto assistencial.` }) },
+            { id:'downes_ferres', name:'Downes-Ferrés (Bronquiolite)', icon:'fa-child-reaching', formula:'Downes-Ferrés = soma de 6 sinais clínicos respiratórios (0-14)', inputs:[
+                { id:'df_sibilancia', label:'Sibilância', type:'select', options:['0 Ausente','1 Final da expiração','2 Durante toda a expiração','3 Inspiração e expiração'] },
+                { id:'df_tiragem', label:'Tiragem / retrações', type:'select', options:['0 Ausente','1 Subcostal + intercostal inferior','2 Anterior + supraclavicular','3 Anterior + intercostal superior + supraesternal'] },
+                { id:'df_entrada_ar', label:'Entrada de ar', type:'select', options:['0 Boa e simétrica','1 Regular e simétrica','2 Muito diminuída','3 Tórax silencioso'] },
+                { id:'df_cianose', label:'Cianose', type:'select', options:['0 Ausente','1 Presente'] },
+                { id:'df_fr', label:'Frequência respiratória', type:'select', options:['0 < 30 irpm','1 31-45 irpm','2 46-60 irpm','3 > 60 irpm'] },
+                { id:'df_fc', label:'Frequência cardíaca', type:'select', options:['0 < 120 bpm','1 > 120 bpm'] }
+            ], calculate: vals => ['df_sibilancia','df_tiragem','df_entrada_ar','df_cianose','df_fr','df_fc'].reduce((t,k)=>t+optionScore(vals[k]),0), interpret: val => ({ text:`Downes-Ferrés (Bronquiolite): ${val}/14. Classificação pelo escore: ${downesFerresClassificacao(val)}. Escore clínico usado no acompanhamento do desconforto respiratório em bronquiolite. Interpretar junto ao exame físico, saturação, evolução clínica e protocolo institucional.` }) },
+            { id:'wood_downes_asma', name:'Wood-Downes (Asma)', icon:'fa-lungs-virus', formula:'Wood-Downes = soma de 5 sinais clínicos para acompanhamento de asma aguda (0-10)', inputs:[
+                { id:'wd_cianose', label:'Cianose', type:'select', options:['0 Ausente','1 Presente em ar ambiente','2 Presente mesmo com oxigênio'] },
+                { id:'wd_som_inspiratorio', label:'Sons inspiratórios / entrada de ar', type:'select', options:['0 Normal','1 Desigual ou diminuído','2 Muito diminuído ou ausente'] },
+                { id:'wd_musculatura', label:'Uso de musculatura acessória', type:'select', options:['0 Ausente','1 Moderado / retrações','2 Máximo / musculatura cervical'] },
+                { id:'wd_sibilancia', label:'Sibilância expiratória', type:'select', options:['0 Ausente','1 Moderada','2 Marcada'] },
+                { id:'wd_consciencia', label:'Função cerebral / comportamento', type:'select', options:['0 Normal','1 Deprimido ou agitado','2 Coma ou resposta muito reduzida'] }
+            ], calculate: vals => ['wd_cianose','wd_som_inspiratorio','wd_musculatura','wd_sibilancia','wd_consciencia'].reduce((t,k)=>t+optionScore(vals[k]),0), interpret: val => ({ text:`Wood-Downes (Asma): ${val}/10. Classificação pelo escore: ${woodDownesClassificacao(val)}. Escore clínico para acompanhamento do desconforto respiratório em asma pediátrica. Interpretar junto ao exame físico, saturação, resposta terapêutica e protocolo institucional.` }) }
+        ];
+
+        formulasDB.ped_oxigenacao = [
+            formulasDB.oxygenation.find(f => f.id === 'pf_ratio'),
+            formulasDB.oxygenation.find(f => f.id === 'sf_ratio'),
+            { id: 'ped_oi_osi', name: 'OI / OSI', icon: 'fa-lungs', formula: 'OI = (FiO₂ × MAP × 100) / PaO₂ | OSI = (FiO₂ × MAP × 100) / SpO₂', inputs: [
+                { id: 'tipo_ox', label: 'Dado disponível', type: 'select', options: ['PaO₂ - Gasometria', 'SpO₂ - Oximetria'] },
+                { id: 'fio2_adapt', label: 'FiO₂', type: 'number', unit: '% ou fração' },
+                { id: 'map_adapt', label: 'MAP', type: 'number', unit: 'cmH₂O' },
+                { id: 'valor_ox', label: 'PaO₂ ou SpO₂', type: 'number', unit: 'mmHg ou %' }
+            ], calculate: vals => { const fio2=normalizeFio2(vals.fio2_adapt); return (fio2*parseSmartNumber(vals.map_adapt)*100)/parseSmartNumber(vals.valor_ox); },
+            interpret: (val, vals) => { const nome = vals.tipo_ox.startsWith('PaO₂') ? 'OI' : 'OSI'; return { text: `${nome}: ${val.toFixed(2)}. Classificação pelo índice: ${oiOsiClassificacao(val, vals.tipo_ox)}. Índice utilizado para monitorização da oxigenação em pacientes sob suporte respiratório. Interpretar juntamente com dados clínicos, laboratoriais e ventilatórios.` }; } }
+        ].filter(Boolean);
+
+        formulasDB.ped_ventilacao = [
+            { id: 'ped_vc_peso', name: 'Volume Corrente por Peso', icon: 'fa-wind', formula: 'VC = peso × alvo (mL/kg)', inputs: [
+                { id: 'ped_peso_vc', label: 'Peso', type: 'number', unit: 'kg' },
+                { id: 'ped_alvo_vc', label: 'Alvo', type: 'select', options: ['4', '5', '6', '7', '8'] }
+            ], calculate: vals => parseSmartNumber(vals.ped_peso_vc)*parseSmartNumber(vals.ped_alvo_vc),
+            interpret: (val, vals) => ({ text: `VC calculado: ${Math.round(val)} mL (${vals.ped_alvo_vc} mL/kg). Valor de apoio para ajuste ventilatório, sempre interpretado com mecânica respiratória e contexto clínico.` }) },
+            { id: 'ped_map', name: 'MAP', icon: 'fa-gauge-high', formula: 'MAP = ((Pico × TI) + (PEEP × TE)) / (TI + TE)', inputs: [
+                { id: 'ped_pico_map', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
+                { id: 'ped_ti_map', label: 'Tempo inspiratório (TI)', type: 'number', unit: 's' },
+                { id: 'ped_peep_map', label: 'PEEP', type: 'number', unit: 'cmH₂O' },
+                { id: 'ped_te_map', label: 'Tempo expiratório (TE)', type: 'number', unit: 's' }
+            ], calculate: vals => ((parseSmartNumber(vals.ped_pico_map)*parseSmartNumber(vals.ped_ti_map))+(parseSmartNumber(vals.ped_peep_map)*parseSmartNumber(vals.ped_te_map)))/(parseSmartNumber(vals.ped_ti_map)+parseSmartNumber(vals.ped_te_map)), interpret: val => ({ text: `MAP calculada: ${val.toFixed(1)} cmH₂O. Valor utilizado para monitorização ventilatória e cálculos de oxigenação.` }) },
+            { id: 'ped_vi', name: 'Ventilation Index (VI)', icon: 'fa-chart-simple', formula: 'VI = FR × (PIP - PEEP) × PaCO₂ / 1000', inputs: [
+                { id: 'ped_fr_vi', label: 'FR', type: 'number', unit: 'cpm' }, { id: 'ped_pip_vi', label: 'PIP', type: 'number', unit: 'cmH₂O' }, { id: 'ped_peep_vi', label: 'PEEP', type: 'number', unit: 'cmH₂O' }, { id: 'ped_paco2_vi', label: 'PaCO₂', type: 'number', unit: 'mmHg' }
+            ], calculate: vals => parseSmartNumber(vals.ped_fr_vi)*(parseSmartNumber(vals.ped_pip_vi)-parseSmartNumber(vals.ped_peep_vi))*parseSmartNumber(vals.ped_paco2_vi)/1000, interpret: val => ({ text: `VI: ${val.toFixed(2)}. Faixa de risco pelo índice: ${viClassificacao(val)}. Índice para acompanhamento da ventilação. Interpretar em conjunto com parâmetros ventilatórios, gasometria e evolução clínica.` }) }
+        ];
+
+        formulasDB.ped_mecanica = [formulasDB.protective.find(f=>f.id==='driving_pressure'), formulasDB.mechanics.find(f=>f.id==='compliance'), formulasDB.mechanics.find(f=>f.id==='compliance_dinamica'), formulasDB.mechanics.find(f=>f.id==='resistance'), formulasDB.mechanics.find(f=>f.id==='time_const')].filter(Boolean);
+
+        formulasDB.ped_desmame = [
+            { id: 'ped_rsbi', name: 'IRRS Pediátrico (Tobin)', icon: 'fa-person-running', formula: 'IRRS = FR / VC', inputs: [
+                { id:'ped_fr_rsbi', label:'FR', type:'number', unit:'cpm' },
+                { id:'ped_vc_rsbi', label:'VC expirado', type:'number', unit:'mL' },
+                { id:'ped_peso_rsbi', label:'Peso', type:'number', unit:'kg' }
+            ], calculate: vals => { const fr=parseSmartNumber(vals.ped_fr_rsbi); const vcml=parseSmartNumber(vals.ped_vc_rsbi); const peso=parseSmartNumber(vals.ped_peso_rsbi); return fr / ((vcml/1000) || NaN); }, interpret: val => ({ text:`IRRS Pediátrico (Tobin): ${val.toFixed(2)} ciclos/min/L. Índice de apoio ao acompanhamento do desmame. Não deve ser usado isoladamente para definir extubação.` }) },
+            { id: 'ped_crop', name: 'CROP Pediátrico', icon: 'fa-seedling', formula: 'CROP = (Cdin × PImax × P/F) / FR', inputs: [
+                { id:'ped_cdin_crop', label:'Cdin', type:'number', unit:'mL/cmH₂O' },
+                { id:'ped_pimax_crop', label:'PImax', type:'number', unit:'cmH₂O' },
+                { id:'ped_pf_crop', label:'P/F', type:'number', unit:'' },
+                { id:'ped_fr_crop', label:'FR', type:'number', unit:'cpm' }
+            ], calculate: vals => (parseSmartNumber(vals.ped_cdin_crop)*Math.abs(parseSmartNumber(vals.ped_pimax_crop))*parseSmartNumber(vals.ped_pf_crop))/parseSmartNumber(vals.ped_fr_crop), interpret: val => ({ text:`CROP Pediátrico: ${val.toFixed(2)}. Índice de apoio ao acompanhamento do desmame. Interpretar junto ao teste clínico, força muscular, mecânica respiratória e critérios institucionais.` }) }
+        ];
+
+        formulasDB.ped_sedacao = [
+            { id:'ped_gcs', name:'Glasgow Pediátrico', icon:'fa-brain', formula:'Ocular + Verbal + Motora', inputs:[
+                { id:'ped_gcs_o', label:'Abertura ocular', type:'select', options:['4 Espontânea','3 Ao comando verbal','2 À dor','1 Nenhuma'] },
+                { id:'ped_gcs_v', label:'Resposta verbal pediátrica', type:'select', options:['5 Sorri, orientado/interage adequadamente','4 Choro consolável/interação inadequada','3 Choro persistente/gritos','2 Gemidos/agitação inconsolável','1 Nenhuma'] },
+                { id:'ped_gcs_m', label:'Resposta motora', type:'select', options:['6 Movimentos espontâneos/obedece comandos','5 Localiza dor','4 Retirada à dor','3 Flexão anormal','2 Extensão anormal','1 Nenhuma'] }
+            ], calculate: vals => [vals.ped_gcs_o, vals.ped_gcs_v, vals.ped_gcs_m].reduce((t,x)=>t+optionScore(x),0), interpret: val => ({ text:`Glasgow Pediátrico: ${Math.round(val)}/15. Escore de avaliação neurológica. Para valores ≤8, considerar avaliação da proteção das vias aéreas e necessidade de suporte ventilatório em pacientes neurocríticos.` }) },
+            { id:'comfort_b', name:'COMFORT-B', icon:'fa-bed-pulse', formula:'COMFORT-B = soma de 6 itens comportamentais (6-30)', inputs:[
+                { id:'comfort_alerta', label:'Nível de consciência', type:'select', options:['1 Sono profundo','2 Sono superficial','3 Letárgico','4 Acordado e alerta','5 Hiperalerta'] },
+                { id:'comfort_calma', label:'Calma / Agitação', type:'select', options:['1 Calma','2 Ansiedade leve','3 Ansioso','4 Muito ansioso','5 Amedrontado'] },
+                { id:'comfort_resp', label:'Resposta respiratória ou choro', type:'select', options:['1 VM: ausência de tosse/respiração espontânea | Espontânea: respiração silenciosa, sem choro','2 VM: respiração espontânea com pouca ou nenhuma resposta ao ventilador | Espontânea: resmungando/choramingando','3 VM: tosse/resistência ocasional ao ventilador | Espontânea: reclamando monotônico','4 VM: respirações ativas contra o ventilador/tosse regular | Espontânea: choro','5 VM: compete com o ventilador/tosse | Espontânea: gritando'] },
+                { id:'comfort_mov', label:'Movimento físico', type:'select', options:['1 Ausência de movimento','2 Movimento leve ocasional','3 Movimento leve frequente','4 Movimento vigoroso limitado às extremidades','5 Movimento vigoroso incluindo tronco e cabeça'] },
+                { id:'comfort_tonus', label:'Tônus muscular', type:'select', options:['1 Totalmente relaxado','2 Hipotônico','3 Normotônico','4 Hipertônico com flexão de dedos e artelhos','5 Rigidez extrema com flexão de dedos e artelhos'] },
+                { id:'comfort_face', label:'Tensão facial', type:'select', options:['1 Músculos faciais totalmente relaxados','2 Tônus facial normal, sem tensão evidente','3 Tensão evidente em alguns músculos faciais','4 Tensão evidente em toda a face','5 Músculos faciais contorcidos'] }
+            ], calculate: vals => ['comfort_alerta','comfort_calma','comfort_resp','comfort_mov','comfort_tonus','comfort_face'].reduce((t,k)=>t+optionScore(vals[k]),0), interpret: val => ({ text:`COMFORT-B: ${val}/30. Ferramenta comportamental para acompanhamento de conforto, sedação e agitação. Interpretar com contexto clínico e protocolo institucional.` }) },
+            { id:'sbs', name:'SBS', icon:'fa-scale-balanced', formula:'State Behavioral Scale (-3 a +2)', inputs:[ { id:'sbs_nivel', label:'Estado comportamental', type:'select', options:['+2 Agitado','+1 Inquieto','0 Acordado e calmo','-1 Responsivo ao toque/voz','-2 Responsivo à dor','-3 Não responsivo'] } ], calculate: vals => parseInt(vals.sbs_nivel), interpret: val => ({ text:`SBS: ${val}. Escala de acompanhamento comportamental/sedação. Interpretar junto ao objetivo assistencial definido pela equipe.` }) }
+        ];
+
+        formulasDB.ped_hp = [
+            { id:'psap_estimada', name:'PSAP Estimada', icon:'fa-heart-pulse', formula:'PSAP = 4 × VRT² + PAD estimada', inputs:[ { id:'vrt', label:'Velocidade do refluxo tricúspide', type:'number', unit:'m/s' }, { id:'pad', label:'PAD/RAP estimada', type:'number', unit:'mmHg' } ], calculate: vals => 4*Math.pow(parseSmartNumber(vals.vrt),2)+parseSmartNumber(vals.pad), interpret: val => ({ text:`PSAP estimada: ${val.toFixed(1)} mmHg. Estimativa ecocardiográfica. Interpretar em conjunto com avaliação ecocardiográfica completa.` }) },
+            { id:'psap_pas', name:'Relação PSAP/PAS', icon:'fa-not-equal', formula:'Relação = PSAP / PAS sistêmica', inputs:[ { id:'psap_val', label:'PSAP estimada', type:'number', unit:'mmHg' }, { id:'pas_val', label:'PAS sistêmica', type:'number', unit:'mmHg' } ], calculate: vals => parseSmartNumber(vals.psap_val)/parseSmartNumber(vals.pas_val), interpret: val => ({ text:`Relação PSAP/PAS: ${val.toFixed(2)}. Valor de acompanhamento hemodinâmico. Não define diagnóstico isoladamente.` }) }
+        ];
+
+        function calcularPIM3(vals) {
+            const sbpRaw = parseSmartNumber(vals.pim3_sbp);
+            const sbp = isNaN(sbpRaw) ? 120 : sbpRaw;
+            const pupils = parseInt(vals.pim3_pupils) || 0;
+            const mv = parseInt(vals.pim3_mv) || 0;
+            const beRaw = parseSmartNumber(vals.pim3_be);
+            const be = isNaN(beRaw) ? 0 : Math.abs(beRaw);
+            const pao2Raw = parseSmartNumber(vals.pim3_pao2);
+            const fio2Raw = normalizeFio2(vals.pim3_fio2);
+            const pfTerm = (!isNaN(pao2Raw) && pao2Raw > 0 && !isNaN(fio2Raw) && fio2Raw > 0) ? ((fio2Raw * 100) / pao2Raw) : 0.23;
+            const elective = parseInt(vals.pim3_elective) || 0;
+            const admission = vals.pim3_admission || 'Sem procedimento/recuperação';
+            const recoveryBypass = admission === 'Recuperação de procedimento cardíaco com bypass' ? 1 : 0;
+            const recoveryNonBypass = admission === 'Recuperação de procedimento cardíaco sem bypass' ? 1 : 0;
+            const recoveryNonCardiac = admission === 'Recuperação de procedimento não cardíaco' ? 1 : 0;
+            const risk = vals.pim3_risk || 'Nenhum';
+            const lowRisk = risk === 'Baixo risco' ? 1 : 0;
+            const highRisk = risk === 'Alto risco' ? 1 : 0;
+            const veryHighRisk = risk === 'Muito alto risco' ? 1 : 0;
+            const logit = (3.8233 * pupils) + (-0.5378 * elective) + (0.9763 * mv) + (0.0671 * be) + (-0.0431 * sbp) + (0.1716 * ((sbp * sbp) / 1000)) + (0.4214 * pfTerm) + (-1.2246 * recoveryBypass) + (-0.8762 * recoveryNonBypass) + (-1.5164 * recoveryNonCardiac) + (1.6225 * veryHighRisk) + (1.0725 * highRisk) + (-2.1766 * lowRisk) + (-1.7928);
+            const probability = Math.exp(logit) / (1 + Math.exp(logit));
+            return probability * 100;
+        }
+
+        formulasDB.neo_conforto = [
+            { id:'silverman', name:'Silverman-Andersen', icon:'fa-baby', formula:'Soma de 5 sinais respiratórios neonatais (0-10)', inputs:[
+                { id:'silv_mov', label:'Movimento toracoabdominal', type:'select', options:['0 Sincronizado','1 Atraso discreto','2 Dissociação / gangorra'] },
+                { id:'silv_inter', label:'Retração intercostal', type:'select', options:['0 Ausente','1 Discreta','2 Acentuada'] },
+                { id:'silv_xif', label:'Retração xifoide', type:'select', options:['0 Ausente','1 Discreta','2 Acentuada'] },
+                { id:'silv_nasal', label:'Batimento de asa nasal', type:'select', options:['0 Ausente','1 Discreto','2 Acentuado'] },
+                { id:'silv_gemido', label:'Gemido expiratório', type:'select', options:['0 Ausente','1 Audível com estetoscópio','2 Audível sem estetoscópio'] }
+            ], calculate: vals => ['silv_mov','silv_inter','silv_xif','silv_nasal','silv_gemido'].reduce((t,k)=>t+optionScore(vals[k]),0), interpret: val => ({ text:`Silverman-Andersen: ${val}/10. Grau pelo escore: ${silvermanClassificacao(val)}. Ferramenta de avaliação do esforço respiratório neonatal. Interpretar junto ao exame físico, monitorização e contexto assistencial.` }) },
+            { id:'downes', name:'Downes', icon:'fa-lungs', formula:'Soma de 5 sinais clínicos neonatais (0-10)', inputs:[
+                { id:'downes_fr', label:'Frequência respiratória', type:'select', options:['0 <60 irpm','1 60-80 irpm','2 >80 irpm ou apneia'] },
+                { id:'downes_cianose', label:'Cianose', type:'select', options:['0 Ausente','1 Ao ar ambiente','2 Com O₂'] },
+                { id:'downes_ar', label:'Entrada de ar', type:'select', options:['0 Boa','1 Diminuída','2 Muito diminuída'] },
+                { id:'downes_gemido', label:'Gemido expiratório', type:'select', options:['0 Ausente','1 Audível com estetoscópio','2 Audível sem estetoscópio'] },
+                { id:'downes_ret', label:'Retrações', type:'select', options:['0 Ausentes','1 Moderadas','2 Acentuadas'] }
+            ], calculate: vals => ['downes_fr','downes_cianose','downes_ar','downes_gemido','downes_ret'].reduce((t,k)=>t+optionScore(vals[k]),0), interpret: val => ({ text:`Downes: ${val}/10. Grau pelo escore: ${downesClassificacao(val)}. Ferramenta de avaliação clínica do desconforto respiratório neonatal. Interpretar juntamente com exame físico e monitorização.` }) }
+        ];
+
+        formulasDB.neo_oxigenacao = [formulasDB.ped_oxigenacao[0], formulasDB.ped_oxigenacao[1], formulasDB.ped_oxigenacao[2], formulasDB.variaveis_fisiologicas.find(f=>f.id==='gradiente_alveolo_arterial')].filter(Boolean);
+        formulasDB.neo_ventilacao = [formulasDB.ped_ventilacao[0], formulasDB.ped_ventilacao[1], formulasDB.ped_ventilacao[2]];
+        formulasDB.neo_dor_sedacao = [
+            { id:'npass', name:'N-PASS', icon:'fa-face-tired', formula:'N-PASS = soma de 5 indicadores comportamentais/fisiológicos', inputs:[
+                { id:'npass_choro', label:'Choro / irritabilidade', type:'select', options:['0 Choro adequado ou sem choro','1 Irritável ou choro em intervalos, consolável','2 Choro agudo/contínuo ou inconsolável'] },
+                { id:'npass_comportamento', label:'Comportamento', type:'select', options:['0 Apropriado para idade gestacional','1 Inquieto, desperta frequentemente','2 Arqueado, chutando ou acordado continuamente'] },
+                { id:'npass_face', label:'Expressão facial', type:'select', options:['0 Relaxada','1 Qualquer expressão de dor intermitente','2 Expressão de dor contínua'] },
+                { id:'npass_tonus', label:'Extremidades / tônus', type:'select', options:['0 Relaxado, mãos/pés normais','1 Punhos cerrados ou dedos em leque intermitente','2 Punhos cerrados, dedos em leque ou corpo tenso contínuo'] },
+                { id:'npass_vitais', label:'Sinais vitais', type:'select', options:['0 Dentro da linha de base','1 Aumento discreto de FC/FR/PA ou queda discreta da SpO₂','2 Aumento importante de FC/FR/PA ou queda importante da SpO₂'] }
+            ], calculate: vals => ['npass_choro','npass_comportamento','npass_face','npass_tonus','npass_vitais'].reduce((t,k)=>t+optionScore(vals[k]),0), interpret: val => ({ text:`N-PASS: ${val}/10. Ferramenta de acompanhamento neonatal de dor, agitação e sedação. Interpretar com idade gestacional, estado clínico e protocolo institucional.` }) }
+        ];
+
+        formulasDB.neo_hp = formulasDB.ped_hp;
+
         const formulaNames = {
             meia_envergadura: 'Meia Envergadura ×2', altura_joelho: 'Altura do Joelho', tamanho_ulna: 'Tamanho da Ulna',
             ibw: 'Peso Predito', vc: 'Volume Corrente', driving_pressure: 'Driving Pressure',
@@ -3130,6 +4369,18 @@
             gap_co2: 'variaveis_fisiologicas'
         };
         
+
+        Object.assign(formulaNames, {
+            press_score: 'PRESS Score', wood_downes_asma: 'Wood-Downes (Asma)', downes_ferres: 'Downes-Ferrés (Bronquiolite)', ped_oi_osi: 'OI / OSI', ped_vc_peso: 'VC por Peso', ped_map: 'MAP', ped_vi: 'Ventilation Index',
+            ped_rsbi: 'IRRS Pediátrico (Tobin)', ped_crop: 'CROP Pediátrico', ped_gcs: 'Glasgow Pediátrico', comfort_b: 'COMFORT-B', sbs: 'SBS',
+            psap_estimada: 'PSAP Estimada', psap_pas: 'Relação PSAP/PAS', silverman: 'Silverman-Andersen', downes: 'Downes', npass: 'N-PASS'
+        });
+        Object.assign(categoryMap, {
+            press_score: 'ped_conforto', wood_downes_asma: 'ped_conforto', downes_ferres: 'ped_conforto', ped_oi_osi: 'ped_oxigenacao', ped_vc_peso: 'ped_ventilacao', ped_map: 'ped_ventilacao', ped_vi: 'ped_ventilacao',
+            ped_rsbi: 'ped_desmame', ped_crop: 'ped_desmame', ped_gcs: 'ped_sedacao', comfort_b: 'ped_sedacao', sbs: 'ped_sedacao',
+            psap_estimada: 'ped_hp', psap_pas: 'ped_hp', silverman: 'neo_conforto', downes: 'neo_conforto', npass: 'neo_dor_sedacao'
+        });
+
         function limparTextoHistorico(texto) {
             if (!texto || typeof texto !== 'string') return texto;
             return texto.normalize('NFC').replace(/[^\x00-\x7F\u00C0-\u00FF\u0100-\u017F]/g, '');
@@ -3155,7 +4406,7 @@
                 result: typeof result === 'number' ? result.toFixed(2) : result.toString(),
                 unit: unit
             });
-            localStorage.setItem('ventila_history', JSON.stringify(historyData));
+            localStorage.setItem(profileStorageKey('ventila_history'), JSON.stringify(historyData));
         }
         
         function showHistoryModal() {
@@ -3305,22 +4556,31 @@
                 
                 const mostrarBannerSucesso = ultimaExtubacao && ultimaExtubacao.sucessoDesmame && !data.alertaDesmameMostrado;
                 
+                const isNeonatalPatient = activeClinicalProfile === 'neonatal' || patient.profile === 'neonatal';
+                const vcBadgeHtml = isNeonatalPatient
+                    ? getNeonatalVCTargetBadge(patient)
+                    : `<div class="vc-target-badge"><i class="fas fa-lungs"></i> ${ultimoVC6 ? ultimoVC6 + ' mL (6mL/kg)' : 'VC 6mL/kg não calculado'}</div>`;
+
                 let html = `
                     <div class="patient-header-row">
-                        <div class="patient-name-area">
-                            <div class="patient-name-badge">
-                                <i class="fas fa-user-circle"></i> ${patient.name} | Leito: ${patient.bed}
-                                <button class="clear-patient-btn" onclick="clearPatientSelection()" title="Desselecionar paciente"><i class="fas fa-times"></i></button>
+                        <div class="patient-context-row">
+                            <div class="patient-context-left">
+                                <div class="patient-context-primary">
+                                    <div class="patient-name-badge">
+                                        <i class="fas fa-user-circle"></i> ${getPatientDisplayName(patient)} | Leito: ${patient.bed || '-'}
+                                        <button class="clear-patient-btn" onclick="clearPatientSelection()" title="Desselecionar paciente"><i class="fas fa-times"></i></button>
+                                    </div>
+                                    ${vcBadgeHtml}
+                                </div>
                             </div>
-                            <button class="history-button" onclick="showHistoryModal()">
-                                <i class="fas fa-history"></i> Histórico
-                            </button>
-                            <button class="cronologia-button" onclick="mostrarCronologia()">
-                                <i class="fas fa-timeline"></i> Cronologia
-                            </button>
-                        </div>
-                        <div class="vc-target-badge">
-                            <i class="fas fa-lungs"></i> ${ultimoVC6 ? ultimoVC6 + ' mL (6mL/kg)' : 'VC 6mL/kg não calculado'}
+                            <div class="patient-context-actions">
+                                <button class="history-button" onclick="showHistoryModal()">
+                                    <i class="fas fa-history"></i> Histórico
+                                </button>
+                                <button class="cronologia-button" onclick="mostrarCronologia()">
+                                    <i class="fas fa-timeline"></i> Cronologia
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="patient-info-details">
@@ -3469,7 +4729,8 @@
                             </div>
                         </div>
                         <div class="patient-actions">
-                            <button onclick="togglePatientPanel()"><i class="fas fa-users"></i> Selecionar Paciente</button>
+                            <button onclick="showPatientListOnly()"><i class="fas fa-users"></i> Selecionar Paciente</button>
+                            <button onclick="openNewPatientPanel()"><i class="fas fa-user-plus"></i> Novo Paciente</button>
                         </div>
                     </div>
                 `;
@@ -4025,20 +5286,27 @@
         }
         
         function showCategory(category) {
+            const allowedCategories = getActiveCategoryKeys();
+            if (!allowedCategories.includes(category)) {
+                category = allowedCategories[0];
+            }
+            if (!category) return;
             currentCategory = category;
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('categoryArea').style.display = 'block';
             const catConfig = categoriesConfig[category];
+            if (!catConfig) return;
             document.getElementById('categoryTitle').innerHTML = `<i class="fas ${catConfig.icon}"></i> ${catConfig.name}`;
             const groupNav = document.getElementById('groupNav');
             groupNav.innerHTML = '';
-            for (const [key, config] of Object.entries(categoriesConfig)) {
+            getActiveCategoryKeys().forEach(key => {
+                const config = categoriesConfig[key];
                 const btn = document.createElement('button');
                 btn.className = `group-nav-btn ${key === category ? 'active' : ''}`;
                 btn.innerHTML = `<i class="fas ${config.icon}"></i> ${config.name}`;
                 btn.onclick = () => showCategory(key);
                 groupNav.appendChild(btn);
-            }
+            });
             const tabsContainer = document.getElementById('subTabs');
             const formulas = formulasDB[category];
             tabsContainer.innerHTML = '';
@@ -4179,7 +5447,7 @@
                 }
                 
                 const interpretResult = currentFormulaObj.interpret(result, inputs);
-                const resultValue = currentFormulaObj.id === 'gcs' && typeof result === 'number' ? String(Math.round(result)) : (currentFormulaObj.id === 'ibw' && typeof result === 'number' ? result.toFixed(1) : (typeof result === 'number' ? result.toFixed(2) : result));
+                const resultValue = currentFormulaObj.id === 'gcs' && typeof result === 'number' ? String(Math.round(result)) : (typeof result === 'number' ? result.toFixed(2) : result);
                 document.getElementById('resultValue').innerHTML = resultValue;
                 const subResultDiv = document.getElementById('subResult');
                 if (interpretResult.subResult) subResultDiv.innerHTML = `<div class="result-sub">${interpretResult.subResult}</div>`;
@@ -4203,8 +5471,11 @@
         }
         
         function backToMenu() {
-            document.getElementById('mainMenu').style.display = 'grid';
-            document.getElementById('categoryArea').style.display = 'none';
+            renderProfileMenu();
+            const mainMenu = document.getElementById('mainMenu');
+            const categoryArea = document.getElementById('categoryArea');
+            if (categoryArea) categoryArea.style.display = 'none';
+            if (mainMenu) mainMenu.style.display = profileLandingActive ? 'none' : 'grid';
         }
         
         function toggleTheme() {
@@ -4212,32 +5483,173 @@
             localStorage.setItem('ventila_theme', isDark ? 'dark' : 'light');
             const themeBtn = document.getElementById('themeBtn');
             if (isDark) {
-                themeBtn.innerHTML = '<i class="fas fa-sun"></i> Claro';
+                themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
             } else {
-                themeBtn.innerHTML = '<i class="fas fa-moon"></i> Escuro';
+                themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
             }
         }
         
-        function togglePatientPanel() {
+        function updatePatientFormForProfile() {
+            const nameInput = document.getElementById('patientName');
+            const ageInput = document.getElementById('patientAge');
+            const heightInput = document.getElementById('patientHeight');
+            const weightInput = document.getElementById('patientWeight');
+            const weightUnit = document.getElementById('patientWeightUnit');
+            const formTitle = document.getElementById('patientFormTitle');
+            if (!nameInput || !ageInput || !heightInput || !weightInput || !weightUnit) return;
+
+            heightInput.style.display = '';
+            weightUnit.style.display = 'none';
+            weightUnit.value = 'kg';
+            nameInput.placeholder = 'Nome do Paciente';
+            ageInput.placeholder = 'Idade';
+            weightInput.placeholder = 'Peso (kg)';
+            if (formTitle && document.getElementById('patientEditIndex').value === '-1') {
+                formTitle.innerHTML = '<i class="fas fa-user-plus"></i> Cadastrar Paciente';
+            }
+
+            if (activeClinicalProfile === 'pediatrico') {
+                ageInput.placeholder = 'Idade';
+                heightInput.placeholder = 'Altura (cm) - obrigatória';
+                weightInput.placeholder = 'Peso (kg)';
+            }
+
+            if (activeClinicalProfile === 'neonatal') {
+                nameInput.placeholder = 'Identificação (ex: RN de Fulana)';
+                ageInput.placeholder = 'Idade (dias)';
+                heightInput.style.display = 'none';
+                heightInput.value = '';
+                weightInput.placeholder = 'Peso';
+                weightUnit.style.display = '';
+                if (formTitle && document.getElementById('patientEditIndex').value === '-1') {
+                    formTitle.innerHTML = '<i class="fas fa-baby"></i> Cadastrar RN';
+                }
+            }
+        }
+
+        function clearPatientForm() {
+            const ids = ['patientName','patientBed','patientRecord','patientAge','patientHeight','patientWeight'];
+            ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            const edit = document.getElementById('patientEditIndex');
+            if (edit) edit.value = '-1';
+            const unit = document.getElementById('patientWeightUnit');
+            if (unit) unit.value = 'kg';
+            const saveBtn = document.getElementById('patientSaveBtn');
+            if (saveBtn) saveBtn.innerHTML = 'Cadastrar';
+            const formTitle = document.getElementById('patientFormTitle');
+            if (formTitle) formTitle.innerHTML = activeClinicalProfile === 'neonatal' ? '<i class="fas fa-baby"></i> Cadastrar RN' : '<i class="fas fa-user-plus"></i> Cadastrar Paciente';
+            updatePatientFormForProfile();
+        }
+
+        function showPatientListOnly() {
             const panel = document.getElementById('patientPanel');
-            panel.classList.toggle('show');
+            if (panel) panel.classList.add('show');
+            hidePatientForm(false);
             renderPatientList();
         }
+
+        function showNewPatientForm() {
+            const panel = document.getElementById('patientPanel');
+            if (panel) panel.classList.add('show');
+            clearPatientForm();
+            const formArea = document.getElementById('patientFormArea');
+            if (formArea) formArea.classList.remove('hidden');
+            updatePatientFormForProfile();
+            const nameInput = document.getElementById('patientName');
+            if (nameInput) nameInput.focus();
+        }
+
+        function openNewPatientPanel() {
+            showNewPatientForm();
+        }
+
+        function hidePatientForm(shouldClear = true) {
+            const formArea = document.getElementById('patientFormArea');
+            if (formArea) formArea.classList.add('hidden');
+            if (shouldClear) clearPatientForm();
+        }
+
+        function togglePatientPanel() {
+            const panel = document.getElementById('patientPanel');
+            const willOpen = !panel.classList.contains('show');
+            panel.classList.toggle('show');
+            if (willOpen) {
+                hidePatientForm(false);
+                renderPatientList();
+            }
+        }
         
+        function getPatientDisplayName(patient) {
+            return activeClinicalProfile === 'neonatal' ? (patient.name || 'RN sem identificação') : (patient.name || 'Paciente sem nome');
+        }
+
+        function formatPatientSummary(patient) {
+            const parts = [];
+            parts.push(`Leito: ${patient.bed || '-'}`);
+            if (patient.record) parts.push(patient.record);
+            if (activeClinicalProfile === 'neonatal') {
+                if (patient.age) parts.push(`${patient.age} dias`);
+                if (patient.weight) parts.push(`Peso: ${patient.weight} ${patient.weightUnit === 'g' ? 'g' : 'kg'}`);
+            } else {
+                if (patient.age) parts.push(`Idade: ${patient.age}`);
+                if (patient.height) parts.push(`${patient.height} cm`);
+                if (patient.weight) parts.push(`${patient.weight} kg`);
+            }
+            return parts.join(' | ');
+        }
+
+        function normalizePatientWeightKg(patient) {
+            if (!patient || patient.weight === undefined || patient.weight === null || patient.weight === '') return null;
+            const raw = parseSmartNumber(patient.weight);
+            if (isNaN(raw) || raw <= 0) return null;
+
+            // Regra neonatal de peso:
+            // - Se a unidade cadastrada for gramas, converte para kg. Ex: 300 g = 0,3 kg.
+            // - Se a unidade cadastrada for kg, mantém o valor informado. Ex: 0,3 kg = 0,3 kg.
+            const unit = String(patient.weightUnit || 'kg').toLowerCase();
+            if (unit === 'g' || unit === 'grama' || unit === 'gramas') return raw / 1000;
+            return raw;
+        }
+
+        function formatNeonatalVolumeMl(value) {
+            if (value === null || value === undefined || isNaN(value)) return '-';
+            const roundedOneDecimal = Math.round(value * 10) / 10;
+            const isInteger = Math.abs(roundedOneDecimal - Math.round(roundedOneDecimal)) < 0.0001;
+            return isInteger
+                ? String(Math.round(roundedOneDecimal))
+                : String(roundedOneDecimal).replace('.', ',');
+        }
+
+        function getNeonatalVCTargetBadge(patient) {
+            const weightKg = normalizePatientWeightKg(patient);
+            if (!weightKg) {
+                return `<div class="vc-target-badge neonatal-vc-badge"><i class="fas fa-lungs"></i> VC alvo 6-8 mL/kg não calculado</div>`;
+            }
+
+            const vc6 = weightKg * 6;
+            const vc8 = weightKg * 8;
+            return `<div class="vc-target-badge neonatal-vc-badge"><i class="fas fa-lungs"></i> VC alvo: ${formatNeonatalVolumeMl(vc6)}-${formatNeonatalVolumeMl(vc8)} mL (6-8 mL/kg)</div>`;
+        }
+
         function renderPatientList() {
             const container = document.getElementById('patientList');
             container.innerHTML = '';
             patients.forEach((p, idx) => {
                 const div = document.createElement('div');
-                div.className = `patient-item ${selectedPatient && selectedPatient == idx ? 'selected' : ''}`;
+                div.className = `patient-item ${selectedPatient !== null && selectedPatient == idx ? 'selected' : ''}`;
                 div.innerHTML = `
                     <div class="patient-info" onclick="selectPatient(${idx})">
-                        <strong>${p.name}</strong><br>
-                        <span style="font-size: 11px;">Leito: ${p.bed} | ${p.record}</span>
+                        <strong>${getPatientDisplayName(p)}</strong><br>
+                        <span style="font-size: 11px;">${formatPatientSummary(p)}</span>
                     </div>
-                    <button class="delete-patient" onclick="deletePatient(${idx}); event.stopPropagation();" title="Excluir paciente">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                    <div class="patient-list-actions">
+                        <button class="edit-patient" onclick="editPatient(${idx}); event.stopPropagation();" title="Editar paciente">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="delete-patient" onclick="deletePatient(${idx}); event.stopPropagation();" title="Excluir paciente">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
                 `;
                 container.appendChild(div);
             });
@@ -4245,58 +5657,120 @@
         
         function selectPatient(idx) {
             selectedPatient = idx;
-            localStorage.setItem('selected_patient', idx);
+            saveSelectedPatient();
             renderPatientList();
             updatePatientBar();
+            renderProfileMenu();
+            backToMenu();
             document.getElementById('patientPanel').classList.remove('show');
+        }
+
+        function editPatient(idx) {
+            const patient = patients[idx];
+            if (!patient) return;
+            const panel = document.getElementById('patientPanel');
+            if (panel) panel.classList.add('show');
+            const formArea = document.getElementById('patientFormArea');
+            if (formArea) formArea.classList.remove('hidden');
+            document.getElementById('patientEditIndex').value = String(idx);
+            document.getElementById('patientName').value = patient.name || '';
+            document.getElementById('patientBed').value = patient.bed || '';
+            document.getElementById('patientRecord').value = patient.record || '';
+            document.getElementById('patientAge').value = patient.age || '';
+            document.getElementById('patientHeight').value = patient.height || '';
+            document.getElementById('patientWeight').value = patient.weight || '';
+            document.getElementById('patientWeightUnit').value = patient.weightUnit || 'kg';
+            const saveBtn = document.getElementById('patientSaveBtn');
+            if (saveBtn) saveBtn.innerHTML = 'Salvar alterações';
+            const formTitle = document.getElementById('patientFormTitle');
+            if (formTitle) formTitle.innerHTML = activeClinicalProfile === 'neonatal' ? '<i class="fas fa-edit"></i> Editar RN' : '<i class="fas fa-edit"></i> Editar Paciente';
+            updatePatientFormForProfile();
+            const nameInput = document.getElementById('patientName');
+            if (nameInput) nameInput.focus();
         }
         
         function addPatient() {
+            const editIndex = parseInt(document.getElementById('patientEditIndex')?.value || '-1', 10);
             const name = document.getElementById('patientName').value.trim();
             const bed = document.getElementById('patientBed').value.trim();
             const record = document.getElementById('patientRecord').value.trim();
-            if (!name) return alert('Nome obrigatório');
-            patients.push({ name, bed, record });
-            clinicalData[name] = getDefaultClinicalData();
+            const age = document.getElementById('patientAge') ? document.getElementById('patientAge').value.trim() : '';
+            const height = document.getElementById('patientHeight') ? document.getElementById('patientHeight').value.trim() : '';
+            const weight = document.getElementById('patientWeight') ? document.getElementById('patientWeight').value.trim() : '';
+            const weightUnit = document.getElementById('patientWeightUnit') ? document.getElementById('patientWeightUnit').value : 'kg';
+            const requiredLabel = activeClinicalProfile === 'neonatal' ? 'Identificação obrigatória' : 'Nome obrigatório';
+            if (!name) return alert(requiredLabel);
+            if (activeClinicalProfile === 'pediatrico' && !height) return alert('Na Pediatria, informe a altura para o Ventila escolher automaticamente o motor correto.');
+
+            const payload = { name, bed, record, age, height: activeClinicalProfile === 'neonatal' ? '' : height, weight, weightUnit: activeClinicalProfile === 'neonatal' ? weightUnit : 'kg', profile: activeClinicalProfile };
+
+            if (editIndex >= 0 && patients[editIndex]) {
+                const previousName = patients[editIndex].name;
+                patients[editIndex] = { ...patients[editIndex], ...payload };
+                if (previousName !== name) {
+                    if (clinicalData[previousName] && !clinicalData[name]) clinicalData[name] = clinicalData[previousName];
+                    if (historyData[previousName] && !historyData[name]) historyData[name] = historyData[previousName];
+                    if (previousName !== name) {
+                        delete clinicalData[previousName];
+                        delete historyData[previousName];
+                    }
+                }
+                if (!clinicalData[name]) clinicalData[name] = getDefaultClinicalData();
+                selectedPatient = editIndex;
+            } else {
+                patients.push(payload);
+                selectedPatient = patients.length - 1;
+                if (!clinicalData[name]) clinicalData[name] = getDefaultClinicalData();
+            }
+
+            saveSelectedPatient();
             salvarDadosPacientes();
-            document.getElementById('patientName').value = '';
-            document.getElementById('patientBed').value = '';
-            document.getElementById('patientRecord').value = '';
+            localStorage.setItem(profileStorageKey('ventila_history'), JSON.stringify(historyData));
+            clearPatientForm();
             renderPatientList();
+            updatePatientBar();
+            renderProfileMenu();
+            backToMenu();
+            document.getElementById('patientPanel').classList.remove('show');
         }
         
         function deletePatient(idx) {
-            if (confirm(`Tem certeza que deseja excluir o paciente "${patients[idx].name}" e todo o seu histórico?`)) {
+            if (confirm(`Tem certeza que deseja excluir o paciente "${getPatientDisplayName(patients[idx])}" e todo o seu histórico?`)) {
                 const patientKey = patients[idx].name;
                 patients.splice(idx, 1);
                 delete clinicalData[patientKey];
                 delete historyData[patientKey];
                 salvarDadosPacientes();
-                localStorage.setItem('ventila_history', JSON.stringify(historyData));
+                localStorage.setItem(profileStorageKey('ventila_history'), JSON.stringify(historyData));
                 
                 if (selectedPatient == idx) {
                     selectedPatient = null;
-                    localStorage.setItem('selected_patient', 'null');
+                    saveSelectedPatient();
                     updatePatientBar();
                 } else if (selectedPatient > idx) {
                     selectedPatient--;
-                    localStorage.setItem('selected_patient', selectedPatient);
+                    saveSelectedPatient();
                 }
                 
                 renderPatientList();
                 updatePatientBar();
+                renderProfileMenu();
             }
         }
         
         if (localStorage.getItem('ventila_theme') === 'dark') {
             document.body.classList.add('dark');
-            document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i> Claro';
+            document.getElementById('themeBtn').innerHTML = '<i class="fas fa-sun"></i>';
         } else {
-            document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i> Escuro';
+            document.getElementById('themeBtn').innerHTML = '<i class="fas fa-moon"></i>';
         }
         
+        normalizeClinicalDataForPatients();
+        updateProfileButtons();
+        renderProfileMenu();
         renderPatientList();
         updatePatientBar();
+        showProfileLanding();
     </script>
     
     <script>
@@ -4308,5 +5782,6 @@
             });
         }
     </script>
+<!-- V15_DOWNES_VERIFY: Pediatria contém Downes-Ferrés (Bronquiolite) e Wood-Downes (Asma); Neonatologia contém Downes. -->
 </body>
 </html>
