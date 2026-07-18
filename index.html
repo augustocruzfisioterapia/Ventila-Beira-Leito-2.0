@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -1259,8 +1258,6 @@
         }
         
         .info-tooltip {
-            border: none;
-            padding: 0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -1314,8 +1311,7 @@
         }
         
         .info-tooltip:hover .tooltip-text,
-        .info-tooltip:focus .tooltip-text,
-        .info-tooltip.active .tooltip-text {
+        .info-tooltip:focus .tooltip-text {
             visibility: visible;
             opacity: 1;
         }
@@ -1959,13 +1955,10 @@
             }
 
             #appHeader .header-bottom-line {
-                flex-direction: column !important;
-                align-items: stretch !important;
                 gap: 10px !important;
             }
 
             #appHeader .header-patient-actions {
-                width: 100% !important;
                 gap: 6px !important;
             }
 
@@ -1975,9 +1968,9 @@
             }
 
             #appHeader .profile-select {
-                flex-basis: auto !important;
-                width: 100% !important;
-                max-width: 100% !important;
+                flex-basis: 116px !important;
+                width: 116px !important;
+                max-width: 116px !important;
                 font-size: 10.5px !important;
                 padding-left: 8px !important;
             }
@@ -2773,14 +2766,11 @@
                 
                 { id: 'mechanical_power', name: 'Mechanical Power', icon: 'fa-bolt', formula: 'MP = 0.098 × FR × VC × (PEEP + 0.5 × ΔP)', inputs: [
                     { id: 'rr_mp', label: 'Frequência Respiratória', type: 'number', unit: 'cpm' },
-                    { id: 'vt_mp', label: 'Volume Corrente', type: 'number', unit: 'mL', tooltip: 'Informe o volume corrente em mL. A calculadora converte automaticamente para litros no cálculo.' },
+                    { id: 'vt_mp', label: 'Volume Corrente', type: 'number', unit: 'L' },
                     { id: 'peep_mp', label: 'PEEP', type: 'number', unit: 'cmH₂O' },
                     { id: 'dp_mp', label: 'ΔP', type: 'number', unit: 'cmH₂O' }
-                ], calculate: (vals) => {
-                    const vcLitros = parseSmartNumber(vals.vt_mp) / 1000;
-                    return 0.098 * parseSmartNumber(vals.rr_mp) * vcLitros * (parseSmartNumber(vals.peep_mp) + 0.5 * parseSmartNumber(vals.dp_mp));
-                },
-                interpret: (val) => val <= 17 ? `MP = ${val.toFixed(1)} J/min - Normal (≤ 17). VC informado em mL e convertido automaticamente para L.` : (val <= 22 ? `MP = ${val.toFixed(1)} J/min - Moderadamente elevado (18-22). VC informado em mL e convertido automaticamente para L.` : `MP = ${val.toFixed(1)} J/min - Elevado (> 22), reavaliar parâmetros. VC informado em mL e convertido automaticamente para L.`) },
+                ], calculate: (vals) => 0.098 * parseFloat(vals.rr_mp) * parseFloat(vals.vt_mp) * (parseFloat(vals.peep_mp) + 0.5 * parseFloat(vals.dp_mp)),
+                interpret: (val) => val <= 17 ? `MP = ${val.toFixed(1)} J/min - Normal (≤ 17)` : (val <= 22 ? `MP = ${val.toFixed(1)} J/min - Moderadamente elevado (18-22)` : `MP = ${val.toFixed(1)} J/min - Elevado (> 22), reavaliar parâmetros`) },
                 
                 { id: 'dp4rr', name: '4DPRR', icon: 'fa-chart-simple', formula: '4DPRR = (4 × Driving Pressure) + Frequência Respiratória', inputs: [
                     { id: 'dp', label: 'Driving Pressure', type: 'number', unit: 'cmH₂O' },
@@ -2808,7 +2798,7 @@
                 { id: 'pf_ratio', name: 'Relação P/F', icon: 'fa-chart-line', formula: 'P/F = PaO₂ / FiO₂', inputs: [
                     { id: 'pao2', label: 'PaO₂', type: 'number', unit: 'mmHg' },
                     { id: 'fio2', label: 'FiO₂', type: 'number', unit: '%' }
-                ], calculate: (vals) => parseFloat(vals.pao2) / (normalizeFio2(vals.fio2)),
+                ], calculate: (vals) => parseFloat(vals.pao2) / (parseFloat(vals.fio2)/100),
                 interpret: (val) => {
                     if (val >= 300) return `P/F = ${Math.round(val)} - Sem distúrbio de oxigenação`;
                     if (val >= 200) return `P/F = ${Math.round(val)} - Distúrbio LEVE de oxigenação`;
@@ -2819,7 +2809,7 @@
                 { id: 'sf_ratio', name: 'Relação S/F', icon: 'fa-heart', formula: 'S/F = SpO₂ / FiO₂', inputs: [
                     { id: 'spo2', label: 'SpO₂', type: 'number', unit: '%' },
                     { id: 'fio2_sf', label: 'FiO₂', type: 'number', unit: '%' }
-                ], calculate: (vals) => parseFloat(vals.spo2) / (normalizeFio2(vals.fio2_sf)),
+                ], calculate: (vals) => parseFloat(vals.spo2) / (parseFloat(vals.fio2_sf)/100),
                 interpret: (val) => {
                     const pfEquiv = Math.round(val * 0.9);
                     let classification = '';
@@ -2856,7 +2846,7 @@
                     ] }
                 ], calculate: (vals) => {
                     const pb = parseFloat(vals.pb);
-                    const fio2 = normalizeFio2(vals.fio2_pao2);
+                    const fio2 = parseFloat(vals.fio2_pao2) / 100;
                     const paco2 = parseFloat(vals.paco2);
                     let qr = 0.8;
                     if (vals.qr.includes('0.7')) qr = 0.7;
@@ -2891,8 +2881,12 @@
                 { id: 'resistance', name: 'Resistência Vias Aéreas', icon: 'fa-tachometer-alt', formula: 'Raw = (Pico - Platô) / Fluxo', inputs: [
                     { id: 'peak', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
                     { id: 'pplat_res', label: 'Pressão de Platô', type: 'number', unit: 'cmH₂O' },
-                    { id: 'flow', label: 'Fluxo Inspiratório', type: 'number', unit: 'L/s' }
-                ], calculate: (vals) => (parseFloat(vals.peak) - parseFloat(vals.pplat_res)) / parseFloat(vals.flow),
+                    { id: 'flow', label: 'Fluxo Inspiratório', type: 'number', unit: 'L/min' }
+                ], calculate: (vals) => {
+                    const fluxoLmin = parseFloat(vals.flow);
+                    const fluxoLs = fluxoLmin / 60;
+                    return (parseFloat(vals.peak) - parseFloat(vals.pplat_res)) / fluxoLs;
+                },
                 interpret: (val) => `Resistência = ${val.toFixed(1)} cmH₂O/L/s. Normal: 5-10 cmH₂O/L/s.` },
                 
                 { id: 'time_const', name: 'Constante de Tempo', icon: 'fa-hourglass-half', formula: 'τ = Raw × Cstat | Tempo expiratório mínimo = 5 × τ', inputs: [
@@ -3074,14 +3068,14 @@
                     const cstat = parseFloat(vals.cstat_crop);
                     const pao2 = parseFloat(vals.pao2_crop);
                     const pb = parseFloat(vals.pb_crop);
-                    const fio2 = normalizeFio2(vals.fio2_crop);
+                    const fio2 = parseFloat(vals.fio2_crop) / 100;
                     const paco2 = parseFloat(vals.paco2_crop);
                     let qr = 0.8;
                     if (vals.qr_crop.includes('0.7')) qr = 0.7;
                     else if (vals.qr_crop.includes('0.8')) qr = 0.8;
                     else if (vals.qr_crop.includes('1.0')) qr = 1.0;
                     const pao2_alv = (pb - 47) * fio2 - (paco2 / qr);
-                    const pmax = Math.abs(parseFloat(vals.pmax_crop));
+                    const pmax = parseFloat(vals.pmax_crop);
                     const fr = parseFloat(vals.fr_crop);
                     return (cstat * (pao2 / pao2_alv) * pmax) / (fr * paco2);
                 }, interpret: (val) => val >= 13 ? `CROP = ${val.toFixed(1)} - Bom prognóstico (≥ 13)` : `CROP = ${val.toFixed(1)} - Risco de falha` },
@@ -4258,21 +4252,11 @@
         formulasDB.ped_mecanica = [formulasDB.protective.find(f=>f.id==='driving_pressure'), formulasDB.mechanics.find(f=>f.id==='compliance'), formulasDB.mechanics.find(f=>f.id==='compliance_dinamica'), formulasDB.mechanics.find(f=>f.id==='resistance'), formulasDB.mechanics.find(f=>f.id==='time_const')].filter(Boolean);
 
         formulasDB.ped_desmame = [
-            { id: 'ped_rsbi', name: 'IRRS Pediátrico (Tobin)', icon: 'fa-person-running', formula: 'IRRSp = (FR × Peso) / VC', inputs: [
+            { id: 'ped_rsbi', name: 'IRRS Pediátrico (Tobin)', icon: 'fa-person-running', formula: 'IRRS = FR / VC', inputs: [
                 { id:'ped_fr_rsbi', label:'FR', type:'number', unit:'cpm' },
                 { id:'ped_vc_rsbi', label:'VC expirado', type:'number', unit:'mL' },
-                { id:'ped_peso_rsbi', label:'Peso real', type:'number', unit:'kg' }
-            ], calculate: vals => {
-                const fr = parseSmartNumber(vals.ped_fr_rsbi);
-                const vcml = parseSmartNumber(vals.ped_vc_rsbi);
-                const peso = parseSmartNumber(vals.ped_peso_rsbi);
-                return (fr * peso) / vcml;
-            }, interpret: val => {
-                if (val < 6) return { text:`IRRS Pediátrico: ${val.toFixed(2)} ciclos/min/mL/kg. Valor abaixo de 6, compatível com maior probabilidade de sucesso no desmame, sempre integrado à avaliação clínica.` };
-                if (val < 6.7) return { text:`IRRS Pediátrico: ${val.toFixed(2)} ciclos/min/mL/kg. Faixa limítrofe entre 6 e 6,7. Interpretar com cautela junto ao TRE, força muscular, mecânica respiratória e condição clínica.` };
-                if (val < 7) return { text:`IRRS Pediátrico: ${val.toFixed(2)} ciclos/min/mL/kg. Valor próximo do ponto de risco descrito na literatura. Reavaliar padrão respiratório e risco de fadiga.` };
-                return { text:`IRRS Pediátrico: ${val.toFixed(2)} ciclos/min/mL/kg. Valor ≥ 7 sugere maior risco de falha, respiração rápida/superficial ou fadiga. Não deve ser usado isoladamente para definir extubação.` };
-            } },
+                { id:'ped_peso_rsbi', label:'Peso', type:'number', unit:'kg' }
+            ], calculate: vals => { const fr=parseSmartNumber(vals.ped_fr_rsbi); const vcml=parseSmartNumber(vals.ped_vc_rsbi); const peso=parseSmartNumber(vals.ped_peso_rsbi); return fr / ((vcml/1000) || NaN); }, interpret: val => ({ text:`IRRS Pediátrico (Tobin): ${val.toFixed(2)} ciclos/min/L. Índice de apoio ao acompanhamento do desmame. Não deve ser usado isoladamente para definir extubação.` }) },
             { id: 'ped_crop', name: 'CROP Pediátrico', icon: 'fa-seedling', formula: 'CROP = (Cdin × PImax × P/F) / FR', inputs: [
                 { id:'ped_cdin_crop', label:'Cdin', type:'number', unit:'mL/cmH₂O' },
                 { id:'ped_pimax_crop', label:'PImax', type:'number', unit:'cmH₂O' },
@@ -4514,28 +4498,18 @@
             const chartLabels = [];
             calcHistory.forEach((item, idx) => {
                 const resultLimpo = limparTextoHistorico(item.result);
-                tableHtml += `<tr><td>${item.date}</td><td><strong>${resultLimpo}</strong> ${item.unit || ''}</td></tr>`;
-                const numericResult = parseSmartNumber(item.result);
-                if (!isNaN(numericResult) && isFinite(numericResult)) {
-                    chartLabels.push(idx + 1);
-                    chartData.push(numericResult);
-                }
+                tableHtml += `<tr><td>${item.date}<tr><td><strong>${resultLimpo}</strong> ${item.unit || ''}</td></tr>`;
+                chartLabels.push(idx + 1);
+                chartData.push(parseFloat(item.result));
             });
             tableHtml += `</tbody></table>`;
-            let chartHtml = '';
-            if (chartData.length >= 2) {
-                chartHtml = `<div class="chart-container"><h4>📈 Tendência - ${formulaNames[formulaId]}</h4>
-                            <canvas id="trendChart"></canvas><p style="font-size:12px; margin-top:8px; text-align:center;">Evolução sequencial das avaliações numéricas</p></div>`;
-            } else if (chartData.length === 1) {
-                chartHtml = `<div class="chart-container"><p style="font-size:12px; text-align:center;">Gráfico disponível a partir de duas avaliações numéricas.</p></div>`;
-            } else {
-                chartHtml = `<div class="chart-container"><p style="font-size:12px; text-align:center;">Este histórico não possui resultados numéricos suficientes para gráfico.</p></div>`;
-            }
+            let chartHtml = `<div class="chart-container"><h4>📈 Tendência - ${formulaNames[formulaId]}</h4>
+                            <canvas id="trendChart"></canvas><p style="font-size:12px; margin-top:8px; text-align:center;">Evolução sequencial das avaliações</p></div>`;
             document.getElementById('detailModalBody').innerHTML = tableHtml + chartHtml;
             modal.classList.add('show');
             setTimeout(() => {
                 const ctx = document.getElementById('trendChart');
-                if (ctx && chartData.length >= 2) {
+                if (ctx) {
                     if (currentChart) currentChart.destroy();
                     currentChart = new Chart(ctx, {
                         type: 'line',
@@ -5292,10 +5266,10 @@
                             <label>${input.label} (${input.unit || ''})</label>`;
             
             if (input.tooltip) {
-                html += `<button type="button" class="info-tooltip" onclick="toggleTooltip(event, this)" aria-label="Ajuda sobre ${input.label}">
+                html += `<div class="info-tooltip">
                             <i class="fas fa-question"></i>
                             <span class="tooltip-text">${input.tooltip}</span>
-                         </button>`;
+                         </div>`;
             }
             
             html += `</div>`;
@@ -5314,18 +5288,6 @@
             return div;
         }
         
-        function toggleTooltip(event, element) {
-            event.stopPropagation();
-            document.querySelectorAll('.info-tooltip.active').forEach(tip => {
-                if (tip !== element) tip.classList.remove('active');
-            });
-            element.classList.toggle('active');
-        }
-
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.info-tooltip.active').forEach(tip => tip.classList.remove('active'));
-        });
-
         function showCategory(category) {
             const allowedCategories = getActiveCategoryKeys();
             if (!allowedCategories.includes(category)) {
@@ -5501,7 +5463,6 @@
                 document.getElementById('interpretation').innerHTML = interpretText;
                 let disclaimerText = '';
                 if (currentFormulaObj.id === 'vc') disclaimerText = '⚠️ Este resultado não garante uma Ventilação Protetiva, é apenas um ponto de partida.';
-                else if (currentFormulaObj.id === 'mechanical_power') disclaimerText = '⚠️ Informe o volume corrente em mL. O app converte automaticamente para litros no cálculo.';
                 else if (currentFormulaObj.id === 'time_const') disclaimerText = '⚠️ Cálculo teórico para compreensão do comportamento elástico pulmonar. Baixa correlação clínica.';
                 document.getElementById('disclaimer').innerHTML = disclaimerText;
                 document.getElementById('resultArea').classList.add('show');
