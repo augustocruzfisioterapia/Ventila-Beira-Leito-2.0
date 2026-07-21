@@ -2479,6 +2479,7 @@
             weaning: { name: 'Índices de Desmame', icon: 'fa-flag-checkered' },
             vni_cnaf: { name: 'VNI / CNAF', icon: 'fa-mask' },
             nivel_consciencia: { name: 'Nível de Consciência', icon: 'fa-brain' },
+            variaveis_ventilatorias: { name: 'Variáveis Ventilatórias', icon: 'fa-sliders' },
             variaveis_fisiologicas: { name: 'Variáveis Fisiológicas', icon: 'fa-heartbeat' }
         };
 
@@ -3256,6 +3257,164 @@
                     return `SAS = ${val}. Sedado.`;
                 }, infoNote: 'Sedation-Agitation Scale: avalia sedação e agitação. Faixa total: 1 a 7.' }
             ],
+            variaveis_ventilatorias: [
+                {
+                    id: 'conversor_fluxo_ti',
+                    name: 'Conversor Fluxo → TI',
+                    icon: 'fa-arrow-right-arrow-left',
+                    formula: 'TI = Volume Corrente Esperado / (Fluxo Inspiratório / 0,06)',
+                    inputs: [
+                        {
+                            id: 'vc_esperado_ti',
+                            label: 'Volume Corrente Esperado',
+                            type: 'number',
+                            unit: 'mL',
+                            tooltip: 'Informe o Volume Corrente esperado para o paciente, em mililitros.'
+                        },
+                        {
+                            id: 'fluxo_inspiratorio_ti',
+                            label: 'Fluxo Inspiratório',
+                            type: 'number',
+                            unit: 'L/min',
+                            tooltip: 'Informe o fluxo inspiratório ajustado no ventilador, em litros por minuto.'
+                        }
+                    ],
+                    calculate: (vals) => {
+                        const volumeEsperado = parseSmartNumber(vals.vc_esperado_ti);
+                        const fluxoInspiratorio = parseSmartNumber(vals.fluxo_inspiratorio_ti);
+                        if (isNaN(volumeEsperado) || isNaN(fluxoInspiratorio) || volumeEsperado <= 0 || fluxoInspiratorio <= 0) {
+                            throw new Error('Volume Corrente esperado e Fluxo Inspiratório devem ser maiores que zero.');
+                        }
+                        return volumeEsperado / (fluxoInspiratorio / 0.06);
+                    },
+                    interpret: (val, vals) => {
+                        const volumeEsperado = parseSmartNumber(vals.vc_esperado_ti);
+                        const fluxoParaTiUmSegundo = volumeEsperado / 16.66666;
+                        let orientacao = '';
+                        if (val < 0.8) {
+                            orientacao = 'Tempo Inspiratório abaixo da faixa de referência adotada nesta ferramenta. Considere reduzir o fluxo inspiratório, conforme avaliação individual do paciente.';
+                        } else if (val > 1.2) {
+                            orientacao = 'Tempo Inspiratório acima da faixa de referência adotada nesta ferramenta. Considere aumentar o fluxo inspiratório, conforme avaliação individual do paciente.';
+                        } else {
+                            orientacao = 'Tempo Inspiratório dentro da faixa de referência adotada nesta ferramenta (0,8 a 1,2 segundo).';
+                        }
+                        return {
+                            text: `Tempo Inspiratório estimado: ${val.toFixed(2)} s. ${orientacao}<br><br><strong>Fluxo estimado para TI de 1,0 s:</strong> ${fluxoParaTiUmSegundo.toFixed(1)} L/min.<br><small>Estimativa válida para fluxo inspiratório constante e entrega integral do Volume Corrente esperado. O ajuste final deve ser individualizado pelo profissional. Eventual pausa inspiratória não está incluída neste cálculo.</small>`
+                        };
+                    },
+                    infoNote: 'Esta ferramenta calcula o tempo de entrega do Volume Corrente esperado a partir do fluxo inspiratório constante. Disponível no motor Adulto e para pacientes pediátricos maiores de 129 cm.'
+                },
+                {
+                    id: 'tempo_expiratorio',
+                    name: 'Tempo Expiratório',
+                    icon: 'fa-hourglass-end',
+                    formula: 'TE = (60 / FR total) - TI',
+                    inputs: [
+                        {
+                            id: 'fr_total_te',
+                            label: 'Frequência Respiratória Total',
+                            type: 'number',
+                            unit: 'irpm',
+                            tooltip: 'Informe a frequência respiratória total observada no ventilador, considerando os ciclos programados e os ciclos disparados pelo paciente. Não utilize apenas a frequência programada quando houver ciclos adicionais.'
+                        },
+                        {
+                            id: 'ti_te',
+                            label: 'Tempo Inspiratório',
+                            type: 'number',
+                            unit: 's'
+                        }
+                    ],
+                    calculate: (vals) => {
+                        const frTotal = parseSmartNumber(vals.fr_total_te);
+                        const tempoInspiratorio = parseSmartNumber(vals.ti_te);
+                        if (isNaN(frTotal) || isNaN(tempoInspiratorio) || frTotal <= 0 || tempoInspiratorio < 0) {
+                            throw new Error('Frequência Respiratória Total e Tempo Inspiratório inválidos.');
+                        }
+                        const tempoTotalCiclo = 60 / frTotal;
+                        const tempoExpiratorio = tempoTotalCiclo - tempoInspiratorio;
+                        if (tempoExpiratorio <= 0) {
+                            throw new Error('O Tempo Inspiratório informado deve ser menor que o tempo total disponível para cada ciclo respiratório.');
+                        }
+                        return tempoExpiratorio;
+                    },
+                    interpret: (val, vals) => {
+                        const frTotal = parseSmartNumber(vals.fr_total_te);
+                        const tempoTotalCiclo = 60 / frTotal;
+                        return {
+                            text: `Tempo Expiratório: ${val.toFixed(2)} s. Tempo total do ciclo respiratório: ${tempoTotalCiclo.toFixed(2)} s. Cálculo realizado com a Frequência Respiratória Total.`
+                        };
+                    }
+                },
+                {
+                    id: 'relacao_ie',
+                    name: 'Relação I:E',
+                    icon: 'fa-arrows-left-right-to-line',
+                    formula: 'TE = (60 / FR total) - TI | I:E = 1 : (TE / TI)',
+                    inputs: [
+                        {
+                            id: 'ti_ie',
+                            label: 'Tempo Inspiratório',
+                            type: 'number',
+                            unit: 's'
+                        },
+                        {
+                            id: 'fr_total_ie',
+                            label: 'Frequência Respiratória Total',
+                            type: 'number',
+                            unit: 'irpm',
+                            tooltip: 'Informe a frequência respiratória total observada no ventilador, considerando os ciclos programados e os ciclos disparados pelo paciente.'
+                        }
+                    ],
+                    calculate: (vals) => {
+                        const tempoInspiratorio = parseSmartNumber(vals.ti_ie);
+                        const frTotal = parseSmartNumber(vals.fr_total_ie);
+                        if (isNaN(tempoInspiratorio) || isNaN(frTotal) || tempoInspiratorio <= 0 || frTotal <= 0) {
+                            throw new Error('Tempo Inspiratório e Frequência Respiratória Total devem ser maiores que zero.');
+                        }
+                        const tempoTotalCiclo = 60 / frTotal;
+                        const tempoExpiratorio = tempoTotalCiclo - tempoInspiratorio;
+                        if (tempoExpiratorio <= 0) {
+                            throw new Error('O Tempo Inspiratório informado deve ser menor que o tempo total disponível para cada ciclo respiratório.');
+                        }
+                        const relacaoExpiratoria = tempoExpiratorio / tempoInspiratorio;
+                        return `1:${relacaoExpiratoria.toFixed(2)}`;
+                    },
+                    interpret: (val, vals) => {
+                        const tempoInspiratorio = parseSmartNumber(vals.ti_ie);
+                        const frTotal = parseSmartNumber(vals.fr_total_ie);
+                        const tempoTotalCiclo = 60 / frTotal;
+                        const tempoExpiratorio = tempoTotalCiclo - tempoInspiratorio;
+                        return {
+                            text: `Relação I:E calculada automaticamente: <strong>${val}</strong>. Tempo Expiratório calculado internamente: ${tempoExpiratorio.toFixed(2)} s. O profissional precisa informar apenas o Tempo Inspiratório e a Frequência Respiratória Total.`
+                        };
+                    }
+                },
+                {
+                    id: 'map_adulto',
+                    name: 'Pressão Média das Vias Aéreas (MAP)',
+                    icon: 'fa-gauge-high',
+                    formula: 'MAP = ((Pico × TI) + (PEEP × TE)) / (TI + TE)',
+                    inputs: [
+                        { id: 'pico_map_adulto', label: 'Pressão de Pico', type: 'number', unit: 'cmH₂O' },
+                        { id: 'ti_map_adulto', label: 'Tempo Inspiratório', type: 'number', unit: 's' },
+                        { id: 'peep_map_adulto', label: 'PEEP', type: 'number', unit: 'cmH₂O' },
+                        { id: 'te_map_adulto', label: 'Tempo Expiratório', type: 'number', unit: 's' }
+                    ],
+                    calculate: (vals) => {
+                        const pico = parseSmartNumber(vals.pico_map_adulto);
+                        const ti = parseSmartNumber(vals.ti_map_adulto);
+                        const peep = parseSmartNumber(vals.peep_map_adulto);
+                        const te = parseSmartNumber(vals.te_map_adulto);
+                        if ([pico, ti, peep, te].some(v => isNaN(v)) || ti <= 0 || te <= 0) {
+                            throw new Error('Preencha Pico, TI, PEEP e TE com valores válidos.');
+                        }
+                        return ((pico * ti) + (peep * te)) / (ti + te);
+                    },
+                    interpret: (val) => ({
+                        text: `MAP calculada: ${val.toFixed(1)} cmH₂O. Variável utilizada para acompanhamento do suporte ventilatório e em outros cálculos de oxigenação. Interpretar em conjunto com o modo ventilatório, a forma de onda de fluxo e os demais parâmetros clínicos.`
+                    })
+                }
+            ],
             variaveis_fisiologicas: [
                 { id: 'gradiente_alveolo_arterial', name: 'Gradiente Alvéolo-Arterial (A-a)', icon: 'fa-chart-line', formula: 'PAO₂ - PaO₂', inputs: [
                     { id: 'fio2_ga', label: 'FiO₂', type: 'number', unit: '%' },
@@ -3931,7 +4090,7 @@
         
 
         // ==================== PERFIS CLÍNICOS E MOTORES PED/NEO ====================
-        const adultCategoryKeys = ['altura_volume', 'protective', 'oxygenation', 'mechanics', 'effort', 'weaning', 'vni_cnaf', 'nivel_consciencia', 'variaveis_fisiologicas'];
+        const adultCategoryKeys = ['altura_volume', 'protective', 'oxygenation', 'mechanics', 'effort', 'weaning', 'vni_cnaf', 'nivel_consciencia', 'variaveis_ventilatorias', 'variaveis_fisiologicas'];
         const pediatricSmallCategoryKeys = ['ped_conforto', 'ped_oxigenacao', 'ped_ventilacao', 'ped_mecanica', 'ped_desmame', 'ped_sedacao', 'ped_hp'];
         const neonatalCategoryKeys = ['neo_conforto', 'neo_oxigenacao', 'neo_ventilacao', 'neo_dor_sedacao', 'neo_hp'];
 
@@ -4354,7 +4513,9 @@
             hacor: 'HACOR Score', rox: 'ROX Index',
             gcs: 'Glasgow (GCS)', four: 'FOUR', rass: 'RASS', sas: 'SAS',
             gradiente_alveolo_arterial: 'Gradiente A-a', espaco_morto: 'Espaço Morto', razao_ventilatoria: 'Razão Ventilatória',
-            anion_gap: 'Ânion Gap', checagem_ph: 'Checagem de pH', gap_co2: 'Gap CO₂'
+            anion_gap: 'Ânion Gap', checagem_ph: 'Checagem de pH', gap_co2: 'Gap CO₂',
+            conversor_fluxo_ti: 'Conversor Fluxo → TI', tempo_expiratorio: 'Tempo Expiratório',
+            relacao_ie: 'Relação I:E', map_adulto: 'Pressão Média das Vias Aéreas (MAP)'
         };
         
         const categoryMap = {
@@ -4369,7 +4530,9 @@
             gcs: 'nivel_consciencia', four: 'nivel_consciencia', rass: 'nivel_consciencia', sas: 'nivel_consciencia',
             gradiente_alveolo_arterial: 'variaveis_fisiologicas', espaco_morto: 'variaveis_fisiologicas',
             razao_ventilatoria: 'variaveis_fisiologicas', anion_gap: 'variaveis_fisiologicas', checagem_ph: 'variaveis_fisiologicas',
-            gap_co2: 'variaveis_fisiologicas'
+            gap_co2: 'variaveis_fisiologicas',
+            conversor_fluxo_ti: 'variaveis_ventilatorias', tempo_expiratorio: 'variaveis_ventilatorias',
+            relacao_ie: 'variaveis_ventilatorias', map_adulto: 'variaveis_ventilatorias'
         };
         
 
